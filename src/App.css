@@ -59,7 +59,7 @@
 
  /* navbar styling  */
 
-
+ 
  @media (min-width : 762px) {
      .nav-container {
 
@@ -157,6 +157,7 @@
      }
  }
 
+ 
  /* home page styling  */
  .home-container {
      margin-top: 5rem;
