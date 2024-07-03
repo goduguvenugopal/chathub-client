@@ -8,23 +8,23 @@ const Home = () => {
   const [data, setData] = useState([])
   const [like, setLike] = useState(false)
   const [like1, setLike1] = useState("")
+  const [loader, setLoader] = useState(false)
 
 
   // fetching all messages from database 
   useEffect(() => {
+    setLoader(true)
     const getData = async () => {
 
       try {
         const response = await axios.get(`${api}/message/get-all-messages`)
         setData(response.data.allMessages)
+        setLoader(false)
 
       } catch (error) {
         console.log(error)
-
       }
-
     }
-
     getData()
   }, [])
 
@@ -39,14 +39,23 @@ const Home = () => {
     <>
       <div className='home-container'>
 
+        {/*bootstrap spinner code  */}
+        {loader ? <div className="d-flex justify-content-center align-items-center" style={{ height: "80vh" }}>
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+          : ""}
+
+
         {data.map((item) => (
           <div key={item._id} className='home-post-card'>
             <div className='d-flex align-items-center gap-2'>
-            <img src={item.profileImage} className='home-profile-img' />
+              <img src={item.profileImage} className='home-profile-img' />
               <h5 className=''>{item.userName}</h5>
             </div>
 
-            <img src={item.postImage} className='home-post-img ' alt="post image"/>
+            <img src={item.postImage} className='home-post-img ' alt="post image" />
 
             <div className='like-share-card '>
 
@@ -67,11 +76,6 @@ const Home = () => {
           </div>
 
         ))}
-
-
-
-
-
       </div>
     </>
 
