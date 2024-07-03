@@ -33,6 +33,7 @@ const Home = () => {
     const currentDate = new Date().toLocaleDateString("en-GB")
     setToday(currentDate)
 
+    // added set interval to make resquest to the server for each 5 seconds 
     const checkMessages = setInterval(getData, 5000)
     return () => clearInterval(checkMessages)
 
