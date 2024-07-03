@@ -9,6 +9,7 @@ const Home = () => {
   const [like, setLike] = useState(false)
   const [like1, setLike1] = useState("")
   const [loader, setLoader] = useState(false)
+  const [today, setToday] = useState(false)
 
 
   // fetching all messages from database 
@@ -18,7 +19,8 @@ const Home = () => {
 
       try {
         const response = await axios.get(`${api}/message/get-all-messages`)
-        setData(response.data.allMessages)
+        const fetchedData = response.data.allMessages
+        setData(fetchedData.reverse())
         setLoader(false)
 
       } catch (error) {
@@ -26,6 +28,14 @@ const Home = () => {
       }
     }
     getData()
+
+    // uploaded date function 
+    const currentDate = new Date().toLocaleDateString("en-GB")
+    setToday(currentDate)
+
+    const checkMessages = setInterval(getData, 5000)
+    return () => clearInterval(checkMessages)
+
   }, [])
 
 
@@ -47,7 +57,7 @@ const Home = () => {
         </div>
           : ""}
 
-
+        {/* map function  */}
         {data.map((item) => (
           <div key={item._id} className='home-post-card'>
             <div className='d-flex align-items-center gap-2'>
@@ -72,7 +82,7 @@ const Home = () => {
               </span>
             </div>
             <h5 className='img-caption-text'>{item.message}</h5>
-            <h5 className='uploaded-date'>Uploaded at {item.date}</h5>
+            <h5 className='uploaded-date'>{today === item.date ? "Uploaded Today" : `Uploaded on ${item.date}`}</h5>
           </div>
 
         ))}

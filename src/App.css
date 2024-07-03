@@ -51,6 +51,7 @@
  @media (max-width:762px) {
      .header-container {
          position: static;
+         padding-left: 1rem;
 
      }
  }
@@ -183,10 +184,14 @@
      }
 
      .home-container {
-         margin: 1.5rem;
+         margin: 1.1rem;
          margin-bottom: 5rem;
      }
  }
+
+#post-img-none{
+    display: none;
+}
 
  .home-post-card {
      border-bottom: 1px solid rgb(74, 73, 73);
@@ -237,8 +242,8 @@
  }
 
  @media (max-width:762px) {
-    .img-caption-text {
-        font-size: 16px;
-   
-    }
+     .img-caption-text {
+         font-size: 16px;
+
+     }
  }
