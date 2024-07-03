@@ -51,7 +51,7 @@
  @media (max-width:762px) {
      .header-container {
          position: static;
-         padding-left: 1rem;
+         padding-left: 0.9rem;
 
      }
  }
@@ -184,7 +184,7 @@
      }
 
      .home-container {
-         margin: 1.1rem;
+         margin: 1rem;
          margin-bottom: 5rem;
      }
  }
