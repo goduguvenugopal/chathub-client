@@ -4,7 +4,7 @@ import { loginTokenContext } from '../App'
 
 
 const NavBar = () => {
-    const [loginToken, setLoginToken] = useContext(loginTokenContext)
+    const [loginToken] = useContext(loginTokenContext)
 
     return (
         <>
@@ -14,9 +14,7 @@ const NavBar = () => {
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-                <Link to="/signup">signup</Link>
-                <Link to="/login">login</Link>
-                <Link to="/createprofile">createprofile</Link>
+    
             </header>
             {/* navbar section  */}
 
