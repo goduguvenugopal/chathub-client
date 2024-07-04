@@ -1,11 +1,13 @@
-import React, { useContext} from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { loginTokenContext } from '../App'
+import { loginTokenContext, profileTokenContext } from '../App'
 
 
 const NavBar = () => {
     const [loginToken] = useContext(loginTokenContext)
-
+    const [profileToken] = useContext(profileTokenContext)
+ 
+ 
     return (
         <>
             {/* header section  */}
@@ -14,11 +16,11 @@ const NavBar = () => {
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-    
+
             </header>
             {/* navbar section  */}
 
-            {loginToken ? <nav className='nav-container '>
+            {loginToken && profileToken ? <nav className='nav-container '>
                 <Link to="/" className='sub-nav-card'>
                     <span className="material-symbols-outlined nav-home-icon">
                         home

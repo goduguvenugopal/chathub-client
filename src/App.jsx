@@ -11,13 +11,15 @@ import Login from './assets/Login'
 import Signup from './assets/Signup'
 import CreateProfile from './assets/CreateProfile'
 
-
+export const profileTokenContext = createContext()
 export const loginTokenContext = createContext()
+
 function App() {
   const [loginToken, setLoginToken] = useState("")
+  const [profileToken, setProfileToken] = useState("p")
 
   return (
-    <>
+    <><profileTokenContext.Provider value={[profileToken, setProfileToken]}>
       <loginTokenContext.Provider value={[loginToken, setLoginToken]}>
         <BrowserRouter>
           <NavBar />
@@ -33,6 +35,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </loginTokenContext.Provider>
+    </profileTokenContext.Provider>
 
     </>
   )

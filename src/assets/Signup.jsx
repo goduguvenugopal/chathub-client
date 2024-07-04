@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "../styles/loginSignUp.css"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+ 
 
 const Signup = () => {
   const api = import.meta.env.VITE_API_URL
@@ -40,7 +41,10 @@ const Signup = () => {
       } else {
         const response = await axios.post(`${api}/user/create-user`, { email, password })
         if (response) {
+          setEmail("")
+          setPassword("")
           setLoader(true)
+          setSpinner(false)
           setTimeout(() => {
             navigate("/login")
           }, 1000);
@@ -73,14 +77,16 @@ const Signup = () => {
   }
   return (
     <>
-      {loader ? <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+      
+
+      <div className='main-signup-card'>
+      {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center"  >
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
         : ""}
 
-      <div className='main-signup-card'>
         <div className='sign-up-card'>
           <form className='pt-4' onSubmit={signUpFunc}>
             <h5 className='text-center' style={{ fontSize: "23px" }}>SignUp</h5>
@@ -88,14 +94,14 @@ const Signup = () => {
             <div className='horizontal-line'></div>
 
             <h5 className='email-text'>Email</h5>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Create Email' name='email' className='email-box' />
+            <input value={email.trim()} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Create Email' name='email' className='email-box' />
 
             {/* validation error  */}
-            {error ? <h6 style={{ fontSize: "14px" }} id={email !== "" ? "email-err-hide" : ""} className='text-danger mt-3'>Please Enter the Email</h6> : ""}
-            {mailErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-3'>Email already existed change email</h6> : ""}
+            {error ? <h6 style={{ fontSize: "14px" }} id={email !== "" ? "email-err-hide" : ""} className='text-danger mt-2'>Please Enter the Email</h6> : ""}
+            {mailErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2'>Email already existed change email</h6> : ""}
 
             <h5 className='email-text mt-3'>Password</h5>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type={hide ? "text" : "password"} placeholder='Create Password' className='email-box' name='password' /><br />
+            <input value={password.trim()} onChange={(e) => setPassword(e.target.value)} type={hide ? "text" : "password"} placeholder='Create Password' className='email-box' name='password' /><br />
 
             {/* validation error  */}
             {error ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2' id={password !== "" ? "password-err-hide" : ""} >Please Enter the Password</h6> : ""}

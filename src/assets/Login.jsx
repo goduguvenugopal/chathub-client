@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../styles/loginSignUp.css"
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { loginTokenContext, profileTokenContext } from '../App'
 
 const Login = () => {
   const api = import.meta.env.VITE_API_URL
@@ -13,7 +15,51 @@ const Login = () => {
   const [loader, setLoader] = useState(false)
   const navigate = useNavigate()
   const [spinner, setSpinner] = useState(false)
+  const [loginToken, setLoginToken] = useContext(loginTokenContext)
+  const [profileToken] = useContext(profileTokenContext)
+  // login function 
 
+  const loginFunc = async (e) => {
+    e.preventDefault()
+    try {
+      setMailErr(false)
+      setPassErr(false)
+      setError(false)
+      setSpinner(true)
+      if (!email || !password) {
+        setError(true)
+        setSpinner(false)
+      } else {
+        const response = await axios.post(`${api}/user/login-user`, { email, password })
+        if (response) {
+          setEmail("")
+          setPassword("")
+          setSpinner(false)
+          setLoader(true)
+          setTimeout(() => {
+            setLoginToken(response.data.token)
+            console.log(response.data)
+            if (!profileToken) {
+              navigate("/createprofile")
+            } else if (profileToken && loginToken) {
+              navigate("/")
+            }
+
+          }, 1000);
+        }
+      }
+    } catch (error) {
+      setSpinner(false)
+      if (error.response.status === 404) {
+        setMailErr(true)
+      } else if (error.response.status === 401) {
+        setPassErr(true)
+
+      }
+      console.log(error);
+    }
+
+  }
 
   // password toggle function 
   const checkEvnet = (e) => {
@@ -24,30 +70,46 @@ const Login = () => {
       setHide(false)
     }
   }
+
+
+  useEffect(() => {
+    if (loginToken && profileToken) {
+      navigate("/")
+    }
+  }, [loginToken, navigate, profileToken])
+
   return (
-    <div className='main-signup-card'>
-      <div className='sign-up-card border-success'>
-        <form className='pt-4' >
-          <h5 className='text-center' style={{ fontSize: "23px" }}>LogIn</h5>
-          <h5 className='text-primary text-center' style={{ fontSize: "14px" }}>Connect to the People</h5>
-          <div className='horizontal-line border-success'></div>
+    // loader function 
+    <> {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center"  >
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+      : ""}
 
-          <h5 className='email-text'>Email</h5>
-          <input type='email' placeholder='Enter Email' name='email' className='email-box border-success' />
-         {/* validation error  */}
-          {error ? <h6 style={{ fontSize: "14px" }} id={email !== "" ? "email-err-hide" : ""} className='text-danger mt-3'>Please Enter the Email</h6> : ""}
-            {mailErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-3'>you have entered incorrect email</h6> : ""}
+      <div className='main-signup-card'>
+        <div className='sign-up-card border-success'>
+          <form className='pt-4' onSubmit={loginFunc}>
+            <h5 className='text-center' style={{ fontSize: "23px" }}>LogIn</h5>
+            <h5 className='text-primary text-center' style={{ fontSize: "14px" }}>Connect to the People</h5>
+            <div className='horizontal-line border-success'></div>
 
-          <h5 className='email-text mt-3'>Password</h5>
-          <input type={hide ? "text" : "password"} placeholder='Enter Password' className='email-box border-success' name='password' /><br />
-         
+            <h5 className='email-text'>Email</h5>
+            <input value={email.trim()} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Enter Email' name='email' className='email-box border-success' />
             {/* validation error  */}
-            {error ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2f' id={password !== "" ? "password-err-hide" : ""} >Please Enter the Password</h6> : ""}
-            {passErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2'>you have entered incorrect password<br />number</h6> : ""}
+            {error ? <h6 style={{ fontSize: "14px" }} id={email !== "" ? "email-err-hide" : ""} className='text-danger mt-2'>Please Enter the Email</h6> : ""}
+            {mailErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2'>You have entered incorrect email</h6> : ""}
 
-          <div className='d-flex align-items gap-2 mt-2'>
-            <input type='checkbox' onChange={checkEvnet} />
-            <span style={{ fontSize: "14px" ,marginBottom:"0.1rem"}}>{!hide ? "Show Password" : "Hide Password"}</span>
+            <h5 className='email-text mt-3'>Password</h5>
+            <input value={password.trim()} onChange={(e) => setPassword(e.target.value)} type={hide ? "text" : "password"} placeholder='Enter Password' className='email-box border-success' name='password' /><br />
+
+            {/* validation error  */}
+            {error ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2' id={password !== "" ? "password-err-hide" : ""} >Please Enter the Password</h6> : ""}
+            {passErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2'>You have entered incorrect password</h6> : ""}
+
+            <div className='d-flex align-items gap-2 mt-2'>
+              <input type='checkbox' onChange={checkEvnet} />
+              <span style={{ fontSize: "14px", marginBottom: "0.1rem" }}>{!hide ? "Show Password" : "Hide Password"}</span>
             </div>
             {/* button spinner  */}
             {spinner ? <button className="signup-bt bg-warning " type="button" disabled="">
@@ -59,11 +121,12 @@ const Login = () => {
               : <button type='submit' className=' signup-bt bg-warning text-dark'>Login</button>}
 
 
-          <h6 className='mt-4 text-secondary'>Don't Have An account? <Link className='underline' to="/signup" style={{ textDecoration: "none" }} >Signup</Link></h6>
-        </form>
-      </div>
+            <h6 className='mt-4 text-secondary'>Don't Have An account? <Link className='underline' to="/signup" style={{ textDecoration: "none" }} >Signup</Link></h6>
+          </form>
+        </div>
 
-    </div>
+      </div>
+    </>
   )
 }
 
