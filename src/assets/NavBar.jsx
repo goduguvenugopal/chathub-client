@@ -1,24 +1,26 @@
-import React, { useState } from 'react'
+import React, { useContext} from 'react'
 import { Link } from 'react-router-dom'
+import { loginTokenContext } from '../App'
 
 
 const NavBar = () => {
-   
+    const [loginToken, setLoginToken] = useContext(loginTokenContext)
 
     return (
         <>
             {/* header section  */}
             <header className=' header-container '>
-                <Link style={{textDecoration:"none"}} to="/" className='d-flex align-items-center gap-3 '>
+                <Link style={{ textDecoration: "none" }} to="/" className='d-flex align-items-center gap-3 '>
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-               <Link to="/signup">signup</Link>
-               <Link to="/login">login</Link>
-               <Link to="/createprofile">createprofile</Link>
+                <Link to="/signup">signup</Link>
+                <Link to="/login">login</Link>
+                <Link to="/createprofile">createprofile</Link>
             </header>
             {/* navbar section  */}
-            <nav className='nav-container '>
+
+            {loginToken ? <nav className='nav-container '>
                 <Link to="/" className='sub-nav-card'>
                     <span className="material-symbols-outlined nav-home-icon">
                         home
@@ -31,7 +33,7 @@ const NavBar = () => {
                     </span>
                     <h5 className='nav-text'>Search</h5>
                 </Link>
-                
+
                 <Link to="/post" className='sub-nav-card'>
                     <span className="material-symbols-outlined nav-home-icon">
                         add_box
@@ -45,13 +47,14 @@ const NavBar = () => {
                     <h5 className='nav-text'>Group Chat</h5>
                 </Link>
                 <Link to="/profile" className='sub-nav-card'>
-                    <img src='favicon.jpg' className="nav-profile-img"/>
-                       
-                    
+                    <img src='favicon.jpg' className="nav-profile-img" />
+
+
                     <h5 className='nav-text'>Profile</h5>
                 </Link>
 
-            </nav>
+            </nav> : ""}
+
         </>
     )
 }

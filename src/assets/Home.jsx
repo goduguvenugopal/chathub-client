@@ -1,15 +1,19 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { loginTokenContext } from '../App';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Home = () => {
   const api = import.meta.env.VITE_API_URL;
+  const [loginToken, setLoginToken] = useContext(loginTokenContext)
   const [data, setData] = useState([])
   const [like, setLike] = useState(false)
   const [like1, setLike1] = useState("")
   const [loader, setLoader] = useState(false)
   const [today, setToday] = useState(false)
+  const navigate = useNavigate()
 
 
   // fetching all messages from database 
@@ -37,7 +41,8 @@ const Home = () => {
     const checkMessages = setInterval(getData, 5000)
     return () => clearInterval(checkMessages)
 
-  }, [])
+
+  }, [loginToken])
 
 
   // like function
@@ -45,6 +50,15 @@ const Home = () => {
     setLike(!like)
     setLike1(likeId)
   }
+
+
+  // if token is not available it navigate to login page 
+  useEffect(() => {
+    if (!loginToken) {
+      navigate("/login")
+    }
+  }, [loginToken, navigate])
+
 
   return (
     <>
