@@ -98,7 +98,7 @@ const Signup = () => {
             <input value={password} onChange={(e) => setPassword(e.target.value)} type={hide ? "text" : "password"} placeholder='Create Password' className='email-box' name='password' /><br />
 
             {/* validation error  */}
-            {error ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2f' id={password !== "" ? "password-err-hide" : ""} >Please Enter the Password</h6> : ""}
+            {error ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2' id={password !== "" ? "password-err-hide" : ""} >Please Enter the Password</h6> : ""}
             {passErr ? <h6 style={{ fontSize: "14px" }} className='text-danger mt-2'>Password must contains at least one<br />number</h6> : ""}
 
             {/* password toogle div  */}
