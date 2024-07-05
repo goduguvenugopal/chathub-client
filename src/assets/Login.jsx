@@ -111,13 +111,13 @@ const Login = () => {
               <span style={{ fontSize: "14px", marginBottom: "0.1rem" }}>{!hide ? "Show Password" : "Hide Password"}</span>
             </div>
             {/* button spinner  */}
-            {spinner ? <button className="signup-bt bg-warning " type="button" disabled="">
+            {spinner ? <button className="signup-bt bg-success text-white" type="button" disabled="">
               <span className="spinner-border spinner-border-sm" aria-hidden="true" />
               <span className="visually-hidden" role="status">
                 Loading...
               </span>
             </button>
-              : <button type='submit' className=' signup-bt bg-warning text-dark'>Login</button>}<br />
+              : <button type='submit' className=' signup-bt bg-success text-white'>Login</button>}<br />
 
             <Link to="/forgotpassword" style={{ fontSize: "16px", textDecoration: "none" }} className='mt-2'>Forgot Password</Link>
             <h6 className='mt-2 text-secondary'>Don't Have An account? <Link className='underline' to="/signup" style={{ textDecoration: "none" }} >Signup</Link></h6>
