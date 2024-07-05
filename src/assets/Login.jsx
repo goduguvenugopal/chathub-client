@@ -38,6 +38,7 @@ const Login = () => {
           setLoader(true)
           setTimeout(() => {
             setLoginToken(response.data.token)
+            localStorage.setItem("loginToken" , JSON.stringify(response.data.token))
             if (!profileToken) {
               navigate("/createprofile")
             } else if (profileToken && loginToken) {

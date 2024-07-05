@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NavBar from './assets/NavBar'
@@ -19,6 +19,20 @@ function App() {
   const [loginToken, setLoginToken] = useState("")
   const [profileToken, setProfileToken] = useState("")
 
+  // retrieving token from localStorage 
+  useEffect(() => {
+    const token = localStorage.getItem("loginToken")
+    if (token) {
+      setLoginToken(JSON.parse(token))
+    }
+
+    // profile token retrieving 
+    const proToken = localStorage.getItem("profileToken")
+    if (proToken) {
+      setProfileToken(JSON.parse(proToken))
+    }
+  }, [loginToken, profileToken])
+
   return (
     <><profileTokenContext.Provider value={[profileToken, setProfileToken]}>
       <loginTokenContext.Provider value={[loginToken, setLoginToken]}>
@@ -33,7 +47,7 @@ function App() {
             <Route path='/signup' element={<Signup />} />
             <Route path='/login' element={<Login />} />
             <Route path='/createprofile' element={<CreateProfile />} />
-            <Route path='/forgotpassword' element={<ForgotPassword/>}/>
+            <Route path='/forgotpassword' element={<ForgotPassword />} />
           </Routes>
         </BrowserRouter>
       </loginTokenContext.Provider>
