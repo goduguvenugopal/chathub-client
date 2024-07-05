@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "../styles/loginSignUp.css"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
- 
+
 
 const Signup = () => {
   const api = import.meta.env.VITE_API_URL
@@ -77,15 +77,15 @@ const Signup = () => {
   }
   return (
     <>
-      
+
 
       <div className='main-signup-card'>
-      {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center"  >
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
+        {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center" >
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
-      </div>
-        : ""}
+          : ""}
 
         <div className='sign-up-card'>
           <form className='pt-4' onSubmit={signUpFunc}>

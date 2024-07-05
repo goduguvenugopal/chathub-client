@@ -31,14 +31,13 @@ const Login = () => {
         setSpinner(false)
       } else {
         const response = await axios.post(`${api}/user/login-user`, { email, password })
-        if (response) {
+        if (response.status === 200) {
           setEmail("")
           setPassword("")
           setSpinner(false)
           setLoader(true)
           setTimeout(() => {
             setLoginToken(response.data.token)
-            console.log(response.data)
             if (!profileToken) {
               navigate("/createprofile")
             } else if (profileToken && loginToken) {
@@ -118,10 +117,10 @@ const Login = () => {
                 Loading...
               </span>
             </button>
-              : <button type='submit' className=' signup-bt bg-warning text-dark'>Login</button>}
+              : <button type='submit' className=' signup-bt bg-warning text-dark'>Login</button>}<br />
 
-
-            <h6 className='mt-4 text-secondary'>Don't Have An account? <Link className='underline' to="/signup" style={{ textDecoration: "none" }} >Signup</Link></h6>
+            <Link to="/forgotpassword" style={{ fontSize: "16px", textDecoration: "none" }} className='mt-2'>Forgot Password</Link>
+            <h6 className='mt-2 text-secondary'>Don't Have An account? <Link className='underline' to="/signup" style={{ textDecoration: "none" }} >Signup</Link></h6>
           </form>
         </div>
 

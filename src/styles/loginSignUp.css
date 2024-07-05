@@ -1,31 +1,32 @@
 /* signup and login styling  */
 
 .main-signup-card {
-    background-color: white;
+   
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: black;
+   color: white;
     padding-top: 2.5rem;
 }
 
-
+ 
 @media (max-width:762px) {
 
     .main-signup-card {
-        background-color: white;
+       
         height: 80vh;
         width: 100vw;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: black;
         padding-top: 0;
     }
 
 }
+
+ 
 
 .sign-up-card {
     border: 1px solid rgb(23, 44, 232);
@@ -41,7 +42,7 @@
     height: 35px;
     padding-left: 10px;
     border-radius: 5px;
-    border: 1.5px solid rgb(35, 168, 192);
+    border: 0px;
 }
 
 .email-text {
@@ -58,6 +59,7 @@
     width: 14rem;
     font-weight: 500;
     margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
 }
 
 .horizontal-line {
@@ -94,4 +96,40 @@
         height: 85vh;
 
     }
+}
+
+/* create profile page styling  */
+#create-profi-card{
+    height: auto;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.add-profile-first{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    
+}
+
+.add-profile-first1{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    border: 1.5px solid rgb(207, 194, 194);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    margin-bottom: 15px;
+    
+}
+
+#camera-icon{
+    position: absolute;
+    top: 25px;
+    cursor: pointer;
+
+  
+    
 }

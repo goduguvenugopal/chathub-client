@@ -10,13 +10,14 @@ import Post from './assets/Post'
 import Login from './assets/Login'
 import Signup from './assets/Signup'
 import CreateProfile from './assets/CreateProfile'
+import ForgotPassword from './assets/ForgotPassword'
 
 export const profileTokenContext = createContext()
 export const loginTokenContext = createContext()
 
 function App() {
   const [loginToken, setLoginToken] = useState("")
-  const [profileToken, setProfileToken] = useState("p")
+  const [profileToken, setProfileToken] = useState("")
 
   return (
     <><profileTokenContext.Provider value={[profileToken, setProfileToken]}>
@@ -32,6 +33,7 @@ function App() {
             <Route path='/signup' element={<Signup />} />
             <Route path='/login' element={<Login />} />
             <Route path='/createprofile' element={<CreateProfile />} />
+            <Route path='/forgotpassword' element={<ForgotPassword/>}/>
           </Routes>
         </BrowserRouter>
       </loginTokenContext.Provider>
