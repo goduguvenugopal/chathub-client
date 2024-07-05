@@ -93,7 +93,7 @@ const CreateProfile = () => {
               add_a_photo
             </span></label>
             <input type='file' name="image" accept='image/*' id="file" className='d-none' />
-            {error ? <h5 id={image !== "" ? "email-err-hide" : ""} className='email-text text-danger'>Add Profile Photo</h5> : <h5 className='email-text'>Add Profile Photo</h5>}
+            {error ? <h5 id={image !== "" ? "email-err-hide" : ""} className='email-text text-danger'>Add Profile Photo</h5> : <h5 className='email-text text-white'>Add Profile Photo</h5>}
 
           </div>
 
