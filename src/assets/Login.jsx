@@ -38,7 +38,7 @@ const Login = () => {
           setLoader(true)
           setTimeout(() => {
             setLoginToken(response.data.token)
-            localStorage.setItem("loginToken" , JSON.stringify(response.data.token))
+            localStorage.setItem("loginToken", JSON.stringify(response.data.token))
             if (!profileToken) {
               navigate("/createprofile")
             } else if (profileToken && loginToken) {
@@ -50,12 +50,17 @@ const Login = () => {
       }
     } catch (error) {
       setSpinner(false)
-      if (error.response.status === 404) {
-        setMailErr(true)
-      } else if (error.response.status === 401) {
-        setPassErr(true)
+      if (error.response) {
+        if (error.response.status === 404) {
+          setMailErr(true)
+        } else if (error.response.status === 401) {
+          setPassErr(true)
 
+        }
+      } else {
+        alert("Please wait few Seconds and try Again server is down")
       }
+
       console.log(error);
     }
 

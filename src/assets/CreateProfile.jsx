@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { loginTokenContext, profileTokenContext } from "../App"
 import app from "../firebase"
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -82,10 +82,15 @@ const CreateProfile = () => {
     } catch (error) {
       setSpinner(false)
       console.log(error);
-      // if user name exists alredy this condition will excute 
-      if (error.response.status === 404) {
-        setUserErr(true)
+      if (error.response) {
+        // if user name exists alredy this condition will excute 
+        if (error.response.status === 404) {
+          setUserErr(true)
+        }
+      } else {
+        alert("Please wait few Seconds and try Again server is down")
       }
+
     }
   }
 
@@ -126,7 +131,7 @@ const CreateProfile = () => {
 
 
               <input type='file' onChange={fileFunc} name="image" id="file" className='d-none' />
-              {error ? <h5 id={image !== "" ? "email-err-hide" : ""} className='email-text text-danger'>Add Profile Photo</h5> : <h5 className='email-text text-white'>Add Profile Photo</h5>}
+              {error ? <h5 id={image !== "" ? "email-err-hide" : ""} className='email-text text-danger'>Add Profile Photo</h5> : <> {image ? "" : <h5 className='email-text text-white'>Add Profile Photo</h5>} </>}
 
             </div>
 
