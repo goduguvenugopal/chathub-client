@@ -48,6 +48,12 @@
         padding-bottom: 10px;
     }
 
+    .bio-in-pro {
+        width: 19rem;
+
+    }
+
+
     .post-img-card-in-pro {
         display: flex;
         column-gap: 4px;
@@ -89,10 +95,14 @@
     }
 
     .pic-in-profile {
-        width: 5rem;
-        height: 5rem;
+        width: 6rem;
+        height: 6rem;
         border-radius: 50%;
 
+    }
+
+    .followers-text {
+        font-size: 16px;
     }
 
     .bio-name-card {
@@ -100,8 +110,13 @@
 
     }
 
+    .name-in-profile {
+        font-size: 16px;
+    }
+
     .bio-in-pro {
         width: 12rem;
+        font-size: 15px;
     }
 
     .post-img-card-in-pro {
@@ -125,7 +140,7 @@
 @media (max-width:412px) {
     .post-img-in-pro {
         width: 7.8rem;
-        height: 6.8rem;
+        height: 7.8rem;
     }
 }
 
