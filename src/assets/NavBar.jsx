@@ -4,10 +4,17 @@ import { loginTokenContext, profileTokenContext } from '../App'
 
 
 const NavBar = () => {
-    const [loginToken] = useContext(loginTokenContext)
-    const [profileToken] = useContext(profileTokenContext)
+    const [loginToken , setLoginToken] = useContext(loginTokenContext)
+    const [profileToken , SetProfileToken] = useContext(profileTokenContext)
  
  
+const close= () =>{
+    localStorage.removeItem("loginToken")
+    localStorage.removeItem("profileToken")
+    setLoginToken("")
+    SetProfileToken("")
+}
+
     return (
         <>
             {/* header section  */}
@@ -16,7 +23,7 @@ const NavBar = () => {
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-
+<h5 onClick={close} >close</h5>
             </header>
             {/* navbar section  */}
 
