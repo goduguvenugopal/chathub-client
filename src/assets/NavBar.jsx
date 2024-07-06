@@ -42,8 +42,11 @@ const NavBar = () => {
                     <h5 className='nav-text'>Post</h5>
                 </Link>
                 <Link to="/groupchat" className='sub-nav-card'>
-                    <span className="material-symbols-outlined nav-home-icon">
+                    <span className="material-symbols-outlined nav-home-icon d-none d-md-block">
                         groups
+                    </span>
+                    <span className="material-symbols-outlined nav-home-icon d-md-none">
+                        chat
                     </span>
                     <h5 className='nav-text'>Group Chat</h5>
                 </Link>
