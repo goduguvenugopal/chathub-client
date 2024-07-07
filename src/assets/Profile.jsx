@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "../styles/profile.css"
-import { loginTokenContext, profileTokenContext } from '../App';
+import { loginTokenContext, proDataContext, profileTokenContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,44 +9,31 @@ const Profile = () => {
   const [loginToken] = useContext(loginTokenContext)
   const navigate = useNavigate()
   const [profileToken] = useContext(profileTokenContext)
-  const [proData, setProData] = useState([])
-  const [user, setUser] = useState([])
-  console.log(user);
+  const [proData, setProData] = useContext(proDataContext)
+  const [postData, setPostData] = useState([])
 
+  // fetching posts data 
 
-  // fetching user Id 
   useEffect(() => {
-    const getUserId = async () => {
+    const profileId = { profileId: proData._id }
 
-      const userId = user._id
+    const getPostData = async () => {
       try {
-        const response1 = await axios.get(`${api}/user/get-user`, {
-          headers: {
-            token: loginToken
-          }
-        })
-        if (response1) {
-          setUser(response1.data)
 
-        }
-
-        const response = await axios.get(`${api}/profile/get-profile-byid`, { user: userId })
+        const response = await axios.get(`${api}/message//get-individual-messages`, profileId)
         if (response) {
-          setProData(response.data)
-          console.log(response.data);
+          console.log(response)
 
+          setPostData(response.data)
         }
-
       } catch (error) {
         console.log(error);
 
       }
     }
-    getUserId()
 
-  }, [])
-
-
+    getPostData()
+  }, [proData])
 
   // if token is not available it navigate to login page 
   useEffect(() => {
@@ -59,16 +46,16 @@ const Profile = () => {
     <div className='profile-container'>
       <div className='profile-sub-card'>
         <div className='username-top-card'>
-          <h4>venu_gopal</h4>
+          <h4>{proData.userName}</h4>
           <span className="material-symbols-outlined" style={{ cursor: "pointer" }}>
             settings
           </span>
         </div>
         {/* profile card  */}
         <div className='image-pro-card'>
-          <img src='favicon.jpg' alt="profile-photo" className='pic-in-profile' />
+          <img src={proData.image} alt="profile-photo" className='pic-in-profile' />
           <div className=''>
-            <h4 className='count-num'>102</h4>
+            <h4 className='count-num'>{postData.length}</h4>
             <h5 className='followers-text'>posts</h5>
           </div>
           <div className=''>
@@ -78,21 +65,20 @@ const Profile = () => {
         </div>
 
         <div className='bio-name-card mt-2'>
-          <h5 className='name-in-profile'>Venu gopal godugu</h5>
-          <p className='bio-in-pro'>I am software Developer and code Enthuisiast</p>
+          <h5 className='name-in-profile'>{proData.profileName}</h5>
+          <p className='bio-in-pro'>{proData.bio}</p>
 
         </div>
 
         {/* post images division */}
         <div className='post-img-card-in-pro'>
 
-          <img src="favicon.jpg" className='post-img-in-pro' />
-          <img src="favicon.jpg" className='post-img-in-pro' />
-          <img src="favicon.jpg" className='post-img-in-pro' />
-          <img src="favicon.jpg" className='post-img-in-pro' />
+          {postData.length ? <> {postData.map((item) => (
+            <img key={item.id} src="favicon.jpg" className='post-img-in-pro' />
+          ))}</> : <div className='d-flex justify-content-center' style={{width:"100vw"}}>No Posts</div>}
 
-          <img src="favicon.jpg" className='post-img-in-pro' />
-          <img src="favicon.jpg" className='post-img-in-pro' />
+
+
 
         </div>
       </div>

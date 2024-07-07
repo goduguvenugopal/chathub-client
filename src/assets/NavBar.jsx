@@ -1,14 +1,23 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { loginTokenContext, profileTokenContext } from '../App'
+import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
+ 
 
 
-const NavBar = () => {
-    const [loginToken ] = useContext(loginTokenContext)
-    const [profileToken ] = useContext(profileTokenContext)
- 
- 
- 
+const NavBar = ({ spinner }) => {
+
+    const [loginToken, setLoginToken] = useContext(loginTokenContext)
+    const [profileToken, setProfileToken] = useContext(profileTokenContext)
+    const [proData] = useContext(proDataContext)
+
+    const close = () => {
+        localStorage.removeItem("loginToken")
+        localStorage.removeItem("profileToken")
+        setProfileToken("")
+        setLoginToken("")
+
+    }
+
     return (
         <>
             {/* header section  */}
@@ -17,7 +26,7 @@ const NavBar = () => {
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
- 
+                <h6 onClick={close}>close</h6>
             </header>
             {/* navbar section  */}
 
@@ -51,7 +60,10 @@ const NavBar = () => {
                     <h5 className='nav-text'>Group Chat</h5>
                 </Link>
                 <Link to="/profile" className='sub-nav-card'>
-                    <img src='favicon.jpg' className="nav-profile-img" />
+                    {spinner ? <span style={{ fontSize: "30px" }} className="material-symbols-outlined nav-profile-img text-white">
+                        account_circle
+                    </span> : <img src={proData.image} className="nav-profile-img" />}
+
 
 
                     <h5 className='nav-text'>Profile</h5>
