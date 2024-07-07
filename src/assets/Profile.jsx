@@ -10,23 +10,25 @@ const Profile = () => {
   const navigate = useNavigate()
   const [profileToken] = useContext(profileTokenContext)
   const [proData] = useContext(proDataContext)
-  const [postData, setPostData] = useState([])
   const [filter, setFilter] = useState([])
 
   // fetching posts data 
 
   useEffect(() => {
     const userId = proData._id
+
     const getPostData = async () => {
       try {
 
         const response = await axios.get(`${api}/message/get-all-messages`)
         if (response) {
           const data = response.data.allMessages.reverse()
-          setPostData(data)
+
           // filtering post from all posts 
-          const filteredData = postData.filter((item) => item.profileId === userId)
-          setFilter(filteredData.reverse())
+          const filteredData = data.filter((item) => item.profileId === userId)
+          console.log(filteredData)
+
+          setFilter(filteredData)
         }
       } catch (error) {
         console.log(error);
@@ -57,7 +59,7 @@ const Profile = () => {
         <div className='image-pro-card'>
           <img src={proData.image} alt="profile-photo" className='pic-in-profile' />
           <div className=''>
-            <h4 className='count-num'>{postData.length}</h4>
+            <h4 className='count-num'>{filter.length}</h4>
             <h5 className='followers-text'>posts</h5>
           </div>
           <div className=''>
@@ -75,7 +77,7 @@ const Profile = () => {
         {/* post images division */}
         <div className='post-img-card-in-pro'>
 
-          {filter.length >= 0 ? <> {postData.map((item) => (
+          {filter.length >= 0 ? <> {filter.map((item) => (
             <img key={item.id} src={item.postImage} className='post-img-in-pro' />
           ))}</> : <div className='d-flex justify-content-center' style={{ width: "100vw" }}>No Posts</div>}
 
