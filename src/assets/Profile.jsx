@@ -9,7 +9,7 @@ const Profile = () => {
   const [loginToken] = useContext(loginTokenContext)
   const navigate = useNavigate()
   const [profileToken] = useContext(profileTokenContext)
-  const [proData, setProData] = useContext(proDataContext)
+  const [proData] = useContext(proDataContext)
   const [postData, setPostData] = useState([])
 
   // fetching posts data 
@@ -20,10 +20,9 @@ const Profile = () => {
     const getPostData = async () => {
       try {
 
-        const response = await axios.get(`${api}/message//get-individual-messages`, profileId)
+        const response = await axios.get(`${api}/message/get-individual-messages/${profileId}`)
         if (response) {
-          console.log(response)
-
+         
           setPostData(response.data)
         }
       } catch (error) {
@@ -33,7 +32,7 @@ const Profile = () => {
     }
 
     getPostData()
-  }, [proData])
+  }, [loginToken])
 
   // if token is not available it navigate to login page 
   useEffect(() => {
@@ -73,9 +72,9 @@ const Profile = () => {
         {/* post images division */}
         <div className='post-img-card-in-pro'>
 
-          {postData.length ? <> {postData.map((item) => (
+          {postData.length >= 0 ? <> {postData.map((item) => (
             <img key={item.id} src="favicon.jpg" className='post-img-in-pro' />
-          ))}</> : <div className='d-flex justify-content-center' style={{width:"100vw"}}>No Posts</div>}
+          ))}</> : <div className='d-flex justify-content-center' style={{ width: "100vw" }}>No Posts</div>}
 
 
 

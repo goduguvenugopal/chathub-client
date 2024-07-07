@@ -10,13 +10,13 @@ const NavBar = ({ spinner }) => {
     const [profileToken, setProfileToken] = useContext(profileTokenContext)
     const [proData] = useContext(proDataContext)
 
-    const close = () => {
-        localStorage.removeItem("loginToken")
-        localStorage.removeItem("profileToken")
-        setProfileToken("")
-        setLoginToken("")
+    // const close = () => {
+    //     localStorage.removeItem("loginToken")
+    //     localStorage.removeItem("profileToken")
+    //     setProfileToken("")
+    //     setLoginToken("")
 
-    }
+    // }
 
     return (
         <>
@@ -26,7 +26,7 @@ const NavBar = ({ spinner }) => {
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-                <h6 onClick={close}>close</h6>
+                {/* <h6 onClick={close}>close</h6> */}
             </header>
             {/* navbar section  */}
 
