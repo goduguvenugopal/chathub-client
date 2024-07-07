@@ -11,13 +11,14 @@ const Profile = () => {
   const [profileToken] = useContext(profileTokenContext)
   const [proData] = useContext(proDataContext)
   const [filter, setFilter] = useState([])
-
+  const [spinner, setSpinner] = useState(false)
   // fetching posts data 
 
   useEffect(() => {
     const userId = proData._id
 
     const getPostData = async () => {
+      setSpinner(true)
       try {
 
         const response = await axios.get(`${api}/message/get-all-messages`)
@@ -29,15 +30,16 @@ const Profile = () => {
           console.log(filteredData)
 
           setFilter(filteredData)
+          setSpinner(false)
         }
       } catch (error) {
         console.log(error);
-
+        setSpinner(false)
       }
     }
 
     getPostData()
-  }, [])
+  }, [proData])
 
   // if token is not available it navigate to login page 
   useEffect(() => {
@@ -76,12 +78,24 @@ const Profile = () => {
 
         {/* post images division */}
         <div className='post-img-card-in-pro'>
-
-          {filter.length >= 0 ? <> {filter.map((item) => (
+          {spinner ?
+          
+          <> 
+           <img src="image-icon.jpeg" className='post-img-in-pro' />
+           <img src="image-icon.jpeg" className='post-img-in-pro' />
+           <img src="image-icon.jpeg" className='post-img-in-pro' />
+           <img src="image-icon.jpeg" className='post-img-in-pro' />
+           <img src="image-icon.jpeg" className='post-img-in-pro' />
+           <img src="image-icon.jpeg" className='post-img-in-pro' />
+          </>
+          
+          : <> {filter.length !== 0 ? <> {filter.map((item) => (
             <img key={item.id} src={item.postImage} className='post-img-in-pro' />
-          ))}</> : <div className='d-flex justify-content-center' style={{ width: "100vw" }}>No Posts</div>}
+          ))}</> : <div className='d-flex justify-content-center align-items-center fs-6' style={{ width: "100vw" ,height:"30vh"}}>No Posts</div>}
 
+</>}
 
+          
 
 
         </div>
