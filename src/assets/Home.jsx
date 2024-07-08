@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { loginTokenContext, profileTokenContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -76,10 +76,10 @@ const Home = () => {
         {/* map function  */}
         {data.map((item) => (
           <div key={item._id} className='home-post-card'>
-            <div className='d-flex align-items-center gap-2'>
+            <Link to={`/${item.profileId}`} className='d-flex align-items-center gap-2 text-white' style={{textDecoration:"none"}}>
               <img src={item.profileImage} className='home-profile-img' />
               <h5 className=''>{item.userName}</h5>
-            </div>
+            </Link>
 
             <img src={item.postImage} className='home-post-img ' alt="post image" />
 
