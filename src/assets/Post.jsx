@@ -29,7 +29,6 @@ const Post = () => {
         const downLoadUrl = await getDownloadURL(storageRef)
         if (downLoadUrl) {
           setImage(downLoadUrl)
-          
           setSpinner(false)
         }
       } catch (error) {

@@ -222,7 +222,7 @@ const Profile = ({ spinner1 }) => {
                   share
                 </span>
               </div>
-              <h5 className='img-caption-text'>{singlePost.message}</h5>
+              <h5 className='img-caption-text-in-profile'>{singlePost.message}</h5>
               <h5 className='uploaded-date d-flex justify-content-between'>{today === singlePost.date ? "Uploaded Today" : `Uploaded on ${singlePost.date}`}
                 <span className='text-danger' onClick={() => deletePostFunc(singlePost._id)} style={{ cursor: "pointer" }} >{delSpinn ? <>
 
