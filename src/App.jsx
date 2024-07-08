@@ -13,6 +13,8 @@ import CreateProfile from './assets/CreateProfile'
 import ForgotPassword from './assets/ForgotPassword'
 import axios from 'axios'
 
+
+export const refreshContext = createContext()
 export const profileTokenContext = createContext()
 export const loginTokenContext = createContext()
 export const proDataContext = createContext()
@@ -24,6 +26,8 @@ function App() {
   const [profileToken, setProfileToken] = useState("")
   const [proData, setProData] = useState([])
   const [spinner, setSpinner] = useState(false)
+  const [spinner1, setSpinner1] = useState(false)
+  const [refresh , setRefresh] = useState(false)
 
   // retrieving token from localStorage 
   useEffect(() => {
@@ -46,6 +50,7 @@ function App() {
   useEffect(() => {
     const getProfile = async () => {
       setSpinner(true)
+      setSpinner1(true)
       try {
         const response = await axios.get(`${api}/profile/get-profile-byid`, {
           headers: {
@@ -55,19 +60,22 @@ function App() {
         if (response) {
           setProData(response.data)
           setSpinner(false)
+          setSpinner1(false)
         }
 
       } catch (error) {
         console.log(error);
         setSpinner(false)
+        setSpinner1(false)
       }
     }
 
     getProfile()
-  }, [loginToken, profileToken])
+  }, [loginToken, profileToken , refresh])
 
   return (
     <>
+    <refreshContext.Provider value={[refresh , setRefresh]}> 
       <proDataContext.Provider value={[proData, setProData]}>
         <profileTokenContext.Provider value={[profileToken, setProfileToken]}>
           <loginTokenContext.Provider value={[loginToken, setLoginToken]}>
@@ -77,7 +85,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='/search' element={<Search />} />
                 <Route path='/groupchat' element={<GroupChat />} />
-                <Route path='/profile' element={<Profile />} />
+                <Route path='/profile' element={<Profile spinner1={spinner1}/>} />
                 <Route path='/post' element={<Post />} />
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
@@ -88,6 +96,7 @@ function App() {
           </loginTokenContext.Provider>
         </profileTokenContext.Provider>
       </proDataContext.Provider>
+      </refreshContext.Provider>
     </>
   )
 }
