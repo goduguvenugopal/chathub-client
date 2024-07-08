@@ -178,7 +178,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
- 
+
     z-index: 2000;
 }
 
@@ -187,6 +187,7 @@
     height: 350px;
     margin-top: 15px;
     margin-bottom: 15px;
+    border-radius: 3px;
 }
 
 .profile-post-card {
@@ -195,7 +196,7 @@
     width: fit-content;
     padding: 15px;
     border-radius: 10px;
-     
+
 }
 
 
@@ -208,5 +209,78 @@
 }
 
 
+/* post component styling  */
 
-@media screen and (max-width:762px) and (min-width:570px) {}
+
+#post-card-in-post {
+    border: 1px solid rgb(103, 98, 98);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40vw;
+    margin-top: 2rem;
+}
+
+
+.post-loading-card {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    width: 40vw;
+    border: 1px solid rgb(103, 98, 98);
+    border-radius: 10px;
+    height: 50vh;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.message-input-in-post{
+    width: 40vw;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 10px;
+
+}
+@media (max-width:762px) {
+
+    #post-card-in-post {
+        width: 90vw;
+    }
+
+
+    .post-loading-card {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        width: 90vw;
+        
+    }
+    
+.message-input-in-post{
+    width: 90vw;
+    padding-left: 15px;
+    height: 35px;
+    border: none;
+    
+}
+}
+
+.image-icon-in-post {
+    font-size: 20rem;
+    color: rgb(169, 174, 178);
+    padding: 0;
+    margin: 0;
+
+}
+
+ .send-post-bt{
+    width: 5rem;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    font-weight: 500;
+
+ }

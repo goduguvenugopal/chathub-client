@@ -48,9 +48,10 @@ function App() {
 
   // get profile function 
   useEffect(() => {
+    setSpinner(true)
+    setSpinner1(true)
     const getProfile = async () => {
-      setSpinner(true)
-      setSpinner1(true)
+      
       try {
         const response = await axios.get(`${api}/profile/get-profile-byid`, {
           headers: {
