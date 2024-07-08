@@ -11,12 +11,17 @@ const Profile = ({ spinner1 }) => {
   const [loginToken] = useContext(loginTokenContext)
   const navigate = useNavigate()
   const [profileToken] = useContext(profileTokenContext)
-  const [proData, setProData] = useContext(proDataContext)
+  const [proData] = useContext(proDataContext)
   const [filter, setFilter] = useState([])
   const [spinner, setSpinner] = useState(false)
   const [fileSpinner, setFileSpinner] = useState(false)
-  const [refresh, setRefresh] = useContext(refreshContext)
-
+  const [setRefresh] = useContext(refreshContext)
+  const [singlePost, setSinglePost] = useState([])
+  const [modal, setModal] = useState(false)
+  const [like, setLike] = useState(false)
+  const [like1, setLike1] = useState("")
+  const [today, setToday] = useState(false)
+  const [delSpinn, setDelSpinn] = useState(false)
 
   // fetching posts data 
 
@@ -44,6 +49,11 @@ const Profile = ({ spinner1 }) => {
     }
 
     getPostData()
+
+
+    // uploaded date function 
+    const currentDate = new Date().toLocaleDateString("en-GB")
+    setToday(currentDate)
   }, [proData])
 
 
@@ -86,11 +96,38 @@ const Profile = ({ spinner1 }) => {
   }
 
 
-  // update photo function 
+  // delete post function 
+  const openPost = (postId) => {
+    setModal(true)
+    const singlePost = filter.find((item) => item._id === postId)
+    setSinglePost(singlePost)
 
-  // const updatePicFunc = async () =>{
-  //  
-  // }
+  }
+
+  // like function
+  const likeFunc = (likeId) => {
+    setLike(!like)
+    setLike1(likeId)
+  }
+
+  // delete post function 
+
+  const deletePostFunc = async (delId) => {
+    try {
+      setDelSpinn(true)
+      const response = await axios.delete(`${api}/message/delete-message/${delId}`)
+      if (response) {
+        const remaining = filter.filter((item) => item._id !== delId)
+        setFilter(remaining)
+        setModal(false)
+        setDelSpinn(false)
+      }
+    } catch (error) {
+      console.log(error)
+      setDelSpinn(false)
+      alert("Please try again post has not deleted")
+    }
+  }
 
   // if token is not available it navigate to login page 
   useEffect(() => {
@@ -152,12 +189,57 @@ const Profile = ({ spinner1 }) => {
             </>
 
             : <> {filter.length !== 0 ? <> {filter.map((item) => (
-              <img key={item.id} src={item.postImage} className='post-img-in-pro' />
+              <img key={item.id} style={{ cursor: "pointer" }} src={item.postImage} onClick={() => openPost(item._id)} className='post-img-in-pro' />
             ))}</> : <div className='d-flex justify-content-center align-items-center fs-6' style={{ width: "100vw", height: "30vh" }}>No Posts</div>}
 
             </>}
 
+          {/* post modal  */}
+          {modal ? <div className='post-modal-card' >
+            <div className='profile-post-card '>
+              <div className='d-flex align-items-center justify-content-between'>
+                <div className='d-flex align-items-center gap-2'> <img src={singlePost.profileImage} className='home-profile-img' />
+                  <h5 className=''>{singlePost.userName}</h5></div>
 
+                <span style={{ cursor: "pointer" }} onClick={() => setModal(false)} className="material-symbols-outlined ">
+                  close
+                </span>
+              </div>
+
+              <img src={singlePost.postImage} className='profile-post-img ' alt="post image" />
+
+              <div className='like-share-card '>
+
+                {singlePost._id === like1 ?
+                  <svg style={{ cursor: "pointer" }} onClick={() => likeFunc(singlePost._id)} xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-heart-fill heart-icon1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                  </svg> :
+                  <span style={{ cursor: "pointer", fontSize: "22px", width: "20px" }} onClick={() => likeFunc(singlePost._id)} className="material-symbols-outlined m-0 p-0" >favorite</span>}
+                <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
+                  mode_comment
+                </span>
+                <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
+                  share
+                </span>
+              </div>
+              <h5 className='img-caption-text'>{singlePost.message}</h5>
+              <h5 className='uploaded-date d-flex justify-content-between'>{today === singlePost.date ? "Uploaded Today" : `Uploaded on ${singlePost.date}`}
+                <span className='text-danger' onClick={() => deletePostFunc(singlePost._id)} style={{ cursor: "pointer" }} >{delSpinn ? <>
+
+                  <div className="spinner-grow spinner-grow-sm text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <div className="spinner-grow spinner-grow-sm mx-1" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <div className="spinner-grow spinner-grow-sm text-warning" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+
+                </> : "Delete Post"}</span></h5>
+            </div>
+
+          </div> : ""}
 
 
         </div>
