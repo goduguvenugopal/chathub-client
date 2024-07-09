@@ -69,8 +69,7 @@ const Search = () => {
           <span className="material-symbols-outlined search-icon-in-search">
             search
           </span>
-          <button type='submit' className='search-bt'>Search</button>
-        </div>
+            </div>
       </div>
 
 
