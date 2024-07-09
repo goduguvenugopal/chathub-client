@@ -43,7 +43,7 @@ const Home = () => {
     return () => clearInterval(checkMessages)
 
 
-  }, [loginToken])
+  }, [loginToken , profileToken])
 
 
   // like function
