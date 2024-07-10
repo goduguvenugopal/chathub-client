@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "../styles/groupChat.css"
 import axios from 'axios'
-import { loginTokenContext, profileTokenContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { loginTokenContext, proDataContext, profileTokenContext } from '../App';
+import { Link, useNavigate } from 'react-router-dom';
 
 const GroupChat = () => {
   const api = import.meta.env.VITE_API_URL;
   const [data, setData] = useState([])
   const [spinner, setSpinner] = useState(false)
-  const [loginToken, setLoginToken] = useContext(loginTokenContext)
-  const [profileToken, setProfileToken] = useContext(profileTokenContext)
+  const [loginToken] = useContext(loginTokenContext)
+  const [profileToken] = useContext(profileTokenContext)
   const navigate = useNavigate()
   const [text, setText] = useState("")
+  const [proData , setProData] = useContext(proDataContext)
 
 
 
@@ -95,11 +96,11 @@ const GroupChat = () => {
       {/* Messages card  */}
       <div className='message-main-card'>
         {data.map((item) => (
-          <div key={item._id} className='chat-text-main-card'>
-            <div className='chat-img-user-card'>
+          <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
+            <Link to={`/${item.userId}`} style={{textDecoration:"none"}} className='chat-img-user-card'>
               <img src={item.image} className='chat-user-img' alt={item.userName} />
-              <h5 className='user-name-in-chat'>{item.userName}</h5>
-            </div>
+              <h5 className="user-name-in-chat" >{item.userName}</h5>
+            </Link>
             <div className='text-card'>
               <h5 className='chat-text'>{item.text}</h5>
               <span className='date-in-chat'>{item.date}</span>
