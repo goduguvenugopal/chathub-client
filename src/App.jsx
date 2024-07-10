@@ -29,6 +29,7 @@ function App() {
   const [spinner, setSpinner] = useState(false)
   const [spinner1, setSpinner1] = useState(false)
   const [refresh, setRefresh] = useState(false)
+  const [user, setUser] = useState([])
 
   // retrieving token from localStorage 
   useEffect(() => {
@@ -45,8 +46,6 @@ function App() {
 
   }, [loginToken, profileToken])
 
-
-
   // get profile function 
   useEffect(() => {
     setSpinner(true)
@@ -54,13 +53,12 @@ function App() {
     const getProfile = async () => {
 
       try {
-        const response = await axios.get(`${api}/profile/get-profile-byid`, {
-          headers: {
-            token: profileToken
-          }
-        })
+        const response = await axios.get(`${api}/profile/get-all-profiles`)
         if (response) {
-          setProData(response.data)
+          const data = response.data
+          const filtered = data.filter((item) => item.user === user._id)
+  
+          setProData(filtered[0])
           setSpinner(false)
           setSpinner1(false)
         }
@@ -71,9 +69,34 @@ function App() {
         setSpinner1(false)
       }
     }
+    if (user && user._id) {
+      getProfile()
+    }
 
-    getProfile()
-  }, [loginToken, profileToken, refresh])
+  }, [user, profileToken, refresh])
+
+  // fetching user id 
+  useEffect(() => {
+
+    const getUser = async () => {
+      try {
+        const response = await axios.get(`${api}/user/get-user`, {
+          headers: {
+            token: loginToken
+          }
+        })
+
+        if (response) {
+          setUser(response.data)
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUser()
+
+  }, [loginToken])
 
   return (
     <>

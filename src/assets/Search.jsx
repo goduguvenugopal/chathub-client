@@ -9,8 +9,8 @@ const Search = () => {
   const api = import.meta.env.VITE_API_URL;
   const [profileData, setProfileData] = useState([])
   const [spinner, setSpinner] = useState(false)
-  const [loginToken, setLoginToken] = useContext(loginTokenContext)
-  const [profileToken, setProfileToken] = useContext(profileTokenContext)
+  const [loginToken] = useContext(loginTokenContext)
+  const [profileToken] = useContext(profileTokenContext)
   const navigate = useNavigate()
   const [filtered, setFiltered] = useState([])
   const [text, setText] = useState("")

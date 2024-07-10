@@ -23,6 +23,7 @@ const Profile = ({ spinner1 }) => {
   const [today, setToday] = useState(false)
   const [delSpinn, setDelSpinn] = useState(false)
 
+
   // fetching posts data 
 
   useEffect(() => {
