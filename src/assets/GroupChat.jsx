@@ -157,7 +157,7 @@ const GroupChat = () => {
                     <img src={item.image} className='chat-user-img' alt={item.userName} />
                     <h5 className="user-name-in-chat" >{item.userName}</h5>
                   </Link>
-                  {delSpinner === item._id ? <div className='delete-icon-in-chat'  >
+                  {delSpinner === item._id ? <div className='mb-2' style={{ marginTop: "0", paddingTop: "0" }}  >
                     <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
                       <span className="visually-hidden">Loading...</span>
                     </div>
