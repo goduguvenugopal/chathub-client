@@ -12,9 +12,8 @@
 
      .chat-sub-card {
          height: 5rem;
-         padding: 10px;
+         padding-top: 15px;
          border-top: 1px solid rgb(74, 73, 73);
-         padding: 1rem;
          display: flex;
          justify-content: center;
          width: 100%;
@@ -29,11 +28,16 @@
      border: none;
      border-top-left-radius: 5px;
      border-bottom-left-radius: 5px;
-     padding-left: 20px;
      font-size: 17px;
      background-color: rgb(56, 55, 54);
      color: white;
-     padding-right: 15px;
+     padding: 10px;
+     
+     
+ }
+
+ .input-box-in-chat::-webkit-scrollbar {
+     display: none;
  }
 
  .chat-send-bt {
@@ -41,8 +45,6 @@
      border-bottom-right-radius: 5px;
      background-color: rgb(56, 55, 54);
      border: none;
-     right: 1;
-     top: 18px;
      width: 5rem;
      height: 45px;
      color: rgb(241, 68, 169);
@@ -62,7 +64,6 @@
          height: 4.5rem;
          padding: 10px;
          border-top: 1px solid rgb(74, 73, 73);
-         padding: 1rem;
          display: flex;
          justify-content: center;
          width: 100%;
@@ -71,25 +72,19 @@
 
      .input-box-in-chat {
          width: 100%;
-         position: relative;
-         height: 40px;
          border: none;
-         border-radius: 5px;
-         padding-left: 20px;
-         font-size: 17px;
-         background-color: rgb(56, 55, 54);
+         height: 40px;
+        
+         font-size: 14px;
          color: white;
-         padding-right: 15px;
+        
      }
 
      .chat-send-bt {
-         background-color: rgb(56, 55, 54);
-         right: 20px;
-         top: 18px;
          width: 5rem;
-         height: 35px;
+         height: 40px;
          font-size: 18px;
-         position: absolute;
+         background-color: rgb(56, 55, 54);
 
      }
  }
@@ -97,12 +92,15 @@
 
  /* chat cards styling  */
 
- .message-main-card {
 
-     width: 75vw;
-     padding-left: 15px;
-     margin-left: 15rem;
+ @media (min-width:762px) {
+     .message-main-card {
+         width: 75vw;
+         padding-left: 15px;
+         margin-left: 15rem;
+     }
  }
+
 
  .chat-text-main-card {
      width: 23rem;
@@ -115,8 +113,7 @@
  .chat-img-user-card {
      display: flex;
      align-items: center;
-     column-gap: 10px;
-     padding-top: 10px;
+     column-gap: 11px;
      padding-bottom: 10px;
      border-bottom: 1px solid rgb(74, 73, 73);
 
@@ -144,19 +141,16 @@
 
  @media (max-width:762px) {
      .message-main-card {
-         width: 100vw;
          display: flex;
-         margin-left: 2rem;
-         padding-left: 0;
          flex-direction: column;
          align-items: flex-start;
-         padding: 10px;
+         margin-bottom: 3rem;
      }
 
      .chat-text-main-card {
          width: 20rem;
          box-shadow: 0 0 8px rgb(94, 93, 93);
-         padding: 10px;
+         padding: 12px;
          margin-bottom: 2rem;
          border-radius: 10px;
      }

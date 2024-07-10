@@ -82,7 +82,7 @@ const GroupChat = () => {
       {/* chat inpu box  */}
       <div className='chat-input-card fixed-bottom' >
         <form onSubmit={sendText} className='chat-sub-card'>
-          <input value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...' />
+          <textarea value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
           {spinner ? <button className="chat-send-bt text-white" type="button" disabled>
             <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
             <span className="visually-hidden" role="status">Loading...</span>
