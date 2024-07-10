@@ -62,7 +62,7 @@
      }
 
      .chat-sub-card {
-         height: 4.5rem;
+         height: 4rem;
          padding: 10px;
          border-top: 1px solid rgb(74, 73, 73);
          display: flex;
@@ -99,12 +99,18 @@
      }
 
      .chat-text-main-card {
-         width: 23rem;
+         width: 26rem;
          background-color: rgb(40, 43, 46);
          padding: 10px;
          margin-bottom: 2rem;
          border-radius: 10px;
      }
+ }
+
+ .chat-user-card-right {
+     display: flex;
+     justify-content: flex-end;
+
  }
 
  .go-down {
@@ -160,7 +166,7 @@
  }
 
  .user-name-in-chat {
-     font-size: 18px;
+     font-size: 15px;
      color: white;
  }
 
@@ -169,14 +175,22 @@
  @media (max-width:762px) {
      .message-main-card {
          margin-bottom: 3rem;
+         width: 100%;
      }
 
      .chat-text-main-card {
-         width: 100%;
+         width: 80%;
          background-color: rgb(40, 43, 46);
          padding: 12px;
          margin-bottom: 2rem;
          border-radius: 10px;
+
+     }
+
+     .go-down {
+
+         bottom: 4.3rem;
+
 
      }
 

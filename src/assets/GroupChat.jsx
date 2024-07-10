@@ -17,7 +17,6 @@ const GroupChat = () => {
 
 
   // scrollBottom automatically when new message comes 
-
   const scrollBottom = () => {
     chatEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
@@ -106,15 +105,16 @@ const GroupChat = () => {
       {/* Messages card  */}
       <div className='message-main-card'>
         {data.map((item) => (
-
-          <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
-            <Link to={`/${item.userId}`} style={{ textDecoration: "none" }} className='chat-img-user-card'>
-              <img src={item.image} className='chat-user-img' alt={item.userName} />
-              <h5 className="user-name-in-chat" >{item.userName}</h5>
-            </Link>
-            <div className='text-card'>
-              <h5 className='chat-text'>{item.text}</h5>
-              <span className='date-in-chat'>{item.date}</span>
+          <div className={proData._id === item.userId ? 'chat-user-card-right' : ""}>
+            <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
+              <Link to={`/${item.userId}`} style={{ textDecoration: "none" }} className='chat-img-user-card'>
+                <img src={item.image} className='chat-user-img' alt={item.userName} />
+                <h5 className="user-name-in-chat" >{item.userName}</h5>
+              </Link>
+              <div className='text-card'>
+                <h5 className='chat-text'>{item.text}</h5>
+                <span className='date-in-chat'>{item.date}</span>
+              </div>
             </div>
           </div>
 
