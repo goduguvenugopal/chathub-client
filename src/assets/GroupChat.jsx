@@ -21,13 +21,11 @@ const GroupChat = () => {
     if (data.length) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" })
     }
-
   }
   useEffect(() => {
     if (data.length) {
       scrollBottom()
     }
-
   }, [data])
 
 
@@ -37,8 +35,17 @@ const GroupChat = () => {
     e.preventDefault()
     if (text !== "") {
       try {
+        const currentDate = new Date().toLocaleString("en-GB", {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          hour12: true
+        });
         setSpinner(true)
-        const response = await axios.post(`${api}/chat/send-chat`, { text }, {
+        const response = await axios.post(`${api}/chat/send-chat`, { text: text, date: currentDate }, {
           headers: {
             token: profileToken
           }
@@ -60,6 +67,20 @@ const GroupChat = () => {
     }
   }
 
+
+  // delete chat function 
+  const deleteChat = async (delId) => {
+    try {
+      const response = await axios.delete(`${api}/chat/delete-chat/${delId}`)
+      if (response) {
+        const remainingData = data.filter((item) => item._id !== delId)
+        setData(remainingData)
+      }
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
 
   // fetching all messages 
 
@@ -110,27 +131,36 @@ const GroupChat = () => {
 
       {/* Messages card  */}
       <div className='message-main-card'>
+        {/* spinner  */}
         {data.length === 0 ? <><div className="d-flex justify-content-center align-items-center" id='spinner-in-chat'>
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
-        </div></> : <>  {data.map((item) => (
-          <div className={proData._id === item.userId ? 'chat-user-card-right' : ""}>
-            <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
-              <Link to={`/${item.userId}`} style={{ textDecoration: "none" }} className='chat-img-user-card'>
-                <img src={item.image} className='chat-user-img' alt={item.userName} />
-                <h5 className="user-name-in-chat" >{item.userName}</h5>
-              </Link>
-              <div className='text-card'>
-                <h5 className='chat-text'>{item.text}</h5>
-                <span className='date-in-chat'>{item.date}</span>
+        </div></> :
+          // map function 
+          <>  {data.map((item) => (
+            <div className={proData._id === item.userId ? 'chat-user-card-right' : ""}>
+              <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
+                <div className='chat-img-user-card'>
+                  <Link to={`/${item.userId}`} style={{ textDecoration: "none" }} className='d-flex align-items-center gap-2' >
+                    <img src={item.image} className='chat-user-img' alt={item.userName} />
+                    <h5 className="user-name-in-chat" >{item.userName}</h5>
+                  </Link>   {proData._id === item.userId ? <span onClick={() => deleteChat(item._id)} className="material-symbols-outlined delete-icon-in-chat">
+                    delete
+                  </span> : ""}
+
+                </div>
+                <div className='text-card'>
+                  <h5 className='chat-text'>{item.text}</h5>
+                  <span className='date-in-chat'>{item.date}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-        ))}
+          ))}
 
-          <div ref={chatEndRef} id='chat-go-down'></div></>}
+            <div ref={chatEndRef} id='chat-go-down'></div>
+          </>}
 
 
       </div>
