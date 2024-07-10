@@ -18,10 +18,16 @@ const GroupChat = () => {
 
   // scrollBottom automatically when new message comes 
   const scrollBottom = () => {
-    chatEndRef.current.scrollIntoView({ behavior: "smooth" })
+    if (data.length) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+
   }
   useEffect(() => {
-    scrollBottom()
+    if (data.length) {
+      scrollBottom()
+    }
+
   }, [data])
 
 
@@ -104,7 +110,11 @@ const GroupChat = () => {
 
       {/* Messages card  */}
       <div className='message-main-card'>
-        {data.map((item) => (
+        {data.length === 0 ? <><div className="d-flex justify-content-center align-items-center" id='spinner-in-chat'>
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div></> : <>  {data.map((item) => (
           <div className={proData._id === item.userId ? 'chat-user-card-right' : ""}>
             <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
               <Link to={`/${item.userId}`} style={{ textDecoration: "none" }} className='chat-img-user-card'>
@@ -120,7 +130,9 @@ const GroupChat = () => {
 
         ))}
 
-        <div ref={chatEndRef} id='chat-go-down'></div>
+          <div ref={chatEndRef} id='chat-go-down'></div></>}
+
+
       </div>
 
 
