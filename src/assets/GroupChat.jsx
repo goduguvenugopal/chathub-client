@@ -14,7 +14,15 @@ const GroupChat = () => {
   const [text, setText] = useState("")
   const [proData] = useContext(proDataContext)
   const chatEndRef = useRef(null)
+  const [hover, setHover] = useState("")
+  const [delSpinner, setDelSpinner] = useState("")
 
+
+  // mouseover event 
+
+  const mouseOver = (cardId) => {
+    setHover(cardId)
+  }
 
   // scrollBottom automatically when new message comes 
   const scrollBottom = () => {
@@ -70,14 +78,17 @@ const GroupChat = () => {
 
   // delete chat function 
   const deleteChat = async (delId) => {
+    setDelSpinner(delId)
     try {
       const response = await axios.delete(`${api}/chat/delete-chat/${delId}`)
       if (response) {
         const remainingData = data.filter((item) => item._id !== delId)
         setData(remainingData)
+        delSpinner("")
       }
     } catch (error) {
       console.error(error);
+      delSpinner("")
 
     }
   }
@@ -139,15 +150,28 @@ const GroupChat = () => {
         </div></> :
           // map function 
           <>  {data.map((item) => (
-            <div className={proData._id === item.userId ? 'chat-user-card-right' : ""}>
+            <div className={proData._id === item.userId ? 'chat-user-card-right' : ""} onMouseOver={() => mouseOver(item._id)}>
               <div key={item._id} className='chat-text-main-card' id={proData._id === item.userId ? "chat-text-main-card1" : ""}>
                 <div className='chat-img-user-card'>
                   <Link to={`/${item.userId}`} style={{ textDecoration: "none" }} className='d-flex align-items-center gap-2' >
                     <img src={item.image} className='chat-user-img' alt={item.userName} />
                     <h5 className="user-name-in-chat" >{item.userName}</h5>
-                  </Link>   {proData._id === item.userId ? <span onClick={() => deleteChat(item._id)} className="material-symbols-outlined delete-icon-in-chat">
-                    delete
-                  </span> : ""}
+                  </Link>
+                  {delSpinner === item._id ? <div className='delete-icon-in-chat'  >
+                    <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <div className="spinner-grow spinner-grow-sm mx-1" style={{ height: "10px", width: "10px" }} role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div></div> : <>  {hover === item._id ? <> {proData._id === item.userId ? <span onClick={() => deleteChat(item._id)} className="material-symbols-outlined delete-icon-in-chat">
+                      delete
+                    </span> : ""}</> : ""}</>}
+
+
+
 
                 </div>
                 <div className='text-card'>
