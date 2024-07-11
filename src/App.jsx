@@ -57,7 +57,7 @@ function App() {
         if (response) {
           const data = response.data
           const filtered = data.filter((item) => item.user === user._id)
-  
+
           setProData(filtered[0])
           setSpinner(false)
           setSpinner1(false)
@@ -69,7 +69,7 @@ function App() {
         setSpinner1(false)
       }
     }
-    if (user && user._id) {
+    if (user && user._id && profileToken) {
       getProfile()
     }
 

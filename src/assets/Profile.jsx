@@ -145,58 +145,44 @@ const Profile = ({ spinner1 }) => {
 
   }
 
-  // delete use account 
+  
+  // next profile delete function 
+  const deleteProfile = async () => {
+    try {
+      const response = await axios.delete(`${api}/profile/delete-profile/${proData._id}`)
+      if (response) {
+        localStorage.removeItem("profileToken")
+        setProfileToken("")
+        deleteUserAccount()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // delete user account 
 
   const deleteUserAccount = async () => {
     try {
       setAllDelSpinner(true)
       const response = await axios.delete(`${api}/user/delete-user/${proData.user}`)
       if (response) {
-        console.log(response);
-        deleteProfile()
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-
-  // next profile delete function 
-  const deleteProfile = async () => {
-    try {
-      const response = await axios.delete(`${api}/profile/delete-profile/${proData._id}`)
-      if (response) {
-        console.log(response);
-        deletePosts()
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // next posts delete function 
-  const deletePosts = async () => {
-    try {
-      const response = await axios.delete(`${api}/message/delete-all-messages`, { profileId: proData._id })
-      if (response) {
-        console.log(response);
-        
-        deletePosts()
-        localStorage.removeItem("profileToken")
         localStorage.removeItem("loginToken")
-        setProfileToken("")
+        
         setLoginToken("")
-
       }
     } catch (error) {
       console.log(error);
     }
   }
 
+ 
+
+   
   const shareWebsite = async () => {
     try {
       await navigator.share({
-        title: "Hello, check out the ChatHub chatting website!",
+        text: "Hello, check out the ChatHub chatting website!",
         url: "https://chathubb.netlify.app/"
       });
       
@@ -402,9 +388,9 @@ const Profile = ({ spinner1 }) => {
           <hr className='hori-in-profile ' />
           <div onClick={logOut} className='d-flex gap-2 ' data-bs-dismiss="offcanvas"
               aria-label="Close">
-            <h5 className='offcanvas-text text-danger'    >Log out</h5>
+            <h5 className='offcanvas-text text-danger'  >Log out</h5>
           </div>
-          <div className='d-flex gap-2 pt-2' data-bs-toggle="modal" data-bs-target="#exampleModal" >
+          <div className='d-flex gap-2 pt-2' data-bs-toggle="modal" data-bs-target="#exampleModal">
             <h5 className='offcanvas-text text-danger' >Delete account</h5>
           </div>
 
@@ -414,14 +400,14 @@ const Profile = ({ spinner1 }) => {
 
       {/* account delete modal  */}
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
+        <div className="modal-dialog" >
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5 text-dark" id="exampleModalLabel">Delete Account</h1>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body text-dark">
-              Are you sure want to delete account, your posts, chat and profile everthing will be deleted.
+              Are you sure want to delete account, your account and profile will be deleted.
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -429,7 +415,7 @@ const Profile = ({ spinner1 }) => {
                 <span className="spinner-grow spinner-grow-sm" style={{ marginRight: "0.5rem" }} aria-hidden="true"></span>
                 <span role="status">Deleting...</span>
               </button> : <button data-bs-dismiss="offcanvas"
-              aria-label="Close" onClick={deleteUserAccount} type="button" className="btn btn-primary">Delete</button>
+              aria-label="Close" onClick={deleteProfile}    type="button" className="btn btn-primary">Delete</button>
               }
             </div>
           </div>
