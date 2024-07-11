@@ -366,4 +366,6 @@
     color: rgb(243, 248, 246);
     font-family:Arial, Helvetica, sans-serif;
     cursor: pointer;
+    margin-top: 0.2rem;
+    margin-left: 5px;
 }

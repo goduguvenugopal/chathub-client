@@ -8,9 +8,9 @@ import app from '../firebase';
 
 const Profile = ({ spinner1 }) => {
   const api = import.meta.env.VITE_API_URL;
-  const [loginToken , setLoginToken] = useContext(loginTokenContext)
+  const [loginToken, setLoginToken] = useContext(loginTokenContext)
   const navigate = useNavigate()
-  const [profileToken] = useContext(profileTokenContext)
+  const [profileToken, setProfileToken] = useContext(profileTokenContext)
   const [proData] = useContext(proDataContext)
   const [filter, setFilter] = useState([])
   const [spinner, setSpinner] = useState(false)
@@ -22,6 +22,7 @@ const Profile = ({ spinner1 }) => {
   const [like1, setLike1] = useState("")
   const [today, setToday] = useState(false)
   const [delSpinn, setDelSpinn] = useState(false)
+  const [allDelSpinner, setAllDelSpinner] = useState(false)
 
 
   // fetching posts data 
@@ -137,12 +138,74 @@ const Profile = ({ spinner1 }) => {
     }
   }, [loginToken, profileToken, navigate])
 
-// log out function 
+  // log out function 
   const logOut = () => {
     localStorage.removeItem("loginToken")
     setLoginToken("")
 
-}
+  }
+
+  // delete use account 
+
+  const deleteUserAccount = async () => {
+    try {
+      setAllDelSpinner(true)
+      const response = await axios.delete(`${api}/user/delete-user/${proData.user}`)
+      if (response) {
+        console.log(response);
+        deleteProfile()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  // next profile delete function 
+  const deleteProfile = async () => {
+    try {
+      const response = await axios.delete(`${api}/profile/delete-profile/${proData._id}`)
+      if (response) {
+        console.log(response);
+        deletePosts()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // next posts delete function 
+  const deletePosts = async () => {
+    try {
+      const response = await axios.delete(`${api}/message/delete-all-messages`, { profileId: proData._id })
+      if (response) {
+        console.log(response);
+        
+        deletePosts()
+        localStorage.removeItem("profileToken")
+        localStorage.removeItem("loginToken")
+        setProfileToken("")
+        setLoginToken("")
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const shareWebsite = async () => {
+    try {
+      await navigator.share({
+        title: "Hello, check out the ChatHub chatting website!",
+        url: "https://chathubb.netlify.app/"
+      });
+      
+    } catch (error) {
+      console.error("Error sharing the website:", error);
+    }
+  };
+  
+
 
   return (
     <>
@@ -295,58 +358,84 @@ const Profile = ({ spinner1 }) => {
 
           <div className='d-flex gap-2'>
             <span className="material-symbols-outlined">
-              tune
+              notifications
             </span><h5 className='offcanvas-text'>Notifications</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
-              tune
+              archive
             </span><h5 className='offcanvas-text'>Archive</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
-              tune
+              save
             </span><h5 className='offcanvas-text'>Saved</h5>
           </div>
           <hr className='hori-in-profile ' />
 
           <div className='d-flex gap-2'>
             <span className="material-symbols-outlined">
-              tune
+              chat_bubble
             </span><h5 className='offcanvas-text'>Comments</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
-              tune
+              star
             </span><h5 className='offcanvas-text'>Favourites</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
-              tune
-            </span><h5 className='offcanvas-text'>Close friends</h5>
+              password
+            </span><h5 className='offcanvas-text'>Change password</h5>
           </div>
           <hr className='hori-in-profile ' />
-          <div className='d-flex gap-2 '>
+          <div className='d-flex gap-2 '  onClick={shareWebsite}>
             <span className="material-symbols-outlined">
-              tune
-            </span><h5 className='offcanvas-text'>Share website</h5>
+              share
+            </span><h5  className='offcanvas-text'>Share website</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
-              tune
+              download
             </span><h5 className='offcanvas-text'>Download app</h5>
           </div>
           <hr className='hori-in-profile ' />
-          <div className='d-flex gap-2 '>
-            <h5 className='offcanvas-text text-danger' onClick={logOut}>Log out</h5>
+          <div onClick={logOut} className='d-flex gap-2 ' data-bs-dismiss="offcanvas"
+              aria-label="Close">
+            <h5 className='offcanvas-text text-danger'    >Log out</h5>
           </div>
-          <div className='d-flex gap-2 pt-2'>
-          <h5 className='offcanvas-text text-danger'>Delete account</h5>
+          <div className='d-flex gap-2 pt-2' data-bs-toggle="modal" data-bs-target="#exampleModal" >
+            <h5 className='offcanvas-text text-danger' >Delete account</h5>
           </div>
-        
+
 
         </div>
       </div>
+
+      {/* account delete modal  */}
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5 text-dark" id="exampleModalLabel">Delete Account</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body text-dark">
+              Are you sure want to delete account, your posts, chat and profile everthing will be deleted.
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              {allDelSpinner ? <button className="btn btn-primary" type="button" disabled>
+                <span className="spinner-grow spinner-grow-sm" style={{ marginRight: "0.5rem" }} aria-hidden="true"></span>
+                <span role="status">Deleting...</span>
+              </button> : <button data-bs-dismiss="offcanvas"
+              aria-label="Close" onClick={deleteUserAccount} type="button" className="btn btn-primary">Delete</button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
 
     </>
   )
