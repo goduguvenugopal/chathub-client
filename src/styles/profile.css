@@ -349,3 +349,21 @@
         
     }
 }
+
+
+
+/* offcanvas styling  */
+
+ .hori-in-profile{
+    color: rgb(109, 104, 104);
+    background-color: darkolivegreen;
+    margin-top: 0.7rem;
+
+ }
+
+.offcanvas-text{
+    font-size: 17px;
+    color: rgb(243, 248, 246);
+    font-family:Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}

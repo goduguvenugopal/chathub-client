@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext} from 'react'
 import { Link } from 'react-router-dom'
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
  
@@ -6,15 +6,11 @@ import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
 
 const NavBar = ({ spinner }) => {
 
-    const [loginToken, setLoginToken] = useContext(loginTokenContext)
-    const [profileToken, setProfileToken] = useContext(profileTokenContext)
+    const [loginToken] = useContext(loginTokenContext)
+    const [profileToken] = useContext(profileTokenContext)
     const [proData] = useContext(proDataContext)
 
-    const close = () => {
-        localStorage.removeItem("loginToken")
-        setLoginToken("")
-
-    }
+    
 
     return (
         <>
@@ -24,7 +20,7 @@ const NavBar = ({ spinner }) => {
                     <img src='favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-                <h6 onClick={close}>Logout</h6>
+                
             </header>
             {/* navbar section  */}
 
