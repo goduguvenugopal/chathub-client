@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../styles/profile.css"
-import { profileTokenContext } from '../App'
+import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
 import axios from 'axios'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import app from '../firebase'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -14,8 +15,10 @@ const Post = () => {
   const [image, setImage] = useState("")
   const [loader, setLoader] = useState(false)
   const [profileToken] = useContext(profileTokenContext)
+  const [loginToken] = useContext(loginTokenContext)
+  const [proData, setProData] = useContext(proDataContext)
+  const navigate = useNavigate()
 
- 
   // url generating with firebase function 
 
   const urlGenerateFunc = async (event) => {
@@ -39,17 +42,22 @@ const Post = () => {
     }
   }
 
+   // sending message object data 
+   const messageData = {
+    message: message,
+    postImage: image,
+    profileImage: proData.image,
+    userName: proData.userName,
+    profileId: proData._id
+  }
 
 
   // post story function 
   const postStoryFunc = async () => {
     setLoader(true)
     try {
-      const response = await axios.post(`${api}/message/send-message`, { message : message , postImage : image }, {
-        headers: {
-          token: profileToken
-        }
-      })
+    
+      const response = await axios.post(`${api}/message/send-message`, messageData)
       if (response) {
         setLoader(false)
         setSpinner(false)
@@ -61,6 +69,15 @@ const Post = () => {
 
     }
   }
+
+
+
+  // if token is not available it navigate to login page 
+  useEffect(() => {
+    if (!loginToken || !profileToken) {
+      return navigate("/login")
+    }
+  }, [loginToken, profileToken, navigate])
 
   return (
     <div className='home-container'>

@@ -28,7 +28,7 @@ function App() {
   const [proData, setProData] = useState([])
   const [spinner, setSpinner] = useState(false)
   const [spinner1, setSpinner1] = useState(false)
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState("")
   const [user, setUser] = useState([])
 
   // retrieving token from localStorage 

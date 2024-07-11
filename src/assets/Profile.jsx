@@ -15,7 +15,7 @@ const Profile = ({ spinner1 }) => {
   const [filter, setFilter] = useState([])
   const [spinner, setSpinner] = useState(false)
   const [fileSpinner, setFileSpinner] = useState(false)
-  const [setRefresh] = useContext(refreshContext)
+  const [refresh, setRefresh] = useContext(refreshContext)
   const [singlePost, setSinglePost] = useState([])
   const [modal, setModal] = useState(false)
   const [like, setLike] = useState(false)
@@ -78,11 +78,11 @@ const Profile = ({ spinner1 }) => {
             const response = await axios.put(`${api}/profile/update-photo`, update)
             if (response) {
               setFileSpinner(false)
-              setRefresh(true)
+              setRefresh("image has updated")
             }
           } catch (error) {
             console.log(error)
-            alert("Please try again Profile photo has not uploaded ")
+            alert("Please try again Profile photo has not uploaded1 ")
             setFileSpinner(false)
           }
 
@@ -91,7 +91,7 @@ const Profile = ({ spinner1 }) => {
       } catch (error) {
         setFileSpinner(false)
         console.log(error)
-        alert("Please try again Profile photo not uploaded ")
+        alert("Please try again Profile photo not uploaded2 ")
       }
     }
   }
@@ -165,7 +165,7 @@ const Profile = ({ spinner1 }) => {
             <h5 className='followers-text'>posts</h5>
           </div>
           <div className=''>
-            <h4 className='count-num'>102</h4>
+            <h4 className='count-num'>1.5 M</h4>
             <h5 className='followers-text'>followers</h5>
           </div>
         </div>

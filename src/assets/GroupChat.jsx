@@ -37,12 +37,15 @@ const GroupChat = () => {
   }, [data])
 
 
-  // sending text message function 
 
+
+
+  // sending text message function 
   const sendText = async (e) => {
     e.preventDefault()
     if (text !== "") {
       try {
+
         const currentDate = new Date().toLocaleString("en-GB", {
           year: 'numeric',
           month: 'numeric',
@@ -52,12 +55,18 @@ const GroupChat = () => {
           second: 'numeric',
           hour12: true
         });
+
+        // sending message object data 
+        const chatData = {
+          text: text,
+          date: currentDate,
+          image: proData.image,
+          userName: proData.userName,
+          userId: proData._id
+        }
+
         setSpinner(true)
-        const response = await axios.post(`${api}/chat/send-chat`, { text: text, date: currentDate }, {
-          headers: {
-            token: profileToken
-          }
-        })
+        const response = await axios.post(`${api}/chat/send-chat`, chatData)
 
         if (response) {
           setSpinner(false)

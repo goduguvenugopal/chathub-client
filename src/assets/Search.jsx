@@ -26,8 +26,6 @@ const Search = () => {
         const response = await axios.get(`${api}/profile/get-all-profiles`)
         if (response) {
           setProfileData(response.data)
-
-
         }
       } catch (error) {
         console.error(error);
@@ -46,11 +44,7 @@ const Search = () => {
     setText(user)
     const filteredUsers = profileData.filter((item) => item.userName.toLowerCase().includes(text.toLowerCase()))
     setFiltered(filteredUsers)
-
-
   }
-
-
 
   // if token is not available it navigate to login page 
   useEffect(() => {
@@ -69,11 +63,9 @@ const Search = () => {
           <span className="material-symbols-outlined search-icon-in-search">
             search
           </span>
-            </div>
+        </div>
       </div>
-
-
-
+      {/* search results  */}
       {profileData.length ? <> <div className='users-results-card'>
 
         {spinner ? <>  {filtered.map((item) => (
@@ -87,7 +79,7 @@ const Search = () => {
             <h5 className=''>{item.userName}</h5>
           </Link>
         ))}</>}
-
+        {/* spinner  */}
       </div></> : <><div className="d-flex justify-content-center align-items-center" id='spinner-in-search'>
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
