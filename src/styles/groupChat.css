@@ -260,10 +260,10 @@
 
      }
 
-     .card{
-        
-        margin-top: 14rem;
-        margin-bottom: 2rem;
+     .card {
+
+         margin-top: 2rem;
+         margin-bottom: 2rem;
      }
  }
 
@@ -347,4 +347,8 @@
      padding: 15px;
      background-color: rgb(27, 25, 25, 0.7);
      overflow: auto;
+ }
+
+ .card{
+    margin-bottom: 2rem;
  }
