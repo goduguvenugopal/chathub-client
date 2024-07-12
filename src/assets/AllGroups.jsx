@@ -15,6 +15,8 @@ const AllGroups = () => {
     const navigate = useNavigate()
     const [proData] = useContext(proDataContext)
     const [modal, setModal] = useState(false)
+    const [delSpinner, setDelSpinner] = useState("")
+    const [hover, setHover] = useState("")
     const [formData, setFormData] = useState({
         admin: proData._id,
         groupName: "",
@@ -30,8 +32,6 @@ const AllGroups = () => {
 
     })
 
-
-
     // handling multiple inputs function 
     const handleChangeFunc = (event) => {
         const { name, value } = event.target;
@@ -40,27 +40,27 @@ const AllGroups = () => {
         }))
     }
 
-
     // create group function 
 
     const createGroup = async (e) => {
         e.preventDefault()
         try {
-
+            setSpinner(true)
             const response = await axios.post(`${api}/group/create-group`, formData)
             if (response) {
                 toast.success("New Group Has been created successfully")
                 setModal(false)
                 getAllGroups()
+                setSpinner(false)
             }
         } catch (err) {
             console.error(err);
+            setSpinner(false)
             toast.error("please try again group has not created")
         }
     }
 
     // get all groups function 
-
     const getAllGroups = async () => {
         try {
             const response = await axios.get(`${api}/group/get-all-groups`)
@@ -69,7 +69,27 @@ const AllGroups = () => {
             }
         } catch (err) {
             console.error(err);
+            toast.error("please try again group has not deletd")
+        }
+    }
 
+
+    // delete group function 
+
+    const deleteGroupFunc = async (groupId) => {
+        setDelSpinner(groupId)
+        try {
+            const response = await axios.delete(`${api}/group/delete-group-byid/${groupId}`)
+            if (response) {
+                toast.success("Group Has deleted successfully")
+                setDelSpinner("")
+                const filtered = groups.filter((item) => item._id !== groupId)
+                setGroups(filtered)
+            }
+        } catch (err) {
+            console.error(err);
+            setDelSpinner("")
+            toast.success("Group Has not deleted")
         }
     }
 
@@ -77,41 +97,77 @@ const AllGroups = () => {
         getAllGroups()
     }, [loginToken, profileToken])
 
+
+
+
+    // mouseover event 
+
+    const mouseOver = (cardId) => {
+        setHover(cardId)
+    }
+
+
+    // if token is not available it navigate to login page 
+    useEffect(() => {
+        if (!loginToken || !profileToken) {
+            navigate("/login")
+        }
+    }, [loginToken, navigate, profileToken])
+
+
     return (
         <div className='home-container gap-3' >
             <ToastContainer />
 
-            <h5 className='all-groups-name-top text-warning'>All Groups</h5>
+            <h5 className='all-groups-name-top text-warning '>All Groups</h5>
+
             <div className='all-group-chat-sub-card'>
 
-                <Link className='chat-all-groups-card' to="/groupchat">
-                    <div className='d-flex gap-3 align-items-center'>
+                <div className='chat-all-groups-card'  >
+                    <Link style={{ textDecoration: "none", color: "white" }} className='d-flex gap-3 align-items-center' to="/groupchat">
                         <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
                             groups
                         </span>
                         <h5 className='chat-all-group-name'>ChatHub Group</h5>
+                    </Link>
+                </div>
+
+
+                {groups.length ? <>  {/* map function  */}
+                    {groups.map((item) => {
+                        const isItThere = [item.adminProfileId, item.profileId1, item.profileId2, item.profileId3, item.profileId4, item.profileId5, item.profileId6, item.profileId7, item.profileId8].includes(proData._id);
+                        return (
+                            <div key={item._id} id={isItThere ? "group-show-condition" : "group-hide-condition"} onMouseOver={() => mouseOver(item._id)} onMouseOut={() => setHover("")}>
+                                <div className='chat-all-groups-card'   >
+                                    <Link style={{ textDecoration: "none", color: "white" }} className='d-flex align-items-center gap-3' to="/groupchat"> <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
+                                        groups
+                                    </span>
+                                        <h5 className='chat-all-group-name'>{item.groupName}</h5>
+                                    </Link>
+                                    {delSpinner === item._id ? <> <div className='mb-2' style={{ marginTop: "0", paddingTop: "0" }}  >
+                                        <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                        <div className="spinner-grow spinner-grow-sm mx-1" style={{ height: "10px", width: "10px" }} role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                        <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div></div></> : <>  {hover === item._id ? <> {proData._id === item.adminProfileId ? <span onClick={() => deleteGroupFunc(item._id)} className="material-symbols-outlined delete-icon-in-chat" style={{ marginTop: "5px" }}>
+                                            delete
+                                        </span> : ""}</> : ""}</>}
+
+
+
+                                </div>
+                            </div>
+                        )
+                    })}</> : <div className="text-center d-flex align-items-center justify-content-center" style={{ height: "50vh" }}>
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
                     </div>
-                </Link>
+                </div>}
 
-
-
-                {/* map function  */}
-                {groups.map((item) => {
-                    const isItThere = [item.adminProfileId, item.profileId1, item.profileId2, item.profileId3, item.profileId4, item.profileId5, item.profileId6, item.profileId7, item.profileId8].includes(proData._id);
-                    return (
-                        <div key={item._id} id={isItThere ? "group-show-condition" : "group-hide-condition"}>
-                            <Link className='chat-all-groups-card' to="/groupchat" >
-                                <div className='d-flex align-items-center gap-3'> <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
-                                    groups
-                                </span>
-                                    <h5 className='chat-all-group-name'>{item.groupName}</h5></div>
-                                <h5 className='chat-all-group-name text-danger'> {proData._id === item.adminProfileId ? "Delete" : ""}</h5>
-
-
-                            </Link>
-                        </div>
-                    )
-                })}
 
             </div>
 
@@ -121,18 +177,7 @@ const AllGroups = () => {
                 </span>
                 <h5 className='create-custom-group-text'>New Group</h5>
 
-
             </div>
-
-
-
-
-
-
-
-
-
-
 
 
             {/* modal  */}
@@ -251,8 +296,11 @@ const AllGroups = () => {
                                 />
                             </div>
 
-
-                            <button type='submit' className='btn bg-primary text-white fw-bold mt-2'>Create Group</button>
+                            {spinner ? <button className="btn btn-primary mt-2" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" aria-hidden="true" style={{ marginRight: "0.5rem" }}></span>
+                                <span role="status">Creating...</span>
+                            </button> : <button type='submit' className='btn bg-primary text-white fw-bold mt-2'>Create Group</button>
+                            }
                         </form>
 
                     </div>
