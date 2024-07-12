@@ -119,7 +119,7 @@ const OthersProfile = () => {
             <div className='profile-sub-card'>
                 <div className='username-top-card'>
                     <h4>{proData.userName}</h4>
-                    <div onClick={copyProfileId} style={{display:"flex" ,columnGap:"5px" ,paddingTop:"5px" ,cursor:"pointer"}}>
+                    <div onClick={copyProfileId} style={{display:"flex" ,columnGap:"5px" ,paddingTop:"5px" ,cursor:"pointer" ,userSelect:"none"}}>
                         <span className="material-symbols-outlined">
                             passkey
                         </span>

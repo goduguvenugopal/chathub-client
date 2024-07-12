@@ -368,4 +368,5 @@
     cursor: pointer;
     margin-top: 0.2rem;
     margin-left: 5px;
+    user-select: none;
 }
