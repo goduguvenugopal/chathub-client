@@ -44,7 +44,7 @@ const NavBar = ({ spinner }) => {
                     </span>
                     <h5 className='nav-text'>Post</h5>
                 </Link>
-                <Link to="/groupchat" className='sub-nav-card'>
+                <Link to="/allgroups" className='sub-nav-card'>
                     <span className="material-symbols-outlined nav-home-icon d-none d-md-block">
                         groups
                     </span>

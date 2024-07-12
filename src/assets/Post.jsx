@@ -5,6 +5,7 @@ import axios from 'axios'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import app from '../firebase'
 import { useNavigate } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 
@@ -62,10 +63,12 @@ const Post = () => {
         setLoader(false)
         setSpinner(false)
         setImage("")
+        toast.success("story has posted successfully")
       }
     } catch (error) {
       console.error(error);
       setLoader(false)
+      toast.error("Please try again story has not posted successfully")
 
     }
   }
@@ -81,7 +84,7 @@ const Post = () => {
 
   return (
     <div className='home-container'>
-
+<ToastContainer/>
       {image ? <>
         <img src={image} alt='pro-photo' className='profile-img-in-post' />
       </>

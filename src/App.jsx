@@ -13,6 +13,8 @@ import CreateProfile from './assets/CreateProfile'
 import ForgotPassword from './assets/ForgotPassword'
 import axios from 'axios'
 import OthersProfile from './assets/OthersProfile'
+import 'react-toastify/dist/ReactToastify.css';
+import AllGroups from './assets/AllGroups'
 
 
 export const refreshContext = createContext()
@@ -117,6 +119,7 @@ function App() {
                   <Route path='/createprofile' element={<CreateProfile />} />
                   <Route path='/forgotpassword' element={<ForgotPassword />} />
                   <Route path='/:id' element={<OthersProfile />} />
+                  <Route path='/allgroups' element={<AllGroups />} />
                 </Routes>
               </BrowserRouter>
             </loginTokenContext.Provider>

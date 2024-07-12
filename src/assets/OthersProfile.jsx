@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import "../styles/profile.css"
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+ 
 
 const OthersProfile = () => {
     const api = import.meta.env.VITE_API_URL;
@@ -92,19 +93,38 @@ const OthersProfile = () => {
         setSinglePost(singlePost)
 
     }
+ 
+    // web api clipboard function 
+    const copyProfileId = async () => {
+        try {
+            await navigator.clipboard.writeText(proData._id)
+            toast.success("Profile Id has been copied to clipboard successfully")
+        } catch (error) {
+            toast.error("Profile Id has not been copied, please try again")
+            console.error(error);
+
+        }
+    }
 
 
     return (
         <div className='profile-container'>
+
+            <ToastContainer />
             {/* image preview  */}
-            {preview ? <div onClick={()=> setPreview(false)} className='image-preview-card'>
+            {preview ? <div onClick={() => setPreview(false)} className='image-preview-card'>
                 <img src={proData.image} alt={proData.profileName} className='preview-img' />
             </div> : ""}
 
             <div className='profile-sub-card'>
                 <div className='username-top-card'>
                     <h4>{proData.userName}</h4>
-
+                    <div onClick={copyProfileId} style={{display:"flex" ,columnGap:"5px" ,paddingTop:"5px" ,cursor:"pointer"}}>
+                        <span className="material-symbols-outlined">
+                            passkey
+                        </span>
+                        <h5 className=''>Profile Id</h5>
+                    </div>
                 </div>
                 {/* profile card  */}
                 <div className='image-pro-card'>
@@ -113,7 +133,7 @@ const OthersProfile = () => {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                         :
-                        <img style={{ cursor: "pointer" }} src={proData.image} alt="profile-photo" onClick={()=> setPreview(true)} className='pic-in-profile' />}
+                        <img style={{ cursor: "pointer" }} src={proData.image} alt="profile-photo" onClick={() => setPreview(true)} className='pic-in-profile' />}
 
                     <div className=''>
                         <h4 className='count-num'>{filter.length}</h4>

@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import app from '../firebase';
+import { ToastContainer, toast } from 'react-toastify';
+ 
+
 
 const Profile = ({ spinner1 }) => {
   const api = import.meta.env.VITE_API_URL;
@@ -80,10 +83,11 @@ const Profile = ({ spinner1 }) => {
             if (response) {
               setFileSpinner(false)
               setRefresh("image has updated")
+              toast.success("profile Photo has updated successfully")
             }
           } catch (error) {
             console.log(error)
-            alert("Please try again Profile photo has not uploaded1 ")
+            toast.error("Please try again profile Photo has not updated")
             setFileSpinner(false)
           }
 
@@ -145,10 +149,11 @@ const Profile = ({ spinner1 }) => {
 
   }
 
-  
+
   // next profile delete function 
   const deleteProfile = async () => {
     try {
+      setAllDelSpinner(true)
       const response = await axios.delete(`${api}/profile/delete-profile/${proData._id}`)
       if (response) {
         localStorage.removeItem("profileToken")
@@ -164,11 +169,11 @@ const Profile = ({ spinner1 }) => {
 
   const deleteUserAccount = async () => {
     try {
-      setAllDelSpinner(true)
+
       const response = await axios.delete(`${api}/user/delete-user/${proData.user}`)
       if (response) {
         localStorage.removeItem("loginToken")
-        
+
         setLoginToken("")
       }
     } catch (error) {
@@ -176,25 +181,39 @@ const Profile = ({ spinner1 }) => {
     }
   }
 
- 
 
-   
+
+  // share web api function 
   const shareWebsite = async () => {
     try {
       await navigator.share({
-        text: "Hello, check out the ChatHub chatting website!",
+        text: "Hello, I am venu check out this ChatHub website connect to the people accross the world!",
         url: "https://chathubb.netlify.app/"
       });
-      
+
     } catch (error) {
       console.error("Error sharing the website:", error);
     }
   };
-  
+
+ 
+// web api clipboard function 
+const copyProfileId = async () => {
+    try {
+        await navigator.clipboard.writeText(proData._id)
+        toast.success("Profile Id has been copied to clipboard successfully")
+    } catch (error) {
+      toast.error("Profile Id has not been copied, please try again")
+        console.error(error);
+
+    }
+}
+
 
 
   return (
     <>
+    <ToastContainer/>
       <div className='profile-container'>
         <div className='profile-sub-card'>
           <div className='username-top-card'>
@@ -364,10 +383,10 @@ const Profile = ({ spinner1 }) => {
               chat_bubble
             </span><h5 className='offcanvas-text'>Comments</h5>
           </div>
-          <div className='d-flex gap-2 pt-2'>
+          <div className='d-flex gap-2 pt-2' onClick={copyProfileId}>
             <span className="material-symbols-outlined">
-              star
-            </span><h5 className='offcanvas-text'>Favourites</h5>
+              passKey
+            </span><h5 className='offcanvas-text'>Profile Id</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
@@ -375,10 +394,10 @@ const Profile = ({ spinner1 }) => {
             </span><h5 className='offcanvas-text'>Change password</h5>
           </div>
           <hr className='hori-in-profile ' />
-          <div className='d-flex gap-2 '  onClick={shareWebsite}>
+          <div className='d-flex gap-2 ' onClick={shareWebsite}>
             <span className="material-symbols-outlined">
               share
-            </span><h5  className='offcanvas-text'>Share website</h5>
+            </span><h5 className='offcanvas-text'>Share website</h5>
           </div>
           <div className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined">
@@ -387,7 +406,7 @@ const Profile = ({ spinner1 }) => {
           </div>
           <hr className='hori-in-profile ' />
           <div onClick={logOut} className='d-flex gap-2 ' data-bs-dismiss="offcanvas"
-              aria-label="Close">
+            aria-label="Close">
             <h5 className='offcanvas-text text-danger'  >Log out</h5>
           </div>
           <div className='d-flex gap-2 pt-2' data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -399,23 +418,23 @@ const Profile = ({ spinner1 }) => {
       </div>
 
       {/* account delete modal  */}
-      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade  " id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" >
           <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-dark" id="exampleModalLabel">Delete Account</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal-header bg-dark ">
+              <h1 className="modal-title fs-5 " id="exampleModalLabel">Delete Account</h1>
+              <button type="button" className="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div className="modal-body text-dark">
+            <div className="modal-body  bg-dark">
               Are you sure want to delete account, your account and profile will be deleted.
             </div>
-            <div className="modal-footer">
+            <div className="modal-footer bg-dark ">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               {allDelSpinner ? <button className="btn btn-primary" type="button" disabled>
                 <span className="spinner-grow spinner-grow-sm" style={{ marginRight: "0.5rem" }} aria-hidden="true"></span>
                 <span role="status">Deleting...</span>
               </button> : <button data-bs-dismiss="offcanvas"
-              aria-label="Close" onClick={deleteProfile}    type="button" className="btn btn-primary">Delete</button>
+                aria-label="Close" onClick={deleteProfile} type="button" className="btn btn-primary">Delete</button>
               }
             </div>
           </div>

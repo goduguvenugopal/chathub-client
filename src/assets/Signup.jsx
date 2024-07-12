@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../styles/loginSignUp.css"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { profileTokenContext } from '../App'
 
 
 const Signup = () => {
@@ -15,6 +16,7 @@ const Signup = () => {
   const [loader, setLoader] = useState(false)
   const navigate = useNavigate()
   const [spinner, setSpinner] = useState(false)
+  const [profileToken] = useContext(profileTokenContext)
 
   // signup function 
   const signUpFunc = async (e) => {
@@ -75,6 +77,14 @@ const Signup = () => {
       setHide(false)
     }
   }
+
+
+useEffect(()=>{
+if(profileToken){
+  navigate("/login")
+}
+},[profileToken])
+
   return (
     <>
 
