@@ -96,19 +96,22 @@ const AllGroups = () => {
 
 
                 {/* map function  */}
-                {groups.map((item) => (
-                    <div key={item._id} id={proData._id === item.adminProfileId || item.profileId1 || item.profileId2 || item.profileId3 || item.profileId4 || item.profileId5 || item.profileId6 || item.profileId7 || item.profileId8 ? "group-show-condition" : "group-hide-condition"}>
-                        <Link className='chat-all-groups-card' to="/groupchat" >
-                            <div className='d-flex align-items-center gap-3'> <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
-                                groups
-                            </span>
-                                <h5 className='chat-all-group-name'>{item.groupName}</h5></div>
-                            <h5 className='chat-all-group-name text-danger'> {proData._id === item.adminProfileId ? "Delete" : ""}</h5>
+                {groups.map((item) => {
+                    const isItThere = [item.adminProfileId, item.profileId1, item.profileId2, item.profileId3, item.profileId4, item.profileId5, item.profileId6, item.profileId7, item.profileId8].includes(proData._id);
+                    return (
+                        <div key={item._id} id={isItThere ? "group-show-condition" : "group-hide-condition"}>
+                            <Link className='chat-all-groups-card' to="/groupchat" >
+                                <div className='d-flex align-items-center gap-3'> <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
+                                    groups
+                                </span>
+                                    <h5 className='chat-all-group-name'>{item.groupName}</h5></div>
+                                <h5 className='chat-all-group-name text-danger'> {proData._id === item.adminProfileId ? "Delete" : ""}</h5>
 
 
-                        </Link>
-                    </div>
-                ))}
+                            </Link>
+                        </div>
+                    )
+                })}
 
             </div>
 
