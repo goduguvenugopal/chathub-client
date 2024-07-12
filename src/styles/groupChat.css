@@ -303,14 +303,24 @@
 
      }
 
+ }
 
 
+#group-hide-condition{
+    display: none;
+}
+
+ .all-group-chat-sub-card {
+     display: flex;
+     flex-direction: column;
+     row-gap: 15px;
 
  }
 
+
  .chat-all-group-name {
      font-size: 19px;
-     margin-top: 8px;
+     margin-top: 9px;
  }
 
  .create-custom-group-text {
@@ -349,6 +359,6 @@
      overflow: auto;
  }
 
- .card{
-    margin-bottom: 2rem;
+ .card {
+     margin-bottom: 2rem;
  }
