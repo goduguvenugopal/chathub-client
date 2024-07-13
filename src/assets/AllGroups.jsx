@@ -125,10 +125,10 @@ const AllGroups = () => {
 
                 <div className='chat-all-groups-card'  >
                     <Link style={{ textDecoration: "none", color: "white" }} className='d-flex gap-3 align-items-center' to="/groupchat">
-                        <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
+                        <span className="material-symbols-outlined text-success" style={{ fontSize: "30px" }}>
                             groups
                         </span>
-                        <h5 className='chat-all-group-name'>ChatHub Group</h5>
+                        <h5 className='chat-all-group-name text-success'>ChatHub Group</h5>
                     </Link>
                 </div>
 
@@ -139,7 +139,8 @@ const AllGroups = () => {
                         return (
                             <div key={item._id} id={isItThere ? "group-show-condition" : "group-hide-condition"} onMouseOver={() => mouseOver(item._id)} onMouseOut={() => setHover("")}>
                                 <div className='chat-all-groups-card'   >
-                                    <Link style={{ textDecoration: "none", color: "white" }} className='d-flex align-items-center gap-3' to="/groupchat"> <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
+                                    <Link style={{ textDecoration: "none", color: "white" }} className='d-flex align-items-center gap-3' to={`/allgroups/${item._id}`}> 
+                                    <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
                                         groups
                                     </span>
                                         <h5 className='chat-all-group-name'>{item.groupName}</h5>
