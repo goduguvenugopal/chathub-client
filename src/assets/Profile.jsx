@@ -6,7 +6,7 @@ import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import app from '../firebase';
 import { ToastContainer, toast } from 'react-toastify';
- 
+
 
 
 const Profile = ({ spinner1 }) => {
@@ -26,6 +26,17 @@ const Profile = ({ spinner1 }) => {
   const [today, setToday] = useState(false)
   const [delSpinn, setDelSpinn] = useState(false)
   const [allDelSpinner, setAllDelSpinner] = useState(false)
+  const [privateId, setPrivateId] = useState("")
+  const [priSpinn, setPriSpinn] = useState(false)
+
+  // retrieving privateId from localstorage 
+  useEffect(() => {
+    const privateId = localStorage.getItem("privateId")
+    if (privateId) {
+      setPrivateId(JSON.parse(privateId))
+    }
+
+  }, [loginToken, profileToken, privateId])
 
 
   // fetching posts data 
@@ -196,24 +207,62 @@ const Profile = ({ spinner1 }) => {
     }
   };
 
- 
-// web api clipboard function 
-const copyProfileId = async () => {
+
+  // web api clipboard function 
+  const copyProfileId = async () => {
     try {
-        await navigator.clipboard.writeText(proData._id)
-        toast.success("Profile Id has been copied to clipboard successfully")
+      await navigator.clipboard.writeText(proData._id)
+      toast.success("Profile Id has been copied to clipboard successfully")
     } catch (error) {
       toast.error("Profile Id has not been copied, please try again")
-        console.error(error);
+      console.error(error);
 
     }
-}
+  }
 
+
+  // set private function 
+  const setPrivate = async () => {
+    try {
+      setPriSpinn(true)
+      const response = await axios.post(`${api}/privateaccount/set-private`, { profileId: proData._id })
+      if (response) {
+        setPrivateId(response.data._id)
+        localStorage.setItem("privateId", JSON.stringify(response.data._id))
+        toast.success("Your Profile has been changed to private account ")
+        setPriSpinn(false)
+      }
+    } catch (error) {
+      toast.error("Profile has not changed to private, please try again")
+      console.error(error);
+      setPriSpinn(false)
+
+    }
+  }
+
+  // set private function 
+  const setPublic = async () => {
+    try {
+      setPriSpinn(true)
+      const response = await axios.delete(`${api}/privateaccount/delete-private/${privateId}`)
+      if (response) {
+        localStorage.removeItem("privateId")
+        setPrivateId("")
+        toast.success("Your Profile has been changed to public account ")
+        setPriSpinn(false)
+      }
+    } catch (error) {
+      toast.error("Profile has not changed to public, please try again")
+      console.error(error);
+      setPriSpinn(false)
+
+    }
+  }
 
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <div className='profile-container'>
         <div className='profile-sub-card'>
           <div className='username-top-card'>
@@ -354,10 +403,22 @@ const copyProfileId = async () => {
         </div>   <hr className='m-0 ' />
 
         <div className="offcanvas-body bg-dark text-white">
-          <div className='d-flex gap-2'>
-            <span className="material-symbols-outlined">
-              tune
-            </span><h5 className='offcanvas-text'>Account settings</h5>
+          <div className='d-flex justify-content-between'>
+            <div className='d-flex gap-2'> <span className="material-symbols-outlined">
+              Lock
+            </span><h5 className='offcanvas-text'>Account Privacy</h5></div>
+
+            {priSpinn ? <><div className='mb-2' style={{ marginTop: "0", paddingTop: "0" }}  >
+              <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              <div className="spinner-grow spinner-grow-sm mx-1" style={{ height: "10px", width: "10px" }} role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div></div></> : <> {privateId ? <h5 className='offcanvas-text' onClick={setPublic}>Private</h5> : <h5 onClick={setPrivate} className='offcanvas-text'>Public</h5>}</>}
+
           </div>
           <hr className='hori-in-profile ' />
 

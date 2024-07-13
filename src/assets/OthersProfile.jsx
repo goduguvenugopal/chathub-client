@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import "../styles/profile.css"
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
- 
+
 
 const OthersProfile = () => {
     const api = import.meta.env.VITE_API_URL;
@@ -18,16 +18,20 @@ const OthersProfile = () => {
     const [singlePost, setSinglePost] = useState([])
     const { id } = useParams()
     const [preview, setPreview] = useState(false)
+    const [toggle, setToggle] = useState(false)
+    const [toggle1 , setToggle1] = useState(false)
 
     // fetching other's profile 
     useEffect(() => {
         const getProfile = async () => {
             try {
+                
                 setSpinner1(true)
                 const response = await axios.get(`${api}/profile/get-profile/${id}`)
                 if (response) {
                     setProData(response.data)
                     setSpinner1(false)
+                    
                 }
 
             } catch (error) {
@@ -93,7 +97,7 @@ const OthersProfile = () => {
         setSinglePost(singlePost)
 
     }
- 
+
     // web api clipboard function 
     const copyProfileId = async () => {
         try {
@@ -106,6 +110,28 @@ const OthersProfile = () => {
         }
     }
 
+    useEffect(() => {
+        const getAllAccounts = async () => {
+            try {
+                const response = await axios.get(`${api}/privateaccount/get-all-accounts`)
+                if (response.data) {
+                    const data = response.data
+                    const isItAvailable = data.filter((item) => item.profileId === proData._id)
+                    if (isItAvailable[0]) {
+                        setToggle(false)
+                    } else if (!isItAvailable[0]) {
+                        setToggle(true)
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+
+            }
+
+        }
+        getAllAccounts()
+
+    }, [proData])
 
     return (
         <div className='profile-container'>
@@ -119,12 +145,16 @@ const OthersProfile = () => {
             <div className='profile-sub-card'>
                 <div className='username-top-card'>
                     <h4>{proData.userName}</h4>
-                    <div onClick={copyProfileId} style={{display:"flex" ,columnGap:"5px" ,paddingTop:"5px" ,cursor:"pointer" ,userSelect:"none"}}>
+
+                    {toggle1 ? <>  {toggle ? <div onClick={copyProfileId} style={{ display: "flex", columnGap: "5px", paddingTop: "5px", cursor: "pointer", userSelect: "none" }}>
                         <span className="material-symbols-outlined">
                             passkey
                         </span>
                         <h5 className=''>Profile Id</h5>
-                    </div>
+                    </div> : ""}</> : ""}
+
+
+
                 </div>
                 {/* profile card  */}
                 <div className='image-pro-card'>
