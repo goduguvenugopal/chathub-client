@@ -31,7 +31,7 @@ const OthersProfile = () => {
                 if (response) {
                     setProData(response.data)
                     setSpinner1(false)
-                    
+                    setToggle1(true)
                 }
 
             } catch (error) {
