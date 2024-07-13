@@ -229,7 +229,7 @@ const PersonalChat = () => {
                                         </span> : ""}</> : ""}</>}
                                 </div>
                                 <div className='text-card'>
-                                   <img src={item.photo} className='photo-in-personal-chat'/>
+                                   <img src={item.photo} className={item.photo === "" ? "d-none" : "photo-in-personal-chat"}/>
                                    <h5 className='chat-text'>{item.text}</h5>
                                    
                                     <span className='date-in-chat'>{item.date}</span>
