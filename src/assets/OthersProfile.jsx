@@ -170,7 +170,7 @@ const OthersProfile = () => {
                         <h5 className='followers-text'>posts</h5>
                     </div>
                     <div className=''>
-                        <h4 className='count-num'>102</h4>
+                        <h4 className='count-num'>2.5 M</h4>
                         <h5 className='followers-text'>followers</h5>
                     </div>
                 </div>

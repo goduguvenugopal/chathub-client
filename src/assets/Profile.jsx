@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "../styles/profile.css"
 import { loginTokenContext, proDataContext, profileTokenContext, refreshContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import app from '../firebase';
@@ -449,11 +449,12 @@ const Profile = ({ spinner1 }) => {
               passKey
             </span><h5 className='offcanvas-text'>Profile Id</h5>
           </div>
-          <div className='d-flex gap-2 pt-2'>
-            <span className="material-symbols-outlined">
+          <Link style={{ textDecoration: "none" }} to="/forgotpassword" className='d-flex gap-2 pt-2'>
+            <span className="material-symbols-outlined text-white">
               password
-            </span><h5 className='offcanvas-text'>Change password</h5>
-          </div>
+            </span><h5  data-bs-dismiss="offcanvas"
+            aria-label="Close"  className='offcanvas-text'>Change password</h5>
+          </Link>
           <hr className='hori-in-profile ' />
           <div className='d-flex gap-2 ' onClick={shareWebsite}>
             <span className="material-symbols-outlined">
