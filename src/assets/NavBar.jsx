@@ -17,7 +17,7 @@ const NavBar = ({ spinner }) => {
             {/* header section  */}
             <header className=' header-container '>
                 <Link style={{ textDecoration: "none" }} to="/" className='d-flex align-items-center gap-3 '>
-                    <img src='favicon.jpg' className='logo-img' />
+                    <img src='/favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
                 

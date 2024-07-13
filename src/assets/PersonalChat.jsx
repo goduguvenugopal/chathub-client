@@ -3,6 +3,9 @@ import "../styles/groupChat.css"
 import axios from 'axios'
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import app from '../firebase';
+import { toast, ToastContainer } from 'react-toastify';
 
 const PersonalChat = () => {
     const api = import.meta.env.VITE_API_URL;
@@ -17,6 +20,8 @@ const PersonalChat = () => {
     const [hover, setHover] = useState("")
     const [delSpinner, setDelSpinner] = useState("")
     const { groupId } = useParams()
+    const [photo, setPhoto] = useState("")
+    const [imgCard, setImgCard] = useState(false)
 
 
     // mouseover event 
@@ -24,7 +29,6 @@ const PersonalChat = () => {
     const mouseOver = (cardId) => {
         setHover(cardId)
     }
-
     // scrollBottom automatically when new message comes 
     const scrollBottom = () => {
         if (data.length) {
@@ -39,51 +43,63 @@ const PersonalChat = () => {
 
 
 
-
-
-    // sending text message function 
-    const sendText = async (e) => {
-        e.preventDefault()
-        if (text !== "") {
+    // fire base generating image to url 
+    const photoFunc = async (e) => {
+        const photo = e.target.files[0]
+        if (photo) {
+            setImgCard(true)
             try {
-
-                const currentDate = new Date().toLocaleString("en-GB", {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    second: 'numeric',
-                    hour12: true
-                });
-
-                // sending message object data 
-                const chatData = {
-                    text: text,
-                    date: currentDate,
-                    image: proData.image,
-                    userName: proData.userName,
-                    userId: proData._id,
-                    groupId: groupId
+                const storage = getStorage(app)
+                const storageRef = ref(storage, "personal/" + photo.name)
+                await uploadBytes(storageRef, photo)
+                const downloadUrl = await getDownloadURL(storageRef)
+                if (downloadUrl) {
+                    setPhoto(downloadUrl)
                 }
-
-                setSpinner(true)
-                const response = await axios.post(`${api}/personalchat/send-chat`, chatData)
-
-                if (response) {
-                    setSpinner(false)
-                    setText("")
-                }
-
             } catch (error) {
                 console.error(error);
-                setSpinner(false)
-                alert("Message has not sent Try again")
+
             }
         }
-        else {
-            alert("Please Enter message")
+    }
+
+    // sending text message function 
+    const sendText = async () => {
+        try {
+            const currentDate = new Date().toLocaleString("en-GB", {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            });
+
+            // sending message object data 
+            const chatData = {
+                text: text,
+                date: currentDate,
+                image: proData.image,
+                userName: proData.userName,
+                userId: proData._id,
+                groupId: groupId,
+                photo: photo
+            }
+            setSpinner(true)
+            const response = await axios.post(`${api}/personalchat/send-chat`, chatData)
+
+            if (response) {
+                setSpinner(false)
+                setText("")
+                setImgCard(false)
+            }
+        } catch (error) {
+            console.error(error);
+            setSpinner(false)
+            toast.error("Message has not send try again")
         }
+
     }
 
 
@@ -117,7 +133,7 @@ const PersonalChat = () => {
                 }
             } catch (error) {
                 console.error(error);
-                alert("please wait try again server is down")
+                toast.error("Please wait try again server is down")
             }
         }
 
@@ -137,19 +153,50 @@ const PersonalChat = () => {
 
     return (
         <div className='chat-container'>
-
+            <ToastContainer />
             {/* chat inpu box  */}
             <div className='chat-input-card fixed-bottom' >
-                <form onSubmit={sendText} className='chat-sub-card'>
+                <div className='chat-sub-card'>
+                    <label htmlFor='photo-input' className='camera-icon-in-chat'>
+                        <span className="material-symbols-outlined">
+                            photo_camera
+                        </span>
+                        <input onChange={photoFunc} type='file' id='photo-input' className='d-none' />
+                    </label>
                     <textarea value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
                     {spinner ? <button className="chat-send-bt text-white" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span className="visually-hidden" role="status">Loading...</span>
-                    </button> : <button type='submit' className='chat-send-bt'>Send</button>}
+                    </button> : <button className='chat-send-bt' onClick={sendText}>Send</button>}
 
 
-                </form>
+                </div>
             </div>
+
+
+            {/* image card  */}
+            {imgCard ? <>
+
+                {photo ? <><div className="photo-card-in-personal">
+                    <img src={photo} className='photo-in-personal' />
+
+                </div></> : <div className='photo-card-in-personal gap-2'>
+                   <h5>Loading Photo</h5> 
+                    <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <div className="spinner-grow spinner-grow-sm mx-1" style={{ height: "10px", width: "10px" }} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>}
+            </> : ""}
+
+
+
+
 
             {/* Messages card  */}
             <div className='message-main-card'>
@@ -180,13 +227,11 @@ const PersonalChat = () => {
                                         </div></div> : <>  {hover === item._id ? <> {proData._id === item.userId ? <span onClick={() => deleteChat(item._id)} className="material-symbols-outlined delete-icon-in-chat">
                                             delete
                                         </span> : ""}</> : ""}</>}
-
-
-
-
                                 </div>
                                 <div className='text-card'>
-                                    <h5 className='chat-text'>{item.text}</h5>
+                                   <img src={item.photo} className='photo-in-personal-chat'/>
+                                   <h5 className='chat-text'>{item.text}</h5>
+                                   
                                     <span className='date-in-chat'>{item.date}</span>
                                 </div>
                             </div>
@@ -194,16 +239,14 @@ const PersonalChat = () => {
 
                     ))}
 
-                        <div ref={chatEndRef} id='chat-go-down'></div>
+                        <div ref={chatEndRef}></div>
                     </>}
 
 
             </div>
 
 
-            <a href='#chat-go-down' className='go-down'><span style={{ fontSize: "27px" }} className="material-symbols-outlined">
-                keyboard_double_arrow_down
-            </span></a>
+
         </div>
     )
 }

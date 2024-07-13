@@ -116,12 +116,12 @@ const AllGroups = () => {
 
 
     return (
-        <div className='home-container gap-3' >
+        <div className='home-container gap-0' >
             <ToastContainer />
 
             <h5 className='all-groups-name-top text-warning '>All Groups</h5>
 
-            <div className='all-group-chat-sub-card'>
+            <div className='all-group-chat-sub-card mt-3'>
 
                 <div className='chat-all-groups-card'  >
                     <Link style={{ textDecoration: "none", color: "white" }} className='d-flex gap-3 align-items-center' to="/groupchat">
