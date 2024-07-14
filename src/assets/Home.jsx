@@ -17,8 +17,10 @@ const Home = () => {
   const navigate = useNavigate()
   const [profileToken] = useContext(profileTokenContext)
   const [proData] = useContext(proDataContext)
-  const [allLikes, setAllLikes] = useState([])
   const [likesCount, setLikesCount] = useState({});
+
+
+
 
 
   // fetching all messages from database 
@@ -85,7 +87,7 @@ const Home = () => {
     try {
       const response = await axios.get(`${api}/like/get-likes`)
       if (response) {
-        setAllLikes(response.data);
+
         const likesCountMap = response.data.reduce((acc, like) => {
           acc[like.postId] = (acc[like.postId] || 0) + 1;
           return acc;
