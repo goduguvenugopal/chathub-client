@@ -121,8 +121,6 @@ const OthersProfile = () => {
         }
     }
 
-
-
     return (
         <div className='profile-container'>
 
