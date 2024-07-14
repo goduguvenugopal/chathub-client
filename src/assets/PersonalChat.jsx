@@ -92,6 +92,7 @@ const PersonalChat = () => {
             if (response) {
                 setSpinner(false)
                 setText("")
+                setPhoto("")
                 setImgCard(false)
             }
         } catch (error) {
@@ -181,7 +182,7 @@ const PersonalChat = () => {
                     <img src={photo} className='photo-in-personal' />
 
                 </div></> : <div className='photo-card-in-personal gap-2'>
-                   <h5>Loading Photo</h5> 
+                    <h5>Loading Photo</h5>
                     <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
@@ -229,17 +230,18 @@ const PersonalChat = () => {
                                         </span> : ""}</> : ""}</>}
                                 </div>
                                 <div className='text-card'>
-                                   <img src={item.photo} className={item.photo === "" ? "d-none" : "photo-in-personal-chat"}/>
-                                   <h5 className='chat-text'>{item.text}</h5>
-                                   
+                                    <img src={item.photo} className={item.photo === "" ? "d-none" : "photo-in-personal-chat"} />
+                                    <h5 className='chat-text'>{item.text}</h5>
+
                                     <span className='date-in-chat'>{item.date}</span>
                                 </div>
                             </div>
+
                         </div>
 
                     ))}
-
                         <div ref={chatEndRef}></div>
+
                     </>}
 
 

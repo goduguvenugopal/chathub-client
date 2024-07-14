@@ -52,6 +52,17 @@ const AllGroups = () => {
                 setModal(false)
                 getAllGroups()
                 setSpinner(false)
+                setFormData({
+                    groupName: "",
+                    profileId1: "",
+                    profileId2: "",
+                    profileId3: "",
+                    profileId4: "",
+                    profileId5: "",
+                    profileId6: "",
+                    profileId7: "",
+                    profileId8: "",
+                })
             }
         } catch (err) {
             console.error(err);
@@ -139,10 +150,10 @@ const AllGroups = () => {
                         return (
                             <div key={item._id} id={isItThere ? "group-show-condition" : "group-hide-condition"} onMouseOver={() => mouseOver(item._id)} onMouseOut={() => setHover("")}>
                                 <div className='chat-all-groups-card'   >
-                                    <Link style={{ textDecoration: "none", color: "white" }} className='d-flex align-items-center gap-3' to={`/allgroups/${item._id}`}> 
-                                    <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
-                                        groups
-                                    </span>
+                                    <Link style={{ textDecoration: "none", color: "white" }} className='d-flex align-items-center gap-3' to={`/allgroups/${item._id}`}>
+                                        <span className="material-symbols-outlined" style={{ fontSize: "30px" }}>
+                                            groups
+                                        </span>
                                         <h5 className='chat-all-group-name'>{item.groupName}</h5>
                                     </Link>
                                     {delSpinner === item._id ? <> <div className='mb-2' style={{ marginTop: "0", paddingTop: "0" }}  >

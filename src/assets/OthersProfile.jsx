@@ -19,19 +19,20 @@ const OthersProfile = () => {
     const { id } = useParams()
     const [preview, setPreview] = useState(false)
     const [toggle, setToggle] = useState(false)
-    const [toggle1 , setToggle1] = useState(false)
+
 
     // fetching other's profile 
     useEffect(() => {
+
         const getProfile = async () => {
             try {
-                
+
                 setSpinner1(true)
                 const response = await axios.get(`${api}/profile/get-profile/${id}`)
                 if (response) {
                     setProData(response.data)
                     setSpinner1(false)
-                    setToggle1(true)
+
                 }
 
             } catch (error) {
@@ -54,32 +55,26 @@ const OthersProfile = () => {
         const getPostData = async () => {
             setSpinner(true)
             try {
-
                 const response = await axios.get(`${api}/message/get-all-messages`)
                 if (response) {
                     const data = response.data.allMessages.reverse()
                     const userId = proData._id
                     // filtering post from all posts 
                     const filteredData = data.filter((item) => item.profileId === userId)
-
                     setFilter(filteredData)
                     setSpinner(false)
+                    getAllAccounts()
                 }
             } catch (error) {
                 console.log(error);
                 setSpinner(false)
             }
         }
-
         getPostData()
-
-
         // uploaded date function 
         const currentDate = new Date().toLocaleDateString("en-GB")
         setToday(currentDate)
     }, [proData])
-
-
 
 
     // like function
@@ -87,8 +82,6 @@ const OthersProfile = () => {
         setLike(!like)
         setLike1(likeId)
     }
-
-
 
     // delete post function 
     const openPost = (postId) => {
@@ -110,28 +103,25 @@ const OthersProfile = () => {
         }
     }
 
-    useEffect(() => {
-        const getAllAccounts = async () => {
-            try {
+
+    const getAllAccounts = async () => {
+
+        try {
+            if (proData) {
                 const response = await axios.get(`${api}/privateaccount/get-all-accounts`)
                 if (response.data) {
                     const data = response.data
-                    const isItAvailable = data.filter((item) => item.profileId === proData._id)
-                    if (isItAvailable[0]) {
-                        setToggle(false)
-                    } else if (!isItAvailable[0]) {
-                        setToggle(true)
-                    }
+                    const isItAvailable = data.some((item) => item.profileId === proData._id)
+                    setToggle(!isItAvailable)
                 }
-            } catch (error) {
-                console.error(error);
-
             }
-
         }
-        getAllAccounts()
+        catch (error) {
+            console.error(error);
+        }
+    }
 
-    }, [proData])
+
 
     return (
         <div className='profile-container'>
@@ -146,19 +136,18 @@ const OthersProfile = () => {
                 <div className='username-top-card'>
                     <h4>{proData.userName}</h4>
 
-                    {toggle1 ? <>  {toggle ? <div onClick={copyProfileId} style={{ display: "flex", columnGap: "5px", paddingTop: "5px", cursor: "pointer", userSelect: "none" }}>
+                    {toggle ? <div onClick={copyProfileId} style={{ display: "flex", columnGap: "5px", paddingTop: "5px", cursor: "pointer", userSelect: "none" }}>
                         <span className="material-symbols-outlined">
                             passkey
                         </span>
                         <h5 className=''>Profile Id</h5>
-                    </div> : ""}</> : ""}
+                    </div> : ""}
 
 
 
                 </div>
                 {/* profile card  */}
                 <div className='image-pro-card'>
-
                     {spinner1 ? <div className="spinner-border pic-in-profile border-2 text-primary" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
@@ -174,17 +163,14 @@ const OthersProfile = () => {
                         <h5 className='followers-text'>followers</h5>
                     </div>
                 </div>
-
                 <div className='bio-name-card mt-2'>
                     <h5 className='name-in-profile'>{proData.profileName}</h5>
                     <p className='bio-in-pro'>{proData.bio}</p>
-
                 </div>
 
                 {/* post images division */}
                 <div className='post-img-card-in-pro'>
                     {spinner ?
-
                         <>
                             <img src="image-icon.jpeg" className='post-img-in-pro' />
                             <img src="image-icon.jpeg" className='post-img-in-pro' />
@@ -193,11 +179,9 @@ const OthersProfile = () => {
                             <img src="image-icon.jpeg" className='post-img-in-pro' />
                             <img src="image-icon.jpeg" className='post-img-in-pro' />
                         </>
-
                         : <> {filter.length !== 0 ? <> {filter.map((item) => (
                             <img key={item.id} style={{ cursor: "pointer" }} src={item.postImage} onClick={() => openPost(item._id)} className='post-img-in-pro' />
                         ))}</> : <div className='d-flex justify-content-center align-items-center fs-6' style={{ width: "100vw", height: "30vh" }}>No Posts</div>}
-
                         </>}
 
                     {/* post modal  */}
@@ -206,12 +190,10 @@ const OthersProfile = () => {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='d-flex align-items-center gap-2'> <img src={singlePost.profileImage} className='home-profile-img' />
                                     <h5 className=''>{singlePost.userName}</h5></div>
-
                                 <span style={{ cursor: "pointer" }} onClick={() => setModal(false)} className="material-symbols-outlined ">
                                     close
                                 </span>
                             </div>
-
                             <img src={singlePost.postImage} className='profile-post-img ' alt="post image" />
 
                             <div className='like-share-card '>
