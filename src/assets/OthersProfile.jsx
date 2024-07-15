@@ -179,6 +179,10 @@ const OthersProfile = () => {
                         <h4 className='count-num'>2.5 M</h4>
                         <h5 className='followers-text'>followers</h5>
                     </div>
+
+
+                    <button className=' follow-btn'>Follow</button>
+
                 </div>
                 <div className='bio-name-card mt-2'>
                     <h5 className='name-in-profile'>{proData.profileName}</h5>

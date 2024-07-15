@@ -340,6 +340,17 @@
     margin-bottom: 1rem;
 }
 
+.follow-btn{
+    background-color: rgb(28, 144, 239);
+    color: white;
+    font-weight: 500;
+    width: 90px;
+    border-radius: 5px;
+    border: none;
+    height: 33px;
+    
+}
+
 @media (max-width:762px) {
     .preview-img {
         width: 315px;
@@ -348,7 +359,17 @@
 
 
     }
+
+
+    .follow-btn{
+        
+        width: 75px;
+       
+        font-size: 15px;
+    }
 }
+
+ 
 
 .id-card-for-id {
     position: fixed;
@@ -360,6 +381,7 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(61, 58, 58, 0.7);
+    padding: 15px;
 }
 
 #idCard-block {
@@ -388,4 +410,5 @@
     margin-top: 0.2rem;
     margin-left: 5px;
     user-select: none;
+    
 }
