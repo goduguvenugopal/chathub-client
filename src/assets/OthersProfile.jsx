@@ -19,6 +19,7 @@ const OthersProfile = () => {
     const { id } = useParams()
     const [preview, setPreview] = useState(false)
     const [toggle, setToggle] = useState(false)
+    const [idCard, setIdCard] = useState(false)
 
 
     // fetching other's profile 
@@ -64,6 +65,7 @@ const OthersProfile = () => {
                     setFilter(filteredData)
                     setSpinner(false)
                     getAllAccounts()
+
                 }
             } catch (error) {
                 console.log(error);
@@ -96,6 +98,7 @@ const OthersProfile = () => {
         try {
             await navigator.clipboard.writeText(proData._id)
             toast.success("Profile Id has been copied to clipboard successfully")
+            setIdCard(false)
         } catch (error) {
             toast.error("Profile Id has not been copied, please try again")
             console.error(error);
@@ -112,7 +115,9 @@ const OthersProfile = () => {
                 if (response.data) {
                     const data = response.data
                     const isItAvailable = data.some((item) => item.profileId === proData._id)
+                    setIdCard(false)
                     setToggle(!isItAvailable)
+                    setIdCard(false)
                 }
             }
         }
@@ -134,14 +139,28 @@ const OthersProfile = () => {
                 <div className='username-top-card'>
                     <h4>{proData.userName}</h4>
 
-                    {toggle ? <div onClick={copyProfileId} style={{ display: "flex", columnGap: "5px", paddingTop: "5px", cursor: "pointer", userSelect: "none" }}>
+                    {toggle ? <div onClick={() => setIdCard(true)} style={{ display: "flex", columnGap: "5px", paddingTop: "5px", cursor: "pointer", userSelect: "none" }}>
                         <span className="material-symbols-outlined">
-                            passkey
+                            id_card
                         </span>
                         <h5 className=''>Profile Id</h5>
                     </div> : ""}
 
+                    {idCard && toggle ? <div className='id-card-for-id'>
+                        <div className="card ">
+                            <div className='bg-success d-flex justify-content-between align-items-center' style={{ borderTopLeftRadius: "5px", borderTopRightRadius: "5px", paddingRight: '12px' }}>
+                                <h5 className="card-header   text-white">Profile Id</h5>
+                                <span onClick={() => setIdCard(false)} style={{ cursor: "pointer" }} className="material-symbols-outlined text-white">
+                                    close
+                                </span>
+                            </div>
 
+                            <div className="card-body pt-0">
+                                <h6 class="card-text my-3" style={{ lineHeight: "1.5" }}>Copy this unique profile Id and create group with<br /> profile Id : <span className='text-primary'>{proData._id}</span></h6>
+                                <button onClick={copyProfileId} className="btn btn-primary">Copy</button>
+                            </div>
+                        </div>
+                    </div> : ""}
 
                 </div>
                 {/* profile card  */}
