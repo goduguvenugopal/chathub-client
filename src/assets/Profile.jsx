@@ -28,6 +28,8 @@ const Profile = ({ spinner1 }) => {
   const [allDelSpinner, setAllDelSpinner] = useState(false)
   const [privateId, setPrivateId] = useState("")
   const [priSpinn, setPriSpinn] = useState(false)
+  const [idCard, setIdCard] = useState(false)  
+ 
 
   // retrieving privateId from localstorage 
   useEffect(() => {
@@ -213,6 +215,7 @@ const Profile = ({ spinner1 }) => {
     try {
       await navigator.clipboard.writeText(proData._id)
       toast.success("Profile Id has been copied to clipboard successfully")
+      setIdCard(false)
     } catch (error) {
       toast.error("Profile Id has not been copied, please try again")
       console.error(error);
@@ -444,16 +447,17 @@ const Profile = ({ spinner1 }) => {
               chat_bubble
             </span><h5 className='offcanvas-text'>Comments</h5>
           </div>
-          <div className='d-flex gap-2 pt-2' onClick={copyProfileId}>
+          <div className='d-flex gap-2 pt-2'  data-bs-dismiss="offcanvas"
+            aria-label="Close" onClick={() => setIdCard(true)}>
             <span className="material-symbols-outlined">
-              passKey
+              id_card
             </span><h5 className='offcanvas-text'>Profile Id</h5>
           </div>
           <Link style={{ textDecoration: "none" }} to="/forgotpassword" className='d-flex gap-2 pt-2'>
             <span className="material-symbols-outlined text-white">
               password
-            </span><h5  data-bs-dismiss="offcanvas"
-            aria-label="Close"  className='offcanvas-text'>Change password</h5>
+            </span><h5 data-bs-dismiss="offcanvas"
+              aria-label="Close" className='offcanvas-text'>Change password</h5>
           </Link>
           <hr className='hori-in-profile ' />
           <div className='d-flex gap-2 ' onClick={shareWebsite}>
@@ -503,6 +507,21 @@ const Profile = ({ spinner1 }) => {
         </div>
       </div>
 
+      {idCard ? <div className='id-card-for-id'>
+                        <div className="card ">
+                            <div className='bg-success d-flex justify-content-between align-items-center' style={{ borderTopLeftRadius: "5px", borderTopRightRadius: "5px", paddingRight: '12px' }}>
+                                <h5 className="card-header   text-white">Profile Id</h5>
+                                <span onClick={() => setIdCard(false)} style={{ cursor: "pointer" }} className="material-symbols-outlined text-white">
+                                    close
+                                </span>
+                            </div>
+
+                            <div className="card-body pt-0">
+                                <h6 class="card-text my-3" style={{ lineHeight: "1.5" }}>Copy this unique profile Id and create group with<br /> profile Id : <span className='text-primary'>{proData._id}</span></h6>
+                                <button  onClick={copyProfileId} className="btn btn-primary">Copy</button>
+                            </div>
+                        </div>
+                    </div> : ""}
 
     </>
   )
