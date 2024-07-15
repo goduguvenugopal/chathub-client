@@ -156,7 +156,7 @@ const OthersProfile = () => {
                             </div>
 
                             <div className="card-body pt-0">
-                                <h6 class="card-text my-3" style={{ lineHeight: "1.5" }}>Copy this unique profile Id and create group with<br /> profile Id : <span className='text-primary'>{proData._id}</span></h6>
+                                <h6 class="card-text my-3" style={{ lineHeight: "1.5" }}>Copy this unique profile Id and create group with profile Id : <span className='text-primary'>{proData._id}</span></h6>
                                 <button onClick={copyProfileId} className="btn btn-primary">Copy</button>
                             </div>
                         </div>
@@ -171,12 +171,12 @@ const OthersProfile = () => {
                         :
                         <img style={{ cursor: "pointer" }} src={proData.image} alt="profile-photo" onClick={() => setPreview(true)} className='pic-in-profile' />}
 
-                    <div className=''>
+                    <div className='text-center'>
                         <h4 className='count-num'>{filter.length}</h4>
                         <h5 className='followers-text'>posts</h5>
                     </div>
-                    <div className=''>
-                        <h4 className='count-num'>2.5 M</h4>
+                    <div className='text-center'>
+                        <h4 className='count-num'>0</h4>
                         <h5 className='followers-text'>followers</h5>
                     </div>
 

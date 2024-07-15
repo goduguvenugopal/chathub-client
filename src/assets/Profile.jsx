@@ -298,13 +298,17 @@ const Profile = ({ spinner1 }) => {
 
 
             <input id='pro-img' type='file' name='image' onChange={updatePhoto} className='d-none' />
-            <div className=''>
+            <div className='text-center'>
               <h4 className='count-num'>{filter.length}</h4>
               <h5 className='followers-text'>posts</h5>
             </div>
-            <div className=''>
-              <h4 className='count-num'>1.5 M</h4>
+            <div className='text-center'>
+              <h4 className='count-num'>0</h4>
               <h5 className='followers-text'>followers</h5>
+            </div>
+            <div className='text-center'>
+              <h4 className='count-num'>0</h4>
+              <h5 className='followers-text'>following</h5>
             </div>
           </div>
 

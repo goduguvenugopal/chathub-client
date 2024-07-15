@@ -348,7 +348,7 @@
     border-radius: 5px;
     border: none;
     height: 33px;
-    
+    font-size: 18px;
 }
 
 @media (max-width:762px) {
@@ -363,7 +363,7 @@
 
     .follow-btn{
         
-        width: 75px;
+        width: 70px;
        
         font-size: 15px;
     }
@@ -384,13 +384,6 @@
     padding: 15px;
 }
 
-#idCard-block {
-    display: none;
-}
-
-.id-card-hide {
-    display: none;
-}
 
 
 /* offcanvas styling  */
