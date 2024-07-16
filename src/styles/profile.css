@@ -11,6 +11,7 @@
         padding-bottom: 2rem;
         /* padding-left: 2rem; */
         padding-right: 2rem;
+        user-select: none;
     }
 
     .username-top-card {
@@ -33,6 +34,7 @@
         align-items: center;
         justify-content: space-between;
         width: 50vw;
+        user-select: none;
     }
 
     .pic-in-profile {
@@ -80,6 +82,7 @@
         padding-left: 1rem;
         padding-right: 1rem;
         padding-bottom: 3rem;
+         user-select: none;
     }
 
     .username-top-card {
@@ -93,6 +96,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        user-select: none;
     }
 
     .pic-in-profile {

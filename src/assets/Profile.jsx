@@ -339,14 +339,14 @@ const Profile = ({ spinner1 }) => {
               <h4 className='count-num'>{filter.length}</h4>
               <h5 className='followers-text'>posts</h5>
             </div>
-            <div className='text-center'>
+            <Link style={{textDecoration:"none"}} to={`/profile/${proData._id}`} className='text-center text-white'>
               <h4 className='count-num'>{followers.length}</h4>
               <h5 className='followers-text'>followers</h5>
-            </div>
-            <div className='text-center'>
+            </Link>
+            <Link style={{textDecoration:"none"}} to={`/profile/${proData._id}`} className='text-center text-white'>
               <h4 className='count-num'>{followings.length}</h4>
               <h5 className='followers-text'>following</h5>
-            </div>
+            </Link>
           </div>
 
           <div className='bio-name-card mt-2'>

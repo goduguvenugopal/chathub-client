@@ -16,6 +16,9 @@ import OthersProfile from './assets/OthersProfile'
 import 'react-toastify/dist/ReactToastify.css';
 import AllGroups from './assets/AllGroups'
 import PersonalChat from './assets/PersonalChat'
+import Followers from './assets/Followers'
+import Followings from './assets/Followings'
+ 
 
 
 export const refreshContext = createContext()
@@ -121,7 +124,10 @@ function App() {
                   <Route path='/forgotpassword' element={<ForgotPassword />} />
                   <Route path='/:id' element={<OthersProfile />} />
                   <Route path='/allgroups' element={<AllGroups />} />
-                  <Route path='/allgroups/:groupId' element={<PersonalChat/>}/>
+                  <Route path='/allgroups/:groupId' element={<PersonalChat />} />
+                  <Route path='/id/:followers' element={<Followers />} />
+                  <Route path='/profile/:following' element={<Followings/>} />
+
                 </Routes>
               </BrowserRouter>
             </loginTokenContext.Provider>

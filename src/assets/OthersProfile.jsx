@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import "../styles/profile.css"
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,7 +26,7 @@ const OthersProfile = () => {
     const [showF, setShowF] = useState(false)
     const [followSpin, setFollowSpin] = useState(false)
     const [followings, setFollowings] = useState([])
-    const [follow , setFollow] = useState(false)
+    const [follow, setFollow] = useState(false)
 
     // fetching other's profile 
     useEffect(() => {
@@ -176,7 +176,7 @@ const OthersProfile = () => {
                     const data = response.data
                     const filtered = data.filter((item) => item.followerId === proData._id)
                     setFollowers(filtered)
-                    
+
                 }
             } catch (error) {
                 console.error(error);
@@ -193,7 +193,7 @@ const OthersProfile = () => {
                     const data = response.data
                     const filtered = data.filter((item) => item.followerId === proData._id)
                     setFollowings(filtered)
-                     
+
                 }
             } catch (error) {
                 console.error(error);
@@ -203,7 +203,7 @@ const OthersProfile = () => {
         getFollowings()
 
 
-    }, [proData ,follow])
+    }, [proData, follow])
 
 
     useEffect(() => {
@@ -261,18 +261,18 @@ const OthersProfile = () => {
                         <h4 className='count-num'>{filter.length}</h4>
                         <h5 className='followers-text'>posts</h5>
                     </div>
-                    <div className='text-center'>
+                    <Link style={{ textDecoration: "none" }} to={`/id/${proData._id}`} className='text-center text-white'>
                         <h4 className='count-num'>{followers.length}</h4>
                         <h5 className='followers-text'>followers</h5>
-                    </div>
+                    </Link>
 
                     {followSpin ? <button className="follow-btn" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span className="visually-hidden" role="status">Loading...</span>
-                    </button> : <> {showF ? <div className='text-center'>
+                    </button> : <> {showF ? <Link  style={{ textDecoration: "none" }} to={`/profile/${proData._id}`} className='text-center text-white'>
                         <h4 className='count-num'>{followings.length}</h4>
                         <h5 className='followers-text'>following</h5>
-                    </div> : <button onClick={followingFunction} className=' follow-btn'>Follow</button>}
+                    </Link> : <button onClick={followingFunction} className=' follow-btn'>Follow</button>}
                     </>}
 
 
