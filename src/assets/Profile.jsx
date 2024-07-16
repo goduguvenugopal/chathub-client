@@ -29,7 +29,10 @@ const Profile = ({ spinner1 }) => {
   const [privateId, setPrivateId] = useState("")
   const [priSpinn, setPriSpinn] = useState(false)
   const [idCard, setIdCard] = useState(false)  
- 
+  const [followers, setFollowers] = useState([])
+  const [followings, setFollowings] = useState([])
+
+
 
   // retrieving privateId from localstorage 
   useEffect(() => {
@@ -263,6 +266,40 @@ const Profile = ({ spinner1 }) => {
   }
 
 
+  
+  useEffect(() => {
+    //get follower function 
+    const getFollowers = async () => {
+        try {
+            const response = await axios.get(`${api}/follower/get-followers`)
+            if (response) {
+                const data = response.data
+                const filtered = data.filter((item) => item.followerId === proData._id)
+                setFollowers(filtered)
+                
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    getFollowers()
+    //get followings function 
+    const getFollowings = async () => {
+        try {
+            const response = await axios.get(`${api}/following/get-followings`)
+            if (response) {
+                const data = response.data
+                const filtered = data.filter((item) => item.followerId === proData._id)
+                setFollowings(filtered)
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    getFollowings()
+}, [proData])
+
+
   return (
     <>
       <ToastContainer />
@@ -303,11 +340,11 @@ const Profile = ({ spinner1 }) => {
               <h5 className='followers-text'>posts</h5>
             </div>
             <div className='text-center'>
-              <h4 className='count-num'>0</h4>
+              <h4 className='count-num'>{followers.length}</h4>
               <h5 className='followers-text'>followers</h5>
             </div>
             <div className='text-center'>
-              <h4 className='count-num'>0</h4>
+              <h4 className='count-num'>{followings.length}</h4>
               <h5 className='followers-text'>following</h5>
             </div>
           </div>

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import "../styles/profile.css"
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { proDataContext } from '../App';
 
 
 const OthersProfile = () => {
     const api = import.meta.env.VITE_API_URL;
     const [proData, setProData] = useState([])
+    const [profileData, setProfileData] = useContext(proDataContext)
     const [filter, setFilter] = useState([])
     const [spinner, setSpinner] = useState(false)
     const [spinner1, setSpinner1] = useState(false)
@@ -20,7 +22,11 @@ const OthersProfile = () => {
     const [preview, setPreview] = useState(false)
     const [toggle, setToggle] = useState(false)
     const [idCard, setIdCard] = useState(false)
-
+    const [followers, setFollowers] = useState([])
+    const [showF, setShowF] = useState(false)
+    const [followSpin, setFollowSpin] = useState(false)
+    const [followings, setFollowings] = useState([])
+    const [follow , setFollow] = useState(false)
 
     // fetching other's profile 
     useEffect(() => {
@@ -33,9 +39,7 @@ const OthersProfile = () => {
                 if (response) {
                     setProData(response.data)
                     setSpinner1(false)
-
                 }
-
             } catch (error) {
                 console.log(error);
                 setSpinner1(false)
@@ -46,12 +50,10 @@ const OthersProfile = () => {
                 }
             }
         }
-
-
         getProfile()
     }, [id])
 
-
+    // fetching all post data 
     useEffect(() => {
         const getPostData = async () => {
             setSpinner(true)
@@ -65,7 +67,6 @@ const OthersProfile = () => {
                     setFilter(filteredData)
                     setSpinner(false)
                     getAllAccounts()
-
                 }
             } catch (error) {
                 console.log(error);
@@ -90,7 +91,6 @@ const OthersProfile = () => {
         setModal(true)
         const singlePost = filter.find((item) => item._id === postId)
         setSinglePost(singlePost)
-
     }
 
     // web api clipboard function 
@@ -102,13 +102,11 @@ const OthersProfile = () => {
         } catch (error) {
             toast.error("Profile Id has not been copied, please try again")
             console.error(error);
-
         }
     }
 
-
+    // fetching all accounts 
     const getAllAccounts = async () => {
-
         try {
             if (proData) {
                 const response = await axios.get(`${api}/privateaccount/get-all-accounts`)
@@ -125,6 +123,94 @@ const OthersProfile = () => {
             console.error(error);
         }
     }
+
+
+    // following function 
+
+    const followingFunction = async () => {
+        setFollowSpin(true)
+        try {
+            const followingData = {
+                profileId: proData._id,
+                userName: proData.userName,
+                userId: profileData.user,
+                followerId: profileData._id,
+                profilePic: proData.image
+            }
+            const response = await axios.post(`${api}/following/following`, followingData)
+            if (response) {
+                followerFunction()
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // follower function 
+    const followerFunction = async () => {
+        try {
+            const followerData = {
+                profileId: profileData._id,
+                userName: profileData.userName,
+                userId: profileData.user,
+                followerId: proData._id,
+                profilePic: profileData.image
+            }
+            const response = await axios.post(`${api}/follower/follower`, followerData)
+            if (response) {
+                setFollow(true)
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+
+
+        //get follower function 
+        const getFollowers = async () => {
+            try {
+                const response = await axios.get(`${api}/follower/get-followers`)
+                if (response) {
+                    const data = response.data
+                    const filtered = data.filter((item) => item.followerId === proData._id)
+                    setFollowers(filtered)
+                    
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+
+        getFollowers()
+        //get followings function 
+        const getFollowings = async () => {
+            try {
+                const response = await axios.get(`${api}/following/get-followings`)
+                if (response) {
+                    const data = response.data
+                    const filtered = data.filter((item) => item.followerId === proData._id)
+                    setFollowings(filtered)
+                     
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getFollowings()
+
+
+    }, [proData ,follow])
+
+
+    useEffect(() => {
+        const isItAvail = followers.some((item) => item.profileId === profileData._id)
+        setShowF(isItAvail)
+        setFollowSpin(false)
+    }, [followers])
 
     return (
         <div className='profile-container'>
@@ -176,12 +262,20 @@ const OthersProfile = () => {
                         <h5 className='followers-text'>posts</h5>
                     </div>
                     <div className='text-center'>
-                        <h4 className='count-num'>0</h4>
+                        <h4 className='count-num'>{followers.length}</h4>
                         <h5 className='followers-text'>followers</h5>
                     </div>
 
+                    {followSpin ? <button className="follow-btn" type="button" disabled>
+                        <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span className="visually-hidden" role="status">Loading...</span>
+                    </button> : <> {showF ? <div className='text-center'>
+                        <h4 className='count-num'>{followings.length}</h4>
+                        <h5 className='followers-text'>following</h5>
+                    </div> : <button onClick={followingFunction} className=' follow-btn'>Follow</button>}
+                    </>}
 
-                    <button className=' follow-btn'>Follow</button>
+
 
                 </div>
                 <div className='bio-name-card mt-2'>
