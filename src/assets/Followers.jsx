@@ -82,16 +82,16 @@ const Followers = () => {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 </div> : <> <div className='follower-cardin'>
-                    <h4 className=''>followers ( {allFollowers.length} )</h4>
+                    <h4 className=''>followers {allFollowers.length}</h4>
                     <hr />
                     {allFollowers.length ? <>  {allFollowers.map((item) => (
                         <div key={item.id} className='d-flex align-items-center justify-content-between text-white ' style={{ marginBottom: "1.2rem" }}  >
-                            <Link style={{ textDecoration: "none" }} to={`/${item.profileId}`} className='d-flex align-items-center gap-2 text-white'>
+                            <Link style={{ textDecoration: "none" }} to={`/${item.profileId}`} className='d-flex align-items-center gap-3 text-white'>
                                 <img src={item.profilePic} className='home-profile-img' />
                                 <h5 className=''>{item.userName.substring(0, 16)} </h5>
                             </Link>
                             {remSpin === item._id ? <button className="remove-follower-bt" type="button" disabled>
-                                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span className="spinner-border spinner-border-sm" aria-hidden="true" style={{marginTop:"0.3rem"}}></span>
                                 <span className="visually-hidden" role="status">Loading...</span>
                             </button> : <button onClick={() => removeFollowerFunc(item._id)} className={proData._id === item.followerId ? 'remove-follower-bt' : "d-none"}>Remove</button>}
 

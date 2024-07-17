@@ -28,6 +28,7 @@ const OthersProfile = () => {
     const [followings, setFollowings] = useState([])
     const [follow, setFollow] = useState(false)
 
+
     // fetching other's profile 
     useEffect(() => {
 
@@ -267,9 +268,9 @@ const OthersProfile = () => {
                     </Link>
 
                     {followSpin ? <button className="follow-btn" type="button" disabled>
-                        <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span className="spinner-border spinner-border-sm" aria-hidden="true" style={{ marginTop: "0.3rem" }}></span>
                         <span className="visually-hidden" role="status">Loading...</span>
-                    </button> : <> {showF ? <Link  style={{ textDecoration: "none" }} to={`/profile/${proData._id}`} className='text-center text-white'>
+                    </button> : <> {showF ? <Link style={{ textDecoration: "none" }} to={`/profile/${proData._id}`} className='text-center text-white'>
                         <h4 className='count-num'>{followings.length}</h4>
                         <h5 className='followers-text'>following</h5>
                     </Link> : <button onClick={followingFunction} className=' follow-btn'>Follow</button>}

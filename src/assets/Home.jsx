@@ -102,6 +102,24 @@ const Home = () => {
 
 
 
+  // share web api function 
+  const shareImage = async (image) => {
+    const url = "https://chathubb.netlify.app/"
+    try {
+      await navigator.share({
+        text:
+          `Hello, check this image link from ChatHub your friend shared to you : ${image},
+           Connect To the people across the world, welcome to ChatHub : ${url}`
+
+      });
+
+    } catch (error) {
+      console.error("Error sharing the website:", error);
+    }
+  };
+
+
+
   return (
     <>
       <div className='home-container'>
@@ -134,7 +152,7 @@ const Home = () => {
               <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
                 mode_comment
               </span>
-              <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
+              <span onClick={() => shareImage(item.postImage)} style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
                 share
               </span>
             </div>

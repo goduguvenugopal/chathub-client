@@ -28,7 +28,7 @@ const Profile = ({ spinner1 }) => {
   const [allDelSpinner, setAllDelSpinner] = useState(false)
   const [privateId, setPrivateId] = useState("")
   const [priSpinn, setPriSpinn] = useState(false)
-  const [idCard, setIdCard] = useState(false)  
+  const [idCard, setIdCard] = useState(false)
   const [followers, setFollowers] = useState([])
   const [followings, setFollowings] = useState([])
 
@@ -106,9 +106,7 @@ const Profile = ({ spinner1 }) => {
             toast.error("Please try again profile Photo has not updated")
             setFileSpinner(false)
           }
-
         }
-
       } catch (error) {
         setFileSpinner(false)
         console.log(error)
@@ -266,38 +264,38 @@ const Profile = ({ spinner1 }) => {
   }
 
 
-  
+
   useEffect(() => {
     //get follower function 
     const getFollowers = async () => {
-        try {
-            const response = await axios.get(`${api}/follower/get-followers`)
-            if (response) {
-                const data = response.data
-                const filtered = data.filter((item) => item.followerId === proData._id)
-                setFollowers(filtered)
-                
-            }
-        } catch (error) {
-            console.error(error);
+      try {
+        const response = await axios.get(`${api}/follower/get-followers`)
+        if (response) {
+          const data = response.data
+          const filtered = data.filter((item) => item.followerId === proData._id)
+          setFollowers(filtered)
+
         }
+      } catch (error) {
+        console.error(error);
+      }
     }
     getFollowers()
     //get followings function 
     const getFollowings = async () => {
-        try {
-            const response = await axios.get(`${api}/following/get-followings`)
-            if (response) {
-                const data = response.data
-                const filtered = data.filter((item) => item.followerId === proData._id)
-                setFollowings(filtered)
-            }
-        } catch (error) {
-            console.error(error);
+      try {
+        const response = await axios.get(`${api}/following/get-followings`)
+        if (response) {
+          const data = response.data
+          const filtered = data.filter((item) => item.followerId === proData._id)
+          setFollowings(filtered)
         }
+      } catch (error) {
+        console.error(error);
+      }
     }
     getFollowings()
-}, [proData])
+  }, [proData])
 
 
   return (
@@ -339,11 +337,11 @@ const Profile = ({ spinner1 }) => {
               <h4 className='count-num'>{filter.length}</h4>
               <h5 className='followers-text'>posts</h5>
             </div>
-            <Link style={{textDecoration:"none"}} to={`/profile/${proData._id}`} className='text-center text-white'>
+            <Link style={{ textDecoration: "none" }} to={`/id/${proData._id}`} className='text-center text-white'>
               <h4 className='count-num'>{followers.length}</h4>
               <h5 className='followers-text'>followers</h5>
             </Link>
-            <Link style={{textDecoration:"none"}} to={`/profile/${proData._id}`} className='text-center text-white'>
+            <Link style={{ textDecoration: "none" }} to={`/profile/${proData._id}`} className='text-center text-white'>
               <h4 className='count-num'>{followings.length}</h4>
               <h5 className='followers-text'>following</h5>
             </Link>
@@ -488,7 +486,7 @@ const Profile = ({ spinner1 }) => {
               chat_bubble
             </span><h5 className='offcanvas-text'>Comments</h5>
           </div>
-          <div className='d-flex gap-2 pt-2'  data-bs-dismiss="offcanvas"
+          <div className='d-flex gap-2 pt-2' data-bs-dismiss="offcanvas"
             aria-label="Close" onClick={() => setIdCard(true)}>
             <span className="material-symbols-outlined">
               id_card
@@ -549,20 +547,20 @@ const Profile = ({ spinner1 }) => {
       </div>
 
       {idCard ? <div className='id-card-for-id'>
-                        <div className="card ">
-                            <div className='bg-success d-flex justify-content-between align-items-center' style={{ borderTopLeftRadius: "5px", borderTopRightRadius: "5px", paddingRight: '12px' }}>
-                                <h5 className="card-header   text-white">Profile Id</h5>
-                                <span onClick={() => setIdCard(false)} style={{ cursor: "pointer" }} className="material-symbols-outlined text-white">
-                                    close
-                                </span>
-                            </div>
+        <div className="card ">
+          <div className='bg-success d-flex justify-content-between align-items-center' style={{ borderTopLeftRadius: "5px", borderTopRightRadius: "5px", paddingRight: '12px' }}>
+            <h5 className="card-header   text-white">Profile Id</h5>
+            <span onClick={() => setIdCard(false)} style={{ cursor: "pointer" }} className="material-symbols-outlined text-white">
+              close
+            </span>
+          </div>
 
-                            <div className="card-body pt-0">
-                                <h6 class="card-text my-3" style={{ lineHeight: "1.5" }}>Copy this unique profile Id and create group with<br /> profile Id : <span className='text-primary'>{proData._id}</span></h6>
-                                <button  onClick={copyProfileId} className="btn btn-primary">Copy</button>
-                            </div>
-                        </div>
-                    </div> : ""}
+          <div className="card-body pt-0">
+            <h6 class="card-text my-3" style={{ lineHeight: "1.5" }}>Copy this unique profile Id and create group with<br /> profile Id : <span className='text-primary'>{proData._id}</span></h6>
+            <button onClick={copyProfileId} className="btn btn-primary">Copy</button>
+          </div>
+        </div>
+      </div> : ""}
 
     </>
   )

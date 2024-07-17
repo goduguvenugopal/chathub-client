@@ -69,12 +69,12 @@ const Search = () => {
       {profileData.length ? <> <div className='users-results-card'>
 
         {spinner ? <>  {filtered.map((item) => (
-          <Link to={`/${item._id}`} key={item.id} className='d-flex align-items-center gap-2 text-white ' style={{ textDecoration: "none" }}>
+          <Link to={`/${item._id}`} key={item.id} className='d-flex align-items-center gap-3 text-white ' style={{ textDecoration: "none" }}>
             <img src={item.image} className='home-profile-img' />
             <h5 className=''>{item.userName}</h5>
           </Link>
         ))}</> : <>  {profileData.map((item) => (
-          <Link to={`/${item._id}`} key={item.id} className='d-flex align-items-center gap-2 text-white ' style={{ textDecoration: "none" }}>
+          <Link to={`/${item._id}`} key={item.id} className='d-flex align-items-center gap-3 text-white ' style={{ textDecoration: "none" }}>
             <img src={item.image} className='home-profile-img' />
             <h5 className=''>{item.userName}</h5>
           </Link>

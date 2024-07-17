@@ -126,7 +126,9 @@ function App() {
                   <Route path='/allgroups' element={<AllGroups />} />
                   <Route path='/allgroups/:groupId' element={<PersonalChat />} />
                   <Route path='/id/:followers' element={<Followers />} />
+                  <Route path='/id/:following' element={<Followings />} />
                   <Route path='/profile/:following' element={<Followings/>} />
+ 
 
                 </Routes>
               </BrowserRouter>
