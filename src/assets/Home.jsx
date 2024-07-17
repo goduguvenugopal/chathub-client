@@ -108,8 +108,7 @@ const Home = () => {
     try {
       await navigator.share({
         text:
-          `Hello, check this image link from ChatHub your friend shared to you : ${image},
-           Connect To the people across the world, welcome to ChatHub : ${url}`
+          `Hello, check this image link from ChatHub your friend shared to you : ${image} and Connect to the people across the world, welcome to ChatHub : ${url}`
 
       });
 
