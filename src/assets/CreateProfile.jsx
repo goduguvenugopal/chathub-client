@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginTokenContext, proDataContext, profileTokenContext } from "../App"
+import { loginTokenContext, proDataContext, profileTokenContext, refreshContext } from "../App"
 import app from "../firebase"
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import "../styles/loginSignUp.css"
@@ -23,6 +23,7 @@ const CreateProfile = () => {
   const [loginToken] = useContext(loginTokenContext)
   const [profileToken, setProfileToken] = useContext(profileTokenContext)
   const [proData, setProData] = useContext(proDataContext)
+  const [refresh, setRefresh] = useContext(refreshContext)
 
   // image path name converting to url with firebase 
   const fileFunc = async (e) => {
@@ -76,6 +77,7 @@ const CreateProfile = () => {
             setProfileToken(response.data.token)
             localStorage.setItem("profileToken", JSON.stringify(response.data.token))
             toast.success("Profile has created successfully")
+            setRefresh(true)
           }, 1000);
         }
 
@@ -112,7 +114,7 @@ const CreateProfile = () => {
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       {/* loder  */}
       {loader ? <div style={{ zIndex: "1000" }} id="profile-spin-card" className="d-flex justify-content-center align-items-center"  >
         <div className="spinner-border" role="status">
