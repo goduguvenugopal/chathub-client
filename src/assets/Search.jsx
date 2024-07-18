@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "../styles/search.css"
 import axios from 'axios'
-import { loginTokenContext, profileTokenContext } from '../App'
+import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
 import { Link, useNavigate } from 'react-router-dom'
 
 
@@ -14,8 +14,9 @@ const Search = () => {
   const navigate = useNavigate()
   const [filtered, setFiltered] = useState([])
   const [text, setText] = useState("")
+  const [proData , setProData] = useContext(proDataContext)
 
-
+   
 
   // fetching all profiles 
 
@@ -48,7 +49,7 @@ const Search = () => {
 
   // if token is not available it navigate to login page 
   useEffect(() => {
-    if (!loginToken || !profileToken) {
+    if (!loginToken) {
       navigate("/login")
     }
   }, [loginToken, navigate, profileToken])

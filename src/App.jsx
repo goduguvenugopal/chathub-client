@@ -18,7 +18,8 @@ import AllGroups from './assets/AllGroups'
 import PersonalChat from './assets/PersonalChat'
 import Followers from './assets/Followers'
 import Followings from './assets/Followings'
- 
+
+
 
 
 export const refreshContext = createContext()
@@ -50,7 +51,7 @@ function App() {
       setProfileToken(JSON.parse(proToken))
     }
 
-  }, [loginToken, profileToken])
+  }, [loginToken ,profileToken])
 
   // get profile function 
   useEffect(() => {
@@ -63,10 +64,18 @@ function App() {
         if (response) {
           const data = response.data
           const filtered = data.filter((item) => item.user === user._id)
+          if (filtered.length) {
+            setProData(filtered[0])
+            setProfileToken("profileToken")
+            localStorage.setItem("profileToken", JSON.stringify("profilToken"))
+            setSpinner(false)
+            setSpinner1(false)
 
-          setProData(filtered[0])
-          setSpinner(false)
-          setSpinner1(false)
+          } else if(!filtered.length) {
+            setProfileToken("")
+          }
+
+
         }
 
       } catch (error) {
@@ -75,11 +84,11 @@ function App() {
         setSpinner1(false)
       }
     }
-    if (user && user._id && profileToken) {
+    if (user) {
       getProfile()
     }
 
-  }, [user, profileToken, refresh])
+  }, [user, refresh])
 
   // fetching user id 
   useEffect(() => {
@@ -112,6 +121,7 @@ function App() {
             <loginTokenContext.Provider value={[loginToken, setLoginToken]}>
               <BrowserRouter>
                 <NavBar spinner={spinner} />
+
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/search' element={<Search />} />
@@ -127,8 +137,8 @@ function App() {
                   <Route path='/allgroups/:groupId' element={<PersonalChat />} />
                   <Route path='/id/:followers' element={<Followers />} />
                   <Route path='/id/:following' element={<Followings />} />
-                  <Route path='/profile/:following' element={<Followings/>} />
- 
+                  <Route path='/profile/:following' element={<Followings />} />
+
 
                 </Routes>
               </BrowserRouter>

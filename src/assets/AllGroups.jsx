@@ -32,6 +32,11 @@ const AllGroups = () => {
 
     })
 
+
+
+  
+
+
     // handling multiple inputs function 
     const handleChangeFunc = (event) => {
         const { name, value } = event.target;
@@ -120,7 +125,7 @@ const AllGroups = () => {
 
     // if token is not available it navigate to login page 
     useEffect(() => {
-        if (!loginToken || !profileToken) {
+        if (!loginToken) {
             navigate("/login")
         }
     }, [loginToken, navigate, profileToken])

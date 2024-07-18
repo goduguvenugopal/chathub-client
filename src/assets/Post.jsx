@@ -20,6 +20,8 @@ const Post = () => {
   const [proData, setProData] = useContext(proDataContext)
   const navigate = useNavigate()
 
+ 
+
   // url generating with firebase function 
 
   const urlGenerateFunc = async (event) => {
@@ -77,7 +79,7 @@ const Post = () => {
 
   // if token is not available it navigate to login page 
   useEffect(() => {
-    if (!loginToken || !profileToken) {
+    if (!loginToken) {
       return navigate("/login")
     }
   }, [loginToken, profileToken, navigate])

@@ -3,6 +3,7 @@ import "../styles/loginSignUp.css"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { loginTokenContext, profileTokenContext } from '../App'
+import { toast, ToastContainer } from 'react-toastify'
 
 const Login = () => {
   const api = import.meta.env.VITE_API_URL
@@ -16,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate()
   const [spinner, setSpinner] = useState(false)
   const [loginToken, setLoginToken] = useContext(loginTokenContext)
-  const [profileToken] = useContext(profileTokenContext)
+  const [profileToken, setProfileToken] = useContext(profileTokenContext)
   // login function 
 
   const loginFunc = async (e) => {
@@ -39,12 +40,6 @@ const Login = () => {
           setTimeout(() => {
             setLoginToken(response.data.token)
             localStorage.setItem("loginToken", JSON.stringify(response.data.token))
-            if (!profileToken) {
-              navigate("/createprofile")
-            } else if (profileToken && loginToken) {
-              navigate("/")
-            }
-
           }, 1000);
         }
       }
@@ -53,6 +48,7 @@ const Login = () => {
       if (error.response) {
         if (error.response.status === 404) {
           setMailErr(true)
+          toast.error("If you don't have an account please signup.")
         } else if (error.response.status === 401) {
           setPassErr(true)
 
@@ -78,14 +74,16 @@ const Login = () => {
 
 
   useEffect(() => {
-    if (loginToken && profileToken) {
+    if (loginToken) {
       navigate("/")
     }
   }, [loginToken, navigate, profileToken])
 
   return (
     // loader function 
-    <> {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center"  >
+    <>
+    <ToastContainer/>
+     {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center"  >
       <div className="spinner-border" role="status">
         <span className="visually-hidden">Loading...</span>
       </div>

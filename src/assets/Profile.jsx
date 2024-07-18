@@ -34,6 +34,7 @@ const Profile = ({ spinner1 }) => {
 
 
 
+
   // retrieving privateId from localstorage 
   useEffect(() => {
     const privateId = localStorage.getItem("privateId")
@@ -149,19 +150,17 @@ const Profile = ({ spinner1 }) => {
     }
   }
 
-  // if token is not available it navigate to login page 
-  useEffect(() => {
-    if (!loginToken || !profileToken) {
-      return navigate("/login")
-    }
-  }, [loginToken, profileToken, navigate])
 
   // log out function 
   const logOut = () => {
+    localStorage.removeItem("profileToken")
+    setProfileToken("")
     localStorage.removeItem("loginToken")
-    setLoginToken("")
-
+        setLoginToken("")
+    
   }
+  
+
 
 
   // next profile delete function 
@@ -170,8 +169,6 @@ const Profile = ({ spinner1 }) => {
       setAllDelSpinner(true)
       const response = await axios.delete(`${api}/profile/delete-profile/${proData._id}`)
       if (response) {
-        localStorage.removeItem("profileToken")
-        setProfileToken("")
         deleteUserAccount()
       }
     } catch (error) {
@@ -183,12 +180,12 @@ const Profile = ({ spinner1 }) => {
 
   const deleteUserAccount = async () => {
     try {
-
       const response = await axios.delete(`${api}/user/delete-user/${proData.user}`)
       if (response) {
         localStorage.removeItem("loginToken")
-
         setLoginToken("")
+        localStorage.removeItem("profileToken")
+        setProfileToken("")
       }
     } catch (error) {
       console.log(error);
@@ -223,7 +220,6 @@ const Profile = ({ spinner1 }) => {
 
     }
   }
-
 
   // set private function 
   const setPrivate = async () => {
@@ -262,9 +258,6 @@ const Profile = ({ spinner1 }) => {
 
     }
   }
-
-
-
   useEffect(() => {
     //get follower function 
     const getFollowers = async () => {
@@ -297,6 +290,12 @@ const Profile = ({ spinner1 }) => {
     getFollowings()
   }, [proData])
 
+  // if token is not available it navigate to login page 
+  useEffect(() => {
+    if (!loginToken) {
+      return navigate("/login")
+    }
+  }, [loginToken, profileToken, navigate])
 
   return (
     <>

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "../styles/loginSignUp.css"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { profileTokenContext } from '../App'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const Signup = () => {
@@ -16,7 +16,7 @@ const Signup = () => {
   const [loader, setLoader] = useState(false)
   const navigate = useNavigate()
   const [spinner, setSpinner] = useState(false)
-  const [profileToken] = useContext(profileTokenContext)
+
 
   // signup function 
   const signUpFunc = async (e) => {
@@ -45,6 +45,7 @@ const Signup = () => {
         if (response) {
           setEmail("")
           setPassword("")
+          toast.success("signup successfully completed and login with email and password ")
           setLoader(true)
           setSpinner(false)
           setTimeout(() => {
@@ -56,15 +57,15 @@ const Signup = () => {
     } catch (error) {
       setSpinner(false)
       setLoader(false)
-      if (error.response.status === 404) {
-        setMailErr(true);
+      if (error.response) {
+        if (error.response.status === 404) {
+          setMailErr(true);
 
-      } if (error.response.status === 500) {
-        alert("please try again server is down")
-
+        } if (error.response.status === 500) {
+          toast.error("please try again server is down")
+        }
       }
       console.log(error);
-
     }
   }
 
@@ -77,18 +78,9 @@ const Signup = () => {
       setHide(false)
     }
   }
-
-
-useEffect(()=>{
-if(profileToken){
-  navigate("/login")
-}
-},[profileToken])
-
   return (
     <>
-
-
+      <ToastContainer />
       <div className='main-signup-card'>
         {loader ? <div id="spinner-card" className="d-flex justify-content-center align-items-center" >
           <div className="spinner-border" role="status">

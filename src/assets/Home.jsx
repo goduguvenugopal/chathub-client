@@ -23,6 +23,7 @@ const Home = () => {
 
 
 
+
   // fetching all messages from database 
   useEffect(() => {
     setLoader(true)
@@ -53,12 +54,6 @@ const Home = () => {
 
 
 
-  // if token is not available it navigate to login page 
-  useEffect(() => {
-    if (!loginToken || !profileToken) {
-      navigate("/login")
-    }
-  }, [loginToken, navigate, profileToken])
 
 
   // post like function 
@@ -117,6 +112,15 @@ const Home = () => {
     }
   };
 
+
+  // if token is not available it navigate to login page 
+  useEffect(() => {
+    if (!loginToken) {
+      navigate("/login")
+    } else if (!profileToken) {
+      navigate("/createprofile")
+    }
+  }, [loginToken, navigate, profileToken])
 
 
   return (

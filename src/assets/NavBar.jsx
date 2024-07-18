@@ -1,7 +1,7 @@
-import React, { useContext} from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
- 
+
 
 
 const NavBar = ({ spinner }) => {
@@ -9,8 +9,9 @@ const NavBar = ({ spinner }) => {
     const [loginToken] = useContext(loginTokenContext)
     const [profileToken] = useContext(profileTokenContext)
     const [proData] = useContext(proDataContext)
+   
+ 
 
-    
 
     return (
         <>
@@ -20,7 +21,7 @@ const NavBar = ({ spinner }) => {
                     <img src='/favicon.jpg' className='logo-img' />
                     <h5 className='web-name'>ChatHub</h5>
                 </Link>
-                
+
             </header>
             {/* navbar section  */}
 

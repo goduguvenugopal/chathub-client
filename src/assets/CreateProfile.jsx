@@ -1,10 +1,11 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginTokenContext, profileTokenContext } from "../App"
+import { loginTokenContext, proDataContext, profileTokenContext } from "../App"
 import app from "../firebase"
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import "../styles/loginSignUp.css"
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const CreateProfile = () => {
@@ -21,7 +22,7 @@ const CreateProfile = () => {
   const [fileSpinner, setFileSpinner] = useState(false)
   const [loginToken] = useContext(loginTokenContext)
   const [profileToken, setProfileToken] = useContext(profileTokenContext)
-
+  const [proData, setProData] = useContext(proDataContext)
 
   // image path name converting to url with firebase 
   const fileFunc = async (e) => {
@@ -74,7 +75,7 @@ const CreateProfile = () => {
           setTimeout(() => {
             setProfileToken(response.data.token)
             localStorage.setItem("profileToken", JSON.stringify(response.data.token))
-            navigate("/")
+            toast.success("Profile has created successfully")
           }, 1000);
         }
 
@@ -99,11 +100,19 @@ const CreateProfile = () => {
     if (profileToken) {
       navigate("/")
     }
-  }, [profileToken, navigate])
+  }, [proData, profileToken, navigate])
+
+  // if token is not available it navigate to login page 
+  useEffect(() => {
+    if (!loginToken) {
+      return navigate("/login")
+    }
+  }, [loginToken, navigate])
 
 
   return (
     <>
+    <ToastContainer/>
       {/* loder  */}
       {loader ? <div style={{ zIndex: "1000" }} id="profile-spin-card" className="d-flex justify-content-center align-items-center"  >
         <div className="spinner-border" role="status">
