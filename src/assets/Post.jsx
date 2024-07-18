@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import "../styles/profile.css"
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
 import axios from 'axios'
@@ -19,7 +19,6 @@ const Post = () => {
   const [loginToken] = useContext(loginTokenContext)
   const [proData, setProData] = useContext(proDataContext)
   const navigate = useNavigate()
-
  
 
   // url generating with firebase function 
@@ -45,8 +44,8 @@ const Post = () => {
     }
   }
 
-   // sending message object data 
-   const messageData = {
+  // sending message object data 
+  const messageData = {
     message: message,
     postImage: image,
     profileImage: proData.image,
@@ -59,7 +58,7 @@ const Post = () => {
   const postStoryFunc = async () => {
     setLoader(true)
     try {
-    
+
       const response = await axios.post(`${api}/message/send-message`, messageData)
       if (response) {
         setLoader(false)
@@ -74,8 +73,7 @@ const Post = () => {
 
     }
   }
-
-
+ 
 
   // if token is not available it navigate to login page 
   useEffect(() => {
@@ -86,7 +84,7 @@ const Post = () => {
 
   return (
     <div className='home-container'>
-<ToastContainer/>
+      <ToastContainer />
       {image ? <>
         <img src={image} alt='pro-photo' className='profile-img-in-post' />
       </>
@@ -118,7 +116,7 @@ const Post = () => {
             <span className="material-symbols-outlined image-icon-in-post">
               image
             </span>
-            <label htmlFor="post-photo" className='btn bg-primary text-white '>Upload Photo</label>
+            <label htmlFor="post-photo"   className='btn bg-primary text-white '>Upload Photo</label>
             <input onChange={urlGenerateFunc} type='file' name='image' id='post-photo' className='d-none' />
 
 

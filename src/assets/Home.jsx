@@ -152,7 +152,7 @@ const Home = () => {
                   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
                 </svg> :
                 <span style={{ cursor: "pointer", fontSize: "22px", width: "20px" }} onClick={() => likePostFunc(item._id)} className="material-symbols-outlined m-0 p-0" >favorite</span>}
-              <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
+              <span type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
                 mode_comment
               </span>
               <span onClick={() => shareImage(item.postImage)} style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
@@ -162,10 +162,24 @@ const Home = () => {
 
             <h5 className='uploaded-date mt-0 text-white'>{likesCount[item._id] || 0} Likes</h5>
             <h5 className='img-caption-text'>{item.message}</h5>
+            <h5 type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" className='uploaded-date mt-2'>View all comments</h5>
             <h5 className='uploaded-date mt-2'>{today === item.date ? "Uploaded Today" : `Uploaded on ${item.date}`}</h5>
           </div>
 
         ))}
+      </div>
+
+
+      {/* offcanvas for comments  */}
+
+      <div className="offcanvas offcanvas-bottom  bg-dark text-white" style={{height:"70vh"}} tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasBottomLabel">Comments</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div className="offcanvas-body small">
+          ...
+        </div>
       </div>
     </>
 

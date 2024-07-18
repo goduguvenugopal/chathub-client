@@ -22,7 +22,7 @@ const PersonalChat = () => {
     const { groupId } = useParams()
     const [photo, setPhoto] = useState("")
     const [imgCard, setImgCard] = useState(false)
-
+    const fileRef = useRef(null)
 
     // mouseover event 
 
@@ -40,6 +40,14 @@ const PersonalChat = () => {
             scrollBottom()
         }
     }, [data])
+
+    // this function for focus when user open message it focus on input box 
+    useEffect(() => {
+        const fileFunc = () => {
+            fileRef.current.focus()
+        }
+        fileFunc()
+    }, [])
 
 
 
@@ -164,7 +172,7 @@ const PersonalChat = () => {
                         </span>
                         <input onChange={photoFunc} type='file' id='photo-input' className='d-none' />
                     </label>
-                    <textarea value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
+                    <textarea ref={fileRef} value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
                     {spinner ? <button className="chat-send-bt text-white" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span className="visually-hidden" role="status">Loading...</span>
