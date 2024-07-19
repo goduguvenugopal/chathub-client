@@ -63,6 +63,7 @@ const PersonalChat = () => {
                 const downloadUrl = await getDownloadURL(storageRef)
                 if (downloadUrl) {
                     setPhoto(downloadUrl)
+                    setText(".")
                 }
             } catch (error) {
                 console.error(error);
@@ -166,17 +167,17 @@ const PersonalChat = () => {
             {/* chat inpu box  */}
             <div className='chat-input-card fixed-bottom' >
                 <div className='chat-sub-card'>
-                    <label htmlFor='photo-input' className='camera-icon-in-chat'>
-                        <span className="material-symbols-outlined">
+                    <label htmlFor='photo-input' className='camera-icon-in-chat' style={{ borderRadius: "0px" }}>
+                        <span className="material-symbols-outlined" >
                             photo_camera
                         </span>
                         <input onChange={photoFunc} type='file' id='photo-input' className='d-none' />
                     </label>
-                    <textarea ref={fileRef} value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
+                    <textarea style={{ borderRadius: "0px" }} ref={fileRef} value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
                     {spinner ? <button className="chat-send-bt text-white" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span className="visually-hidden" role="status">Loading...</span>
-                    </button> : <button className='chat-send-bt' onClick={sendText}>Send</button>}
+                    </button> : <>{text ? <button style={{ borderRadius: "0px" }} className='chat-send-bt' onClick={sendText}>Send</button> : ""}</>}
 
 
                 </div>

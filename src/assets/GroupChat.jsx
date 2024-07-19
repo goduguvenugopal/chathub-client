@@ -3,6 +3,7 @@ import "../styles/groupChat.css"
 import axios from 'axios'
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const GroupChat = () => {
   const api = import.meta.env.VITE_API_URL;
@@ -17,8 +18,15 @@ const GroupChat = () => {
   const [hover, setHover] = useState("")
   const [delSpinner, setDelSpinner] = useState("")
 
-  
+  const fileRef = useRef()
 
+  // this function for focus when user open message it focus on input box 
+  useEffect(() => {
+    const fileFunc = () => {
+      fileRef.current.focus()
+    }
+    fileFunc()
+  }, [])
 
 
   // mouseover event 
@@ -79,11 +87,11 @@ const GroupChat = () => {
       } catch (error) {
         console.error(error);
         setSpinner(false)
-        alert("Message has not sent Try again")
+        toast.error("Message has not sent Try again")
       }
     }
     else {
-      alert("Please Enter message")
+      toast.error("Please Enter message")
     }
   }
 
@@ -138,11 +146,11 @@ const GroupChat = () => {
 
   return (
     <div className='chat-container'>
-
+      <ToastContainer />
       {/* chat inpu box  */}
       <div className='chat-input-card fixed-bottom' >
         <form onSubmit={sendText} className='chat-sub-card'>
-          <textarea value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...' style={{borderTopLeftRadius:"5px" , borderBottomLeftRadius:"5px"}}></textarea>
+          <textarea ref={fileRef} value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...' style={{ borderTopLeftRadius: "5px", borderBottomLeftRadius: "5px" }}></textarea>
           {spinner ? <button className="chat-send-bt text-white" type="button" disabled>
             <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
             <span className="visually-hidden" role="status">Loading...</span>
