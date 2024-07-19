@@ -174,7 +174,7 @@ const PersonalChat = () => {
                         <input onChange={photoFunc} type='file' id='photo-input' className='d-none' />
                     </label>
                     <textarea style={{ borderRadius: "0px" }} ref={fileRef} value={text} onChange={(e) => setText(e.target.value)} type='text' className='input-box-in-chat' placeholder='Message...'></textarea>
-                    {spinner ? <button className="chat-send-bt text-white" type="button" disabled>
+                    {spinner ? <button style={{ borderRadius: "0px" }} className="chat-send-bt text-white" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span className="visually-hidden" role="status">Loading...</span>
                     </button> : <>{text ? <button style={{ borderRadius: "0px" }} className='chat-send-bt' onClick={sendText}>Send</button> : ""}</>}

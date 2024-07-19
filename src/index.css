@@ -25,3 +25,14 @@
 
 
  }
+
+
+ /* offcanvas styling  */
+ .large-screen-comments-card {
+    overflow-y: auto;
+    height: 28rem;
+ }
+
+ .large-screen-comments-card::-webkit-scrollbar {
+    display: none;
+ }
