@@ -20,10 +20,6 @@ const Home = () => {
   const [likesCount, setLikesCount] = useState({});
 
 
-
-
-
-
   // fetching all messages from database 
   useEffect(() => {
     setLoader(true)
@@ -44,20 +40,12 @@ const Home = () => {
     const currentDate = new Date().toLocaleDateString("en-GB")
     setToday(currentDate)
 
-    // added set interval to make resquest to the server for each 5 seconds 
-    const checkMessages = setInterval(getData, 5000)
-    return () => clearInterval(checkMessages)
-
+    
 
   }, [])
 
 
-
-
-
-
   // post like function 
-
   const likePostFunc = async (postId) => {
     setLike(!like)
     setLike1(postId)
@@ -94,8 +82,6 @@ const Home = () => {
     }
 
   }
-
-
 
   // share web api function 
   const shareImage = async (image) => {
