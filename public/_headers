@@ -1,5 +1,0 @@
-/* 
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://example.com
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: no-referrer
