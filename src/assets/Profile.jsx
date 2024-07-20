@@ -89,7 +89,7 @@ const Profile = ({ spinner1 }) => {
       setCommentLoader(false)
     }
   }
-// deleting comments 
+  // deleting comments 
   const deleteComment = async (commentId) => {
     setCommDelSpin(commentId)
     try {
@@ -227,10 +227,10 @@ const Profile = ({ spinner1 }) => {
     localStorage.removeItem("profileToken")
     setProfileToken("")
     localStorage.removeItem("loginToken")
-        setLoginToken("")
-    
+    setLoginToken("")
+
   }
-  
+
 
 
 
@@ -463,7 +463,7 @@ const Profile = ({ spinner1 }) => {
                       <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
                     </svg> :
                     <span style={{ cursor: "pointer", fontSize: "22px", width: "20px" }} onClick={() => likeFunc(singlePost._id)} className="material-symbols-outlined m-0 p-0" >favorite</span>}
-                  <span data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onClick={() => { getAllComments(singlePost._id);  setModal(false); }} style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
+                  <span data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onClick={() => { getAllComments(singlePost._id); setModal(false); }} style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
                     mode_comment
                   </span>
                   <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
@@ -494,8 +494,8 @@ const Profile = ({ spinner1 }) => {
         </div>
       </div>
 
-   {/* large screen offcanvas  */}
-   <div
+      {/* large screen offcanvas  */}
+      <div
         className="offcanvas offcanvas-end  bg-dark text-white"
         tabIndex={-1}
         id="offcanvasRight"
@@ -516,8 +516,8 @@ const Profile = ({ spinner1 }) => {
         <div className="offcanvas-body">
 
           {/* comment box card  */}
-          <div style={{width:"100%"}}>
-            <div className='d-flex align-items-center' style={{width:"100%"}}>
+          <div style={{ width: "100%" }}>
+            <div className='d-flex align-items-center' style={{ width: "100%" }}>
               <div className='camera-icon-in-chat' style={{ borderRadius: "0px" }}>
                 <img src={proData.image} className='home-profile-img ' style={{ width: "30px", height: "30px" }} />
               </div>
@@ -577,7 +577,7 @@ const Profile = ({ spinner1 }) => {
 
         </div>
       </div>
-      
+
 
       {/* offcanvas  */}
       <div
