@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import "../styles/profile.css"
 import { loginTokenContext, proDataContext, profileTokenContext, refreshContext } from '../App';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import app from '../firebase';
 import { ToastContainer, toast } from 'react-toastify';
-
+import "../styles/groupChat.css"
 
 
 const Profile = ({ spinner1 }) => {
@@ -31,9 +31,80 @@ const Profile = ({ spinner1 }) => {
   const [idCard, setIdCard] = useState(false)
   const [followers, setFollowers] = useState([])
   const [followings, setFollowings] = useState([])
+  const [comment, setComment] = useState("")
+  const [sendSpin, setSendSpin] = useState(false)
+  const [postId, setPostId] = useState("")
+  const [postComments, setPostComments] = useState([])
+  const goUp = useRef()
+  const [commentLoader, setCommentLoader] = useState(false)
+  const [commDelSpin, setCommDelSpin] = useState(false)
 
 
+  // send comment function 
+  const sendCommentFunc = async () => {
+    setSendSpin(true)
+    try {
+      const currentDate = new Date().toLocaleDateString("en-GB");
+      // sending message object data 
+      const commentData = {
+        comment: comment,
+        date: currentDate,
+        profileImage: proData.image,
+        userName: proData.userName,
+        profileId: proData._id,
+        postId: postId,
+      }
+      const response = await axios.post(`${api}/comment/send-comment`, commentData)
+      if (response) {
+        setSendSpin(false)
+        setComment("")
+        getAllComments(postId)
+      }
+    } catch (error) {
+      console.error("Error sharing the website:", error);
+      toast.error("comment has not sent try again")
+      setSendSpin(false)
+    }
+  }
 
+  // get all comments function 
+  const getAllComments = async (postId) => {
+    setPostId(postId)
+    setCommentLoader(true)
+    try {
+      const response = await axios.get(`${api}/comment/get-all-comments`)
+      if (response) {
+        const data = response.data
+        const filteredComments = data.filter((item) => item.postId === postId)
+        setPostComments(filteredComments.reverse())
+        setCommentLoader(false)
+      }
+
+      if (postComments.length) {
+        goUp.current.scrollIntoView({ behavior: "smooth" })
+      }
+    } catch (error) {
+      console.error("Error sharing the website:", error);
+      setSendSpin(false)
+      setCommentLoader(false)
+    }
+  }
+// deleting comments 
+  const deleteComment = async (commentId) => {
+    setCommDelSpin(commentId)
+    try {
+      const response = await axios.delete(`${api}/comment/delete-comment/${commentId}`)
+      if (response) {
+        const remainingComments = postComments.filter((item) => item._id !== commentId)
+        setPostComments(remainingComments)
+        setCommDelSpin(false)
+      }
+    } catch (error) {
+      console.error("Error sharing the website:", error);
+      toast.error("please try again comment has not deleted")
+      setCommDelSpin(false)
+    }
+  }
 
   // retrieving privateId from localstorage 
   useEffect(() => {
@@ -392,7 +463,7 @@ const Profile = ({ spinner1 }) => {
                       <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
                     </svg> :
                     <span style={{ cursor: "pointer", fontSize: "22px", width: "20px" }} onClick={() => likeFunc(singlePost._id)} className="material-symbols-outlined m-0 p-0" >favorite</span>}
-                  <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
+                  <span data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onClick={() => { getAllComments(singlePost._id);  setModal(false); }} style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
                     mode_comment
                   </span>
                   <span style={{ fontSize: "22px", cursor: "pointer" }} className="material-symbols-outlined">
@@ -422,6 +493,91 @@ const Profile = ({ spinner1 }) => {
           </div>
         </div>
       </div>
+
+   {/* large screen offcanvas  */}
+   <div
+        className="offcanvas offcanvas-end  bg-dark text-white"
+        tabIndex={-1}
+        id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel"
+      >
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasRightLabel">
+            Comments
+          </h5>
+          <button
+            type="button"
+            className="btn-close bg-white"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          />
+        </div>
+        <hr className='p-0 m-0' />
+        <div className="offcanvas-body">
+
+          {/* comment box card  */}
+          <div style={{width:"100%"}}>
+            <div className='d-flex align-items-center' style={{width:"100%"}}>
+              <div className='camera-icon-in-chat' style={{ borderRadius: "0px" }}>
+                <img src={proData.image} className='home-profile-img ' style={{ width: "30px", height: "30px" }} />
+              </div>
+              <textarea value={comment} onChange={(e) => setComment(e.target.value)} type='text' className='input-box-in-chat' placeholder='Add a comment...'></textarea>
+              {sendSpin ? <button style={{ borderRadius: "0px" }} className="chat-send-bt text-white" type="button" disabled>
+                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span className="visually-hidden" role="status">Loading...</span>
+              </button> : <>{comment ? <span className='material-symbols-outlined camera-icon-in-chat' style={{ fontSize: "27px", borderRadius: "0px", color: "white" }} onClick={sendCommentFunc}>send</span> : ""}</>}
+            </div>
+          </div>
+
+
+          {/* map function card  */}
+          {commentLoader ? <div className="d-flex justify-content-center align-items-center" style={{ height: "75vh" }}>
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div> : <>
+            {postComments.length ? <> <div className='pt-4 large-screen-comments-card' >
+              <div ref={goUp}>
+              </div>
+              {postComments.map((item) => (
+                <div key={item._id} className="chat-text-main-card " style={{ width: "100%", marginBottom: "1rem" }}>
+                  <div className='chat-img-user-card '>
+                    <Link to={`/${item.profileId}`} style={{ textDecoration: "none" }} className='d-flex align-items-center gap-2' >
+                      <img src={item.profileImage} className='chat-user-img' alt={item.userName} />
+                      <h5 className="user-name-in-chat" >{item.userName.substring(0, 16)}</h5>
+                      <span className='date-in-chat text-white' style={{ marginBottom: "0.3rem" }}>{item.date}</span>
+                    </Link>
+                    {commDelSpin === item._id ? <div className='mb-2' style={{ marginTop: "0", paddingTop: "0" }}  >
+                      <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                      <div className="spinner-grow spinner-grow-sm mx-1" style={{ height: "10px", width: "10px" }} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                      <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div></div> : <span onClick={() => deleteComment(item._id)} className="material-symbols-outlined delete-icon-in-chat">
+                      delete
+                    </span>}
+
+                  </div>
+                  <div className='text-card pt-2 mt-0'>
+                    <h5 className='chat-text mb-0 '>{item.comment}</h5>
+                  </div>
+
+                </div>
+
+              ))}
+
+
+            </div></> : <div className='fw-bold fs-5 d-flex justify-content-center align-items-center ' style={{ height: "75vh" }}>No comments yet</div>}
+          </>}
+
+
+
+        </div>
+      </div>
+      
 
       {/* offcanvas  */}
       <div
@@ -560,6 +716,8 @@ const Profile = ({ spinner1 }) => {
           </div>
         </div>
       </div> : ""}
+
+
 
     </>
   )

@@ -165,7 +165,7 @@ const Home = () => {
       setCommentLoader(false)
     }
   }
-
+// deleting comments 
   const deleteComment = async (commentId) => {
     setCommDelSpin(commentId)
     try {
@@ -235,7 +235,6 @@ const Home = () => {
 
 
       {/* offcanvas for comments  */}
-
       <div className="offcanvas offcanvas-bottom  bg-dark text-white" style={{ height: "80vh" }} tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
         <div className="offcanvas-header py-3">
           <h5 className="offcanvas-title" id="offcanvasBottomLabel">Comments</h5>
@@ -277,7 +276,6 @@ const Home = () => {
                       <span className='date-in-chat text-white' style={{ marginBottom: "0.4rem" }}>{item.date}</span>
                     </Link>
 
-                    
                     {commDelSpin === item._id ? <div className='mb-2' style={{ marginTop: "0", paddingTop: "0" }}  >
                       <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
                         <span className="visually-hidden">Loading...</span>
@@ -290,17 +288,12 @@ const Home = () => {
                       </div></div> : <span onClick={() => deleteComment(item._id)} className={item.profileId === proData._id ? "material-symbols-outlined delete-icon-in-chat" : "d-none"}>
                       delete
                     </span>}
-
                   </div>
-                  <div className='text-card mt-1'>
+                  <div className='text-card pt-2 mt-0' >
                     <h5 className='chat-text mb-0 '>{item.comment}</h5>
                   </div>
-
                 </div>
-
               ))}
-
-
             </div></> : <div className='fw-bold fs-5 d-flex justify-content-center align-items-center ' style={{ height: "85%", width: "100%" }}>No comments yet</div>}
           </>}
 
@@ -370,12 +363,12 @@ const Home = () => {
                       </div>
                       <div className="spinner-grow spinner-grow-sm text-white" style={{ height: "10px", width: "10px" }} role="status">
                         <span className="visually-hidden">Loading...</span>
-                      </div></div> : <span onClick={() => deleteComment(item._id)} className="material-symbols-outlined delete-icon-in-chat">
+                      </div></div> : <span onClick={() => deleteComment(item._id)} className={item.profileId === proData._id ? "material-symbols-outlined delete-icon-in-chat" : "d-none"}>
                       delete
                     </span>}
 
                   </div>
-                  <div className='text-card mt-1'>
+                  <div className='text-card pt-2 mt-0'>
                     <h5 className='chat-text mb-0 '>{item.comment}</h5>
                   </div>
 
