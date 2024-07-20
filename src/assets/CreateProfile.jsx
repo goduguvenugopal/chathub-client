@@ -70,12 +70,12 @@ const CreateProfile = () => {
             token: loginToken
           }
         })
-        if (response.status === 200) {
+        if (response) {
           setLoader(true)
           setSpinner(false)
           setTimeout(() => {
-            setProfileToken(response.data.token)
-            localStorage.setItem("profileToken", JSON.stringify(response.data.token))
+            setProfileToken("profileToken")
+            localStorage.setItem("profileToken", JSON.stringify("profilToken"))
             toast.success("Profile has created successfully")
             setRefresh(true)
           }, 1000);
@@ -97,19 +97,15 @@ const CreateProfile = () => {
     }
   }
 
-  // if profile Token available navigate to home 
-  useEffect(() => {
-    if (profileToken) {
-      navigate("/")
-    }
-  }, [proData, profileToken, navigate])
 
   // if token is not available it navigate to login page 
   useEffect(() => {
     if (!loginToken) {
       return navigate("/login")
+    } else if (profileToken) {
+      navigate("/")
     }
-  }, [loginToken, navigate])
+  }, [loginToken, profileToken, navigate, proData])
 
 
   return (

@@ -27,11 +27,13 @@ const Home = () => {
   const [commentLoader, setCommentLoader] = useState(false)
   const [commDelSpin, setCommDelSpin] = useState(false)
 
+
+
   // fetching all messages from database 
   useEffect(() => {
     setLoader(true)
     const getData = async () => {
-      getAllLikes()
+
       try {
         const response = await axios.get(`${api}/message/get-all-messages`)
         const fetchedData = response.data.allMessages
@@ -47,9 +49,9 @@ const Home = () => {
     const currentDate = new Date().toLocaleDateString("en-GB")
     setToday(currentDate)
 
+    getAllLikes()
 
-
-  }, [])
+  }, [like1])
 
   // post like function 
   const likePostFunc = async (postId) => {
@@ -76,7 +78,6 @@ const Home = () => {
     try {
       const response = await axios.get(`${api}/like/get-likes`)
       if (response) {
-
         const likesCountMap = response.data.reduce((acc, like) => {
           acc[like.postId] = (acc[like.postId] || 0) + 1;
           return acc;
@@ -165,7 +166,7 @@ const Home = () => {
       setCommentLoader(false)
     }
   }
-// deleting comments 
+  // deleting comments 
   const deleteComment = async (commentId) => {
     setCommDelSpin(commentId)
     try {
@@ -323,8 +324,8 @@ const Home = () => {
         <div className="offcanvas-body">
 
           {/* comment box card  */}
-          <div style={{width:"100%"}}>
-            <div className='d-flex align-items-center' style={{width:"100%"}}>
+          <div style={{ width: "100%" }}>
+            <div className='d-flex align-items-center' style={{ width: "100%" }}>
               <div className='camera-icon-in-chat' style={{ borderRadius: "0px" }}>
                 <img src={proData.image} className='home-profile-img ' style={{ width: "30px", height: "30px" }} />
               </div>
