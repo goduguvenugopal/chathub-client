@@ -270,7 +270,7 @@ const Profile = ({ spinner1 }) => {
     try {
       await navigator.share({
         text: "Hello, I am venu check out this ChatHub website connect to the people accross the world!",
-        url: "https://chathubb.netlify.app/"
+        url: "https://chathubb.vercel.app/"
       });
 
     } catch (error) {
