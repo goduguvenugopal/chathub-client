@@ -51,7 +51,7 @@ const Home = () => {
 
     getAllLikes()
 
-  }, [like1])
+  }, [])
 
   // post like function 
   const likePostFunc = async (postId) => {
@@ -89,6 +89,10 @@ const Home = () => {
     }
 
   }
+
+  useEffect(() => {
+    getAllLikes()
+  }, [like1])
 
   // share web api function 
   const shareImage = async (image) => {
