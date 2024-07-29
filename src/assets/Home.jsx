@@ -4,6 +4,7 @@ import { loginTokenContext, proDataContext, profileTokenContext } from '../App';
 import { Link, useNavigate } from 'react-router-dom';
 import "../styles/groupChat.css"
 import { toast } from 'react-toastify';
+import ProgressSpinner from './ProgressSpinner';
 
 
 
@@ -193,9 +194,7 @@ const Home = () => {
 
         {/*bootstrap spinner code  */}
         {loader ? <div className="d-flex justify-content-center align-items-center" style={{ height: "80vh" }}>
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+           <ProgressSpinner/>
         </div>
           : ""}
 

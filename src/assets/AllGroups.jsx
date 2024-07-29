@@ -4,6 +4,7 @@ import "../styles/groupChat.css"
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import ProgressSpinner from './ProgressSpinner';
 
 
 const AllGroups = () => {
@@ -180,9 +181,7 @@ const AllGroups = () => {
                             </div>
                         )
                     })}</> : <div className="text-center d-flex align-items-center justify-content-center" style={{ height: "50vh" }}>
-                    <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
+                   <ProgressSpinner/>
                 </div>}
 
 

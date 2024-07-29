@@ -3,6 +3,7 @@ import "../styles/search.css"
 import axios from 'axios'
 import { loginTokenContext, proDataContext, profileTokenContext } from '../App'
 import { Link, useNavigate } from 'react-router-dom'
+import ProgressSpinner from './ProgressSpinner'
 
 
 const Search = () => {
@@ -82,9 +83,7 @@ const Search = () => {
         ))}</>}
         {/* spinner  */}
       </div></> : <><div className="d-flex justify-content-center align-items-center" id='spinner-in-search'>
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <ProgressSpinner/>
       </div></>}
 
 
