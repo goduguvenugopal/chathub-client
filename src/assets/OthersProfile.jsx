@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import "../styles/profile.css"
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
