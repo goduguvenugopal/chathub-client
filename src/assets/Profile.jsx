@@ -361,6 +361,8 @@ const Profile = ({ spinner1 }) => {
     getFollowings()
   }, [proData])
 
+ 
+
   // if token is not available it navigate to login page 
   useEffect(() => {
     if (!loginToken) {
@@ -659,11 +661,11 @@ const Profile = ({ spinner1 }) => {
               share
             </span><h5 className='offcanvas-text'>Share website</h5>
           </div>
-          <div className='d-flex gap-2 pt-2'>
-            <span className="material-symbols-outlined">
+          <a href="/chathub.apk" download="chathub.apk" className='d-flex gap-2 pt-2' style={{textDecoration:"none"}} >
+            <span className="material-symbols-outlined text-white"  >
               download
-            </span><h5 className='offcanvas-text'>Download app</h5>
-          </div>
+            </span ><h5 className='offcanvas-text'>Download app</h5>
+          </a>
           <hr className='hori-in-profile ' />
           <div onClick={logOut} className='d-flex gap-2 ' data-bs-dismiss="offcanvas"
             aria-label="Close">

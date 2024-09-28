@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import "../styles/groupChat.css"
 import { toast } from 'react-toastify';
 import ProgressSpinner from './ProgressSpinner';
-
+import {format} from 'timeago.js'
 
 
 const Home = () => {
@@ -231,7 +231,7 @@ const Home = () => {
             <h5 className='img-caption-text'>{item.message}</h5>
             <h5 type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" className='uploaded-date mt-2 d-block d-md-none' onClick={() => getAllComments(item._id)}>View all comments</h5>
             <h5 type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" className='uploaded-date mt-2 d-none d-md-block' onClick={() => getAllComments(item._id)}>View all comments</h5>
-            <h5 className='uploaded-date mt-2'>{today === item.date ? "Uploaded Today" : `Uploaded on ${item.date}`}</h5>
+            <h5 className='uploaded-date mt-2'>{today === item.date ?   "Uploaded Today" : `Uploaded on ${item.date}`}</h5>
           </div>
 
         ))}
